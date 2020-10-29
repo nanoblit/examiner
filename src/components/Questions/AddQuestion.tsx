@@ -36,9 +36,10 @@ const AddQuestion: React.FC = () => {
   const addNewAnswer = () =>
     setAnswers((prev) => Object.assign({}, prev, { [uuidv4()]: "" }));
 
-  const addQuestion = () => {
+  const addQuestionAndRedirect = () => {
     dispatch(
       addQuestionAction({
+        id: uuidv4(),
         question,
         answers: Object.entries(answers).map(([_, answer]) => answer),
         correctAnswers,
@@ -66,7 +67,7 @@ const AddQuestion: React.FC = () => {
         ))}
       </div>
       <button onClick={addNewAnswer}>+</button>
-      <button onClick={addQuestion}>Add Question</button>
+      <button onClick={addQuestionAndRedirect}>Add Question</button>
       {redirect && <Redirect to="/questions/editor" />}
     </div>
   );

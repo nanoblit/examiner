@@ -5,6 +5,7 @@ import {
   CURRENT_VERSION,
 } from "../actions/types";
 import { combineReducers } from "redux";
+import { TypedUseSelectorHook, useSelector } from "react-redux";
 
 const defaultQuestionsState: QuestionsState = {
   version: CURRENT_VERSION,
@@ -26,3 +27,7 @@ export const questionsReducer = (
 export const rootReducer = combineReducers({
   questions: questionsReducer,
 });
+
+export type RootState = ReturnType<typeof rootReducer>
+
+export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;

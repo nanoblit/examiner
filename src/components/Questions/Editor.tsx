@@ -1,11 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRouteMatch, Switch, Route } from "react-router";
 import { Link } from "react-router-dom";
 import EditQuestion from "./EditQuestion";
 import AddQuestion from "./AddQuestion";
 
+import { useTypedSelector } from "../../reducers";
+
 const Editor: React.FC = () => {
+  const [search, setSearch] = useState("");
+  const [visibleQuestionIds, setVisibleQuestionsIds] = useState(
+    new Set<string>()
+  );
+  const questions = useTypedSelector((state) => state.questions.questions);
   const match = useRouteMatch();
+
+  const updateSearch = (text: string) => {
+    setSearch(() => text);
+  };
+
+  // Change to debounce later
+  const tempHandleSearchKeyDown = (key: string) => {
+    if (key === "Enter") {
+      refreshVisibleQuestions();
+    }
+  };
+
+  const refreshVisibleQuestions = () => {
+    setVisibleQuestionsIds(
+      () =>
+        new Set(
+          questions
+            .filter(({ question }) => question.indexOf(search) >= 0)
+            .map(({ id }) => id)
+        )
+    );
+  };
 
   return (
     <Switch>
@@ -17,7 +46,12 @@ const Editor: React.FC = () => {
       </Route>
       <Route path={match.path}>
         <div>
-          <input placeholder="Search" />
+          <input
+            placeholder="Search"
+            value={search}
+            onChange={(e) => updateSearch(e.target.value)}
+            onKeyDown={(e) => tempHandleSearchKeyDown(e.key)}
+          />
           <Link to={`${match.url}/addQuestion`}>
             <button>Add New Question</button>
           </Link>
