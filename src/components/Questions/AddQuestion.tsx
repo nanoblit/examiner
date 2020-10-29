@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addQuestionAction } from "../../actions";
 import { Redirect } from "react-router";
+import { v4 as uuidv4 } from "uuid";
+
+import { addQuestionAction } from "../../actions";
 
 const AddQuestion: React.FC = () => {
   const [question, setQuestion] = useState("");
-  const [answers, setAnswers] = useState<string[]>([]);
+  const [answers, setAnswers] = useState<{ [key: string]: string }>({});
   const [correctAnswers, setCorrectAnswers] = useState<number[]>([]);
   const [redirect, setRedirect] = useState(false);
   const dispatch = useDispatch();
@@ -15,32 +17,33 @@ const AddQuestion: React.FC = () => {
     setQuestion(() => value);
   };
 
-  const updateAnswer = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    answerIdx: number
-  ) => {
-    const { value } = e.target;
-    setAnswers((prevState) =>
-      prevState.map((answer, idx) => (idx === answerIdx ? value : answer))
-    );
+  const updateAnswer = (answerText: string, answerId: string) => {
+    setAnswers((prev) => {
+      const newPrev = { ...prev };
+      newPrev[answerId] = answerText;
+      return newPrev;
+    });
   };
 
   const switchAnswer = (idx: number) => {
     if (correctAnswers.includes(idx)) {
-      setCorrectAnswers((prevState) =>
-        prevState.filter((answer) => answer !== idx)
-      );
+      setCorrectAnswers((prev) => prev.filter((answer) => answer !== idx));
     } else {
-      setCorrectAnswers((prevState) =>
-        [...prevState, idx].sort((a, b) => a - b)
-      );
+      setCorrectAnswers((prev) => [...prev, idx].sort((a, b) => a - b));
     }
   };
 
-  const addNewAnswer = () => setAnswers((prevState) => [...prevState, ""]);
+  const addNewAnswer = () =>
+    setAnswers((prev) => Object.assign({}, prev, { [uuidv4()]: "" }));
 
   const addQuestion = () => {
-    dispatch(addQuestionAction({ question, answers, correctAnswers }));
+    dispatch(
+      addQuestionAction({
+        question,
+        answers: Object.entries(answers).map(([_, answer]) => answer),
+        correctAnswers,
+      })
+    );
     setRedirect(() => true);
   };
 
@@ -48,11 +51,11 @@ const AddQuestion: React.FC = () => {
     <div>
       <textarea value={question} onChange={updateQuestion}></textarea>
       <div className="answers">
-        {answers.map((answer, idx) => (
-          <div key={idx}>
+        {Object.entries(answers).map(([id, answer], idx) => (
+          <div key={id}>
             <input
               value={answer}
-              onChange={(e) => updateAnswer(e, idx)}
+              onChange={(e) => updateAnswer(e.target.value, id)}
             ></input>
             <input
               type="checkbox"
