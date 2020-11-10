@@ -8,8 +8,16 @@ export interface QuestionsState {
 }
 
 export const ADD_QUESTION = "ADD_QUESTION";
+export const EDIT_QUESTION = "EDIT_QUESTION";
 
 export interface AddQuestionAction {
   type: typeof ADD_QUESTION;
   payload: Question;
 }
+
+export interface EditQuestionAction {
+  type: typeof EDIT_QUESTION;
+  payload: Question;
+}
+
+export type QuestionActionTypes = AddQuestionAction | EditQuestionAction;

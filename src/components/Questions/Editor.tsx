@@ -2,17 +2,30 @@ import React, { useState } from "react";
 import { useRouteMatch, Switch, Route } from "react-router";
 import { Link } from "react-router-dom";
 import EditQuestion from "./EditQuestion";
-import AddQuestion from "./AddQuestion";
 
 import { useTypedSelector } from "../../reducers";
+import { CombinedState } from "redux";
+import { QuestionsState } from "../../actions/types";
+import { Question } from "../../models/Question";
 
 const Editor: React.FC = () => {
   const [search, setSearch] = useState("");
-  const [visibleQuestionIds, setVisibleQuestionsIds] = useState(
-    new Set<string>()
-  );
-  const questions = useTypedSelector((state) => state.questions.questions);
+  const [visibleQuestions, setVisibleQuestions] = useState<Question[]>([]);
   const match = useRouteMatch();
+
+  const getVisibleQuestions = (
+    state: CombinedState<{
+      questions: QuestionsState;
+    }>
+  ) =>
+    state.questions.questions
+      .filter(
+        ({ question }) =>
+          question.toLowerCase().indexOf(search.toLowerCase()) >= 0
+      )
+      .sort((a, b) => (a.question < b.question ? -1 : 1));
+
+  const questions = useTypedSelector(getVisibleQuestions);
 
   const updateSearch = (text: string) => {
     setSearch(() => text);
@@ -26,20 +39,13 @@ const Editor: React.FC = () => {
   };
 
   const refreshVisibleQuestions = () => {
-    setVisibleQuestionsIds(
-      () =>
-        new Set(
-          questions
-            .filter(({ question }) => question.indexOf(search) >= 0)
-            .map(({ id }) => id)
-        )
-    );
+    setVisibleQuestions(() => questions);
   };
 
   return (
     <Switch>
       <Route path={`${match.path}/addQuestion`}>
-        <AddQuestion />
+        <EditQuestion />
       </Route>
       <Route path={`${match.path}/:questionId`}>
         <EditQuestion />
@@ -55,18 +61,11 @@ const Editor: React.FC = () => {
           <Link to={`${match.url}/addQuestion`}>
             <button>Add New Question</button>
           </Link>
-          <Link to={`${match.url}/1`}>
-            <p>Question 1</p>
-          </Link>
-          <Link to={`${match.url}/2`}>
-            <p>Question 2</p>
-          </Link>
-          <Link to={`${match.url}/3`}>
-            <p>Question 3</p>
-          </Link>
-          <Link to={`${match.url}/4`}>
-            <p>Question 4</p>
-          </Link>
+          {visibleQuestions.map(({ question, id }) => (
+            <Link key={id} to={`${match.url}/${id}`}>
+              <p>{question}</p>
+            </Link>
+          ))}
         </div>
       </Route>
     </Switch>
