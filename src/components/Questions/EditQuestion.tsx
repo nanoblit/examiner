@@ -102,7 +102,7 @@ const EditQuestion: React.FC = () => {
             ></input>
             <input
               type="checkbox"
-              value={`${correctAnswers.includes(idx)}`}
+              defaultChecked={correctAnswers.includes(idx)}
               onChange={() => switchAnswer(idx)}
             ></input>
           </div>
