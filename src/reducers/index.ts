@@ -4,6 +4,7 @@ import {
   CURRENT_VERSION,
   QuestionActionTypes,
   EDIT_QUESTION,
+  SET_QUESTIONS,
 } from "../actions/types";
 import { combineReducers } from "redux";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
@@ -27,6 +28,8 @@ export const questionsReducer = (
           question.id === action.payload.id ? action.payload : question
         ),
       };
+    case SET_QUESTIONS:
+      return action.payload;
     default:
       return state;
   }

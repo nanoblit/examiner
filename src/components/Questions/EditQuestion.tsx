@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { CombinedState } from "redux";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Redirect, useParams } from "react-router";
 import { v4 as uuidv4 } from "uuid";
 
 import { addQuestionAction, editQuestionAction } from "../../actions";
 import { useTypedSelector } from "../../reducers";
-import { QuestionsState } from "../../actions/types";
 
 const EditQuestion: React.FC = () => {
   const { questionId }: { questionId: string | undefined } = useParams();
@@ -14,12 +12,8 @@ const EditQuestion: React.FC = () => {
   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
   const [correctAnswers, setCorrectAnswers] = useState<number[]>([]);
   const [redirect, setRedirect] = useState(false);
-  const questionFromStore = useTypedSelector(
-    (
-      state: CombinedState<{
-        questions: QuestionsState;
-      }>
-    ) => state.questions.questions.find(({ id }) => id === questionId)
+  const questionFromStore = useTypedSelector((state) =>
+    state.questions.questions.find(({ id }) => id === questionId)
   );
   const dispatch = useDispatch();
 
@@ -59,7 +53,7 @@ const EditQuestion: React.FC = () => {
     setRedirect(() => true);
   };
 
-  const editQuestionQuestionAndRedirect = () => {
+  const editQuestionAndRedirect = () => {
     if (!questionId) {
       return;
     }
@@ -110,7 +104,7 @@ const EditQuestion: React.FC = () => {
       </div>
       <button onClick={() => addNewAnswer()}>+</button>
       {questionId ? (
-        <button onClick={editQuestionQuestionAndRedirect}>Edit Question</button>
+        <button onClick={editQuestionAndRedirect}>Edit Question</button>
       ) : (
         <button onClick={addQuestionAndRedirect}>Add Question</button>
       )}
