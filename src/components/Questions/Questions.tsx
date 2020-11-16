@@ -25,8 +25,8 @@ const Questions: React.FC = () => {
     }
   }
 
-  const saveQuestionsState = (fileList: FileList | null) => {
-    if (fileList === null || fileList.length < 1) {
+  const saveQuestionsState = (fileList: FileList) => {
+    if (fileList.length < 1) {
       return;
     }
     const file = fileList[0];
@@ -34,7 +34,7 @@ const Questions: React.FC = () => {
     const reader = new FileReader();
 
     reader.addEventListener('load', (e) => {
-      if (!e.target || typeof e.target.result !== "string") {
+      if (typeof e.target?.result !== "string") {
         console.log("Couldn't get string from file");
         return;
       }
@@ -53,7 +53,7 @@ const Questions: React.FC = () => {
         <Link to={`${match.url}/editor`}>Edit Questions</Link>
         <br />
         Upload Questions
-        <input type="file" accept=".json" onChange={(e) => saveQuestionsState(e.target.files)}></input>
+        <input type="file" accept=".json" onChange={(e) => e.target.files && saveQuestionsState(e.target.files)}></input>
         <br />
         <a
           href={`data:text/plain;charset=utf-8,${encodeURIComponent(
