@@ -16,7 +16,8 @@ const Questions: React.FC = () => {
     try {
       const parsedFileContents = JSON.parse(contents);
       if (!isQuestionsState(parsedFileContents)) {
-        console.log("File has wrong format");
+        console.log("File has wrong format"); 
+        return;
       }
       return parsedFileContents as QuestionsState;
     } catch (e) {
