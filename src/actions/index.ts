@@ -8,26 +8,43 @@ import {
   SetQuestionAction,
   SET_QUESTIONS,
 } from "./types";
+import { AppThunk } from "../reducers";
+import { ThunkDispatch } from "redux-thunk";
 
-export const addQuestionAction = (question: Question): AddQuestionAction => {
-  return {
+export const addQuestionAction = (question: Question): AppThunk => (
+  dispatch: ThunkDispatch<{}, {}, AddQuestionAction>,
+  getState
+) => {
+  dispatch({
     type: ADD_QUESTION,
     payload: question,
-  };
+  });
+
+  localStorage.setItem("questions", JSON.stringify(getState().questions));
 };
 
-export const editQuestionAction = (question: Question): EditQuestionAction => {
-  return {
+export const editQuestionAction = (question: Question): AppThunk => (
+  dispatch: ThunkDispatch<{}, {}, EditQuestionAction>,
+  getState
+) => {
+  dispatch({
     type: EDIT_QUESTION,
     payload: question,
-  };
+  });
+
+  localStorage.setItem("questions", JSON.stringify(getState().questions));
 };
 
 export const setQuestionsAction = (
   questionsState: QuestionsState
-): SetQuestionAction => {
-  return {
+): AppThunk => (
+  dispatch: ThunkDispatch<{}, {}, SetQuestionAction>,
+  getState
+) => {
+  dispatch({
     type: SET_QUESTIONS,
     payload: questionsState,
-  };
+  });
+
+  localStorage.setItem("questions", JSON.stringify(getState().questions));
 };

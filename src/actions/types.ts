@@ -3,14 +3,11 @@ import { isArrayOfType } from "../utils/isArrayOfType";
 
 export const CURRENT_VERSION = 1;
 
-export interface QuestionsState {
-  version: number;
-  questions: Question[];
-}
+export type QuestionsState = Question[];
 
 export const isQuestionsState = (value: Object): value is QuestionsState => {
   const typedValue = value as QuestionsState;
-  if (typeof(typedValue.version) === 'number' && isArrayOfType(typedValue.questions, isQuestion)) {
+  if (isArrayOfType(typedValue, isQuestion)) {
     return true;
   }
   return false

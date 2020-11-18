@@ -18,7 +18,7 @@ const Editor: React.FC = () => {
       questions: QuestionsState;
     }>
   ) =>
-    state.questions.questions
+    state.questions
       .filter(
         ({ question }) =>
           question.toLowerCase().indexOf(search.toLowerCase()) >= 0

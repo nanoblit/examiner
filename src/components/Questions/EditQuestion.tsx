@@ -13,7 +13,7 @@ const EditQuestion: React.FC = () => {
   const [correctAnswers, setCorrectAnswers] = useState<number[]>([]);
   const [redirect, setRedirect] = useState(false);
   const questionFromStore = useTypedSelector((state) =>
-    state.questions.questions.find(({ id }) => id === questionId)
+    state.questions.find(({ id }) => id === questionId)
   );
   const dispatch = useDispatch();
 
@@ -31,22 +31,72 @@ const EditQuestion: React.FC = () => {
   };
 
   const switchAnswer = (idx: number) => {
-    if (correctAnswers.includes(idx)) {
-      setCorrectAnswers((prev) => prev.filter((answer) => answer !== idx));
-    } else {
-      setCorrectAnswers((prev) => [...prev, idx].sort((a, b) => a - b));
-    }
+    correctAnswers.includes(idx)
+      ? setCorrectAnswers((prev) => prev.filter((answer) => answer !== idx))
+      : setCorrectAnswers((prev) => [...prev, idx].sort((a, b) => a - b));
   };
 
   const addNewAnswer = (answerText = "") =>
     setAnswers((prev) => Object.assign({}, prev, { [uuidv4()]: answerText }));
 
+  const resolveSecret = () => {
+    const nextLetter = (letter: string) => {
+      return String.fromCharCode(letter.charCodeAt(0) + 1);
+    };
+
+    if (questionText.indexOf("Answer:") < 0) {
+      return;
+    }
+
+    let currentQuestionBeginning = "A.";
+
+    const newQuestionText = questionText.slice(
+      questionText.indexOf(" ") + 1,
+      questionText.indexOf(currentQuestionBeginning)
+    );
+
+    let questionReminder = questionText;
+
+    const newAnswers: { [key: string]: string } = {};
+    do {
+      questionReminder = questionReminder.slice(
+        questionReminder.indexOf(currentQuestionBeginning) + 3
+      );
+      currentQuestionBeginning = `${nextLetter(currentQuestionBeginning)}.`;
+      const nextEndIndex = questionReminder.indexOf(
+        `${nextLetter(currentQuestionBeginning)}.`
+      );
+      newAnswers[uuidv4()] = questionReminder.slice(
+        0,
+        nextEndIndex > -1 ? nextEndIndex : questionReminder.indexOf("Answer:")
+      );
+    } while (questionReminder.indexOf(currentQuestionBeginning) > -1);
+
+    const newCorrectAnswer =
+      questionReminder[questionReminder.indexOf("Answer: ") + 8].charCodeAt(0) -
+      65;
+
+    setQuestionText(() => newQuestionText);
+    setAnswers(() => newAnswers);
+    setCorrectAnswers(() => [newCorrectAnswer]);
+  };
+
   const addQuestionAndRedirect = () => {
+    resolveSecret();
+    if (Object.keys(answers).length < 1) {
+      console.warn("Question must have answers");
+      return;
+    }
+    if (correctAnswers.length < 1) {
+      console.warn("Question must have correct answers");
+      return;
+    }
+
     dispatch(
       addQuestionAction({
         id: uuidv4(),
-        question: questionText,
-        answers: Object.entries(answers).map(([_, answer]) => answer),
+        question: questionText.trim(),
+        answers: Object.entries(answers).map(([_, answer]) => answer.trim()),
         correctAnswers,
       })
     );

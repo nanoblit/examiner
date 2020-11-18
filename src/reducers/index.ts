@@ -6,13 +6,11 @@ import {
   EDIT_QUESTION,
   SET_QUESTIONS,
 } from "../actions/types";
-import { combineReducers } from "redux";
+import { combineReducers, Action } from "redux";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
+import { ThunkAction } from "redux-thunk";
 
-const defaultQuestionsState: QuestionsState = {
-  version: CURRENT_VERSION,
-  questions: [],
-};
+const defaultQuestionsState: QuestionsState = [];
 
 export const questionsReducer = (
   state = defaultQuestionsState,
@@ -20,14 +18,11 @@ export const questionsReducer = (
 ): QuestionsState => {
   switch (action.type) {
     case ADD_QUESTION:
-      return { ...state, questions: [...state.questions, action.payload] };
+      return [...state, action.payload];
     case EDIT_QUESTION:
-      return {
-        ...state,
-        questions: state.questions.map((question) =>
-          question.id === action.payload.id ? action.payload : question
-        ),
-      };
+      return state.map((question) =>
+        question.id === action.payload.id ? action.payload : question
+      );
     case SET_QUESTIONS:
       return action.payload;
     default:
@@ -42,3 +37,10 @@ export const rootReducer = combineReducers({
 export type RootState = ReturnType<typeof rootReducer>;
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
+
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  Action<string>
+>;
