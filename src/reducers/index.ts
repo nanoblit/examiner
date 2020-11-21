@@ -5,6 +5,7 @@ import {
   QuestionActionTypes,
   EDIT_QUESTION,
   SET_QUESTIONS,
+  DELETE_QUESTION,
 } from "../actions/types";
 import { combineReducers, Action } from "redux";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
@@ -19,6 +20,8 @@ export const questionsReducer = (
   switch (action.type) {
     case ADD_QUESTION:
       return [...state, action.payload];
+    case DELETE_QUESTION:
+      return state.filter((question) => question.id !== action.payload);
     case EDIT_QUESTION:
       return state.map((question) =>
         question.id === action.payload.id ? action.payload : question

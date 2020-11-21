@@ -14,12 +14,18 @@ export const isQuestionsState = (value: Object): value is QuestionsState => {
 }
 
 export const ADD_QUESTION = "ADD_QUESTION";
+export const DELETE_QUESTION = "DELETE_QUESTION";
 export const EDIT_QUESTION = "EDIT_QUESTION";
 export const SET_QUESTIONS = "SET_QUESTIONS";
 
 export interface AddQuestionAction {
   type: typeof ADD_QUESTION;
   payload: Question;
+}
+
+export interface DeleteQuestionAction {
+  type: typeof DELETE_QUESTION;
+  payload: string;
 }
 
 export interface EditQuestionAction {
@@ -32,4 +38,4 @@ export interface SetQuestionAction {
   payload: QuestionsState;
 }
 
-export type QuestionActionTypes = AddQuestionAction | EditQuestionAction | SetQuestionAction;
+export type QuestionActionTypes = AddQuestionAction | DeleteQuestionAction | EditQuestionAction | SetQuestionAction;
