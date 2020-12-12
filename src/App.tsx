@@ -8,6 +8,7 @@ import Questions from "./components/Questions/Questions";
 import { setQuestionsAction } from "./actions";
 import { Question } from "./models/Question";
 import { isQuestionsState } from "./actions/types";
+import GlobalStyle from "./styles/globalStyles";
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -26,18 +27,21 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="App">
-      <Navbar />
-      <Switch>
-        <Route path="/questions">
-          <Questions />
-        </Route>
-        <Route path="/revision">
-          <Revision />
-        </Route>
-        {/* <Route path="/exam" component={} /> */}
-      </Switch>
-    </div>
+    <>
+      <GlobalStyle />
+      <div className="App">
+        <Navbar />
+        <Switch>
+          <Route path="/questions">
+            <Questions />
+          </Route>
+          <Route path="/revision">
+            <Revision />
+          </Route>
+          {/* <Route path="/exam" component={} /> */}
+        </Switch>
+      </div>
+    </>
   );
 };
 
