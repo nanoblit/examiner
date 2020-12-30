@@ -1,9 +1,25 @@
 import React, { useState, useEffect, useMemo } from "react";
+import { useDispatch } from "react-redux";
 
 import { useTypedSelector } from "../../reducers";
 import { shuffle } from "../../utils/shuffle";
+import { editQuestionAction } from "../../actions";
+
+enum RevisionType {
+  None,
+  NewSession,
+  ContinueLastSession,
+  IncorrectAndUnansweredQuestions
+}
+
+/*
+- When you open the revision sub-page it asks if you want to continue or start a new session.
+- If you choose to start a new session, it takes all the unanswered questions and puts them in questionIndexes
+- Otherwise it acts normally.
+*/
 
 const Revision: React.FC = () => {
+  const [revisionType, setRevisionType] = useState(RevisionType.None);
   const [score, setScore] = useState(0);
   const [maxScore, setMaxScore] = useState(0);
   const [questionIndexes, setQuestionIndexes] = useState<number[]>([]);
@@ -14,6 +30,7 @@ const Revision: React.FC = () => {
     [questionIndexes]
   );
   const questions = useTypedSelector(({ questions }) => questions);
+  const dispatch = useDispatch();
 
   const isChecked = (idx: number) => {
     return selectedAnswers.some((answer) => answer === idx);
@@ -68,9 +85,27 @@ const Revision: React.FC = () => {
 
   const submitAnswer = () => {
     const correctAnswers = countCorrectAnswers();
+    const currentQuestion = questions[currentIndex];
+    const questionCorrectlyAnsweredCount =
+      currentQuestion.correctlyAnsweredCount ?? 0;
+    const questionTotalAnsweredCount = currentQuestion.totalAnsweredCount ?? 0;
+
+    dispatch(
+      editQuestionAction({
+        ...currentQuestion,
+        lastAnswered:
+          correctAnswers === currentQuestion.correctAnswers.length
+            ? true
+            : false,
+        totalAnsweredCount: questionTotalAnsweredCount + 1,
+        correctlyAnsweredCount:
+          questionCorrectlyAnsweredCount +
+          (correctAnswers === currentQuestion.correctAnswers.length ? 1 : 0),
+      })
+    );
     setScore((prev) => {
       const newPrev = (prev +=
-        correctAnswers / questions[currentIndex].correctAnswers.length);
+        correctAnswers / currentQuestion.correctAnswers.length);
       return isNaN(newPrev) ? 0 : newPrev;
     });
     setMaxScore((prev) => (prev += 1));
@@ -88,6 +123,7 @@ const Revision: React.FC = () => {
   }, [questionIndexes]);
 
   const render = () => {
+    // No more questions
     if (currentIndex === -1) {
       return (
         <>
@@ -109,6 +145,11 @@ const Revision: React.FC = () => {
               <input checked={isChecked(idx)} type="checkbox"></input>
             </div>
           ))}
+          <p>
+            You've answered this question{" "}
+            {questions[currentIndex].correctlyAnsweredCount ?? 0}/
+            {questions[currentIndex].totalAnsweredCount ?? 0} times correctly
+          </p>
           <p>
             Your score: {Math.round(score * 100) / 100}/{maxScore}
           </p>
@@ -132,6 +173,11 @@ const Revision: React.FC = () => {
               ></input>
             </div>
           ))}
+          <p>
+            You've answered this question{" "}
+            {questions[currentIndex].correctlyAnsweredCount ?? 0}/
+            {questions[currentIndex].totalAnsweredCount ?? 0} times correctly
+          </p>
           <p>
             Your score: {Math.round(score * 100) / 100}/{maxScore}
           </p>

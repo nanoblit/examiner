@@ -5,6 +5,9 @@ export interface Question {
   question: string;
   answers: string[];
   correctAnswers: number[];
+  correctlyAnsweredCount?: number;
+  totalAnsweredCount?: number;
+  lastAnswered?: boolean;
 }
 
 export const isQuestion = (value: Object): value is Question => {

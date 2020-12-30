@@ -1,16 +1,16 @@
 import { createGlobalStyle } from "styled-components";
 
 import reset from "./reset";
-import { fontColor, defaultFontSize } from "./values";
+import { fontColor } from "./values";
+import { setSizing } from "./setSizing";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
-  html { font-size: 10px; }
+  ${setSizing}
   @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-  *,  {
+  body  {
     font-family: 'Roboto', sans-serif; 
     color: ${fontColor};
-    font-size: ${defaultFontSize}
   }
 `;
 
