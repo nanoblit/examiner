@@ -3,13 +3,13 @@ import { useDispatch } from "react-redux";
 
 import { useTypedSelector } from "../../reducers";
 import { shuffle } from "../../utils/shuffle";
-import { editQuestionAction } from "../../actions";
+import { editQuestionAction, setQuestionsAction } from "../../actions";
 
 enum RevisionType {
   None,
   NewSession,
   ContinueLastSession,
-  IncorrectAndUnansweredQuestions
+  IncorrectAndUnansweredQuestions,
 }
 
 /*
@@ -19,17 +19,21 @@ enum RevisionType {
 */
 
 const Revision: React.FC = () => {
-  const [revisionType, setRevisionType] = useState(RevisionType.None);
+  const [revisionType, setRevisionType] = useState(RevisionType.NewSession);
   const [score, setScore] = useState(0);
   const [maxScore, setMaxScore] = useState(0);
-  const [questionIndexes, setQuestionIndexes] = useState<number[]>([]);
+  const [questionIds, setQuestionIds] = useState<string[]>([]);
   const [selectedAnswers, setSelectedAnswers] = useState<number[]>([]);
   const [answered, setAnswered] = useState(false);
-  const currentIndex = useMemo(
-    () => (questionIndexes.length > 0 ? questionIndexes[0] : -1),
-    [questionIndexes]
+  const currentId = useMemo(
+    () => (questionIds.length > 0 ? questionIds[0] : ""),
+    [questionIds]
   );
   const questions = useTypedSelector(({ questions }) => questions);
+  const currentQuestion = useMemo(
+    () => questions.find(({ id }) => currentId === id),
+    [currentId]
+  );
   const dispatch = useDispatch();
 
   const isChecked = (idx: number) => {
@@ -43,14 +47,15 @@ const Revision: React.FC = () => {
   };
 
   const tryAgain = () => {
-    setQuestionIndexes(() => shuffle(Array.from(questions.keys())));
+    setQuestionIds(() => shuffle(Array.from(questions.keys())));
     setScore(() => 0);
     setMaxScore(() => 0);
     setAnswered(() => false);
   };
 
   const answerBackgroundColor = (idx: number) => {
-    return questions[currentIndex].correctAnswers.indexOf(idx) > -1
+    const correctAnswerIndex = currentQuestion?.correctAnswers.indexOf(idx);
+    return correctAnswerIndex !== undefined && correctAnswerIndex > -1
       ? "lightgreen"
       : "none";
   };
@@ -59,20 +64,20 @@ const Revision: React.FC = () => {
     setAnswered(() => false);
     setSelectedAnswers(() => []);
     // Remove first question index.
-    setQuestionIndexes((prev) => [...prev.filter((_, idx) => idx !== 0)]);
+    setQuestionIds((prev) => [...prev.filter((_, idx) => idx !== 0)]);
   };
 
   const finishAnswering = () => {
     setSelectedAnswers(() => []);
     // Because current index is taken from question indexes.
-    setQuestionIndexes(() => []);
+    setQuestionIds(() => []);
   };
 
   const countCorrectAnswers = () => {
     let correctAnswers = 0;
     selectedAnswers.forEach((answer) => {
       if (
-        questions[currentIndex].correctAnswers.some(
+        currentQuestion?.correctAnswers.some(
           (correctAnswer) => correctAnswer === answer
         )
       ) {
@@ -85,7 +90,9 @@ const Revision: React.FC = () => {
 
   const submitAnswer = () => {
     const correctAnswers = countCorrectAnswers();
-    const currentQuestion = questions[currentIndex];
+    if (currentQuestion === undefined) {
+      return;
+    }
     const questionCorrectlyAnsweredCount =
       currentQuestion.correctlyAnsweredCount ?? 0;
     const questionTotalAnsweredCount = currentQuestion.totalAnsweredCount ?? 0;
@@ -93,7 +100,7 @@ const Revision: React.FC = () => {
     dispatch(
       editQuestionAction({
         ...currentQuestion,
-        lastAnswered:
+        lastAnsweredCorrectly:
           correctAnswers === currentQuestion.correctAnswers.length
             ? true
             : false,
@@ -112,19 +119,52 @@ const Revision: React.FC = () => {
     setAnswered(() => true);
   };
 
+  // give correct questions based on revisionType
+  // move to useMemo?
   useEffect(() => {
-    if (questionIndexes.length === 0) {
-      setQuestionIndexes(() => shuffle(Array.from(questions.keys())));
+    if (questionIds.length === 0) {
+      switch (revisionType) {
+        case RevisionType.NewSession:
+          dispatch(
+            setQuestionsAction(
+              questions.map((question) => {
+                return { ...question, lastAnsweredCorrectly: undefined };
+              })
+            )
+          );
+          setQuestionIds(() => shuffle(questions.map(({ id }) => id)));
+          break;
+        case RevisionType.ContinueLastSession:
+          setQuestionIds(() =>
+            shuffle(
+              questions
+                .filter(({ lastAnsweredCorrectly }) => lastAnsweredCorrectly === undefined)
+                .map(({ id }) => id)
+            )
+          );
+          break;
+        case RevisionType.IncorrectAndUnansweredQuestions:
+          setQuestionIds(() =>
+            shuffle(
+              questions
+                .filter(({ lastAnsweredCorrectly }) => !lastAnsweredCorrectly)
+                .map(({ id }) => id)
+            )
+          );
+          break;
+        default:
+          return;
+      }
     }
-  }, [questions]);
+  }, [revisionType]);
 
   useEffect(() => {
-    console.log(questionIndexes);
-  }, [questionIndexes]);
+    console.log(questionIds);
+  }, [questionIds]);
 
   const render = () => {
     // No more questions
-    if (currentIndex === -1) {
+    if (currentId === "") {
       return (
         <>
           <p>
@@ -136,8 +176,8 @@ const Revision: React.FC = () => {
     } else if (answered) {
       return (
         <>
-          <p>{questions[currentIndex].question}</p>
-          {questions[currentIndex].answers.map((answer, idx) => (
+          <p>{currentQuestion?.question}</p>
+          {currentQuestion?.answers.map((answer, idx) => (
             <div key={idx}>
               <span style={{ backgroundColor: answerBackgroundColor(idx) }}>
                 {answer}
@@ -147,13 +187,13 @@ const Revision: React.FC = () => {
           ))}
           <p>
             You've answered this question{" "}
-            {questions[currentIndex].correctlyAnsweredCount ?? 0}/
-            {questions[currentIndex].totalAnsweredCount ?? 0} times correctly
+            {currentQuestion?.correctlyAnsweredCount ?? 0}/
+            {currentQuestion?.totalAnsweredCount ?? 0} times correctly
           </p>
           <p>
             Your score: {Math.round(score * 100) / 100}/{maxScore}
           </p>
-          {questionIndexes.length > 1 && (
+          {questionIds.length > 1 && (
             <button onClick={nextQuestion}>Next Question</button>
           )}
           <button onClick={finishAnswering}>Finish</button>
@@ -162,8 +202,8 @@ const Revision: React.FC = () => {
     } else {
       return (
         <>
-          <p>{questions[currentIndex].question}</p>
-          {questions[currentIndex].answers.map((answer, idx) => (
+          <p>{currentQuestion?.question}</p>
+          {currentQuestion?.answers.map((answer, idx) => (
             <div key={idx}>
               <span>{answer}</span>
               <input
@@ -175,8 +215,8 @@ const Revision: React.FC = () => {
           ))}
           <p>
             You've answered this question{" "}
-            {questions[currentIndex].correctlyAnsweredCount ?? 0}/
-            {questions[currentIndex].totalAnsweredCount ?? 0} times correctly
+            {currentQuestion?.correctlyAnsweredCount ?? 0}/
+            {currentQuestion?.totalAnsweredCount ?? 0} times correctly
           </p>
           <p>
             Your score: {Math.round(score * 100) / 100}/{maxScore}
