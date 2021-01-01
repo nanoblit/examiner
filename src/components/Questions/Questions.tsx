@@ -1,11 +1,14 @@
 import React from "react";
 import { useRouteMatch, Switch, Route } from "react-router";
-import Editor from "./Editor";
 import { Link } from "react-router-dom";
+
+import Editor from "./Editor";
 import { useTypedSelector } from "../../reducers";
 import { QuestionsState, isQuestionsState } from "../../actions/types";
 import { useDispatch } from "react-redux";
 import { setQuestionsAction } from "../../actions";
+import Button from "../common/Button/Button";
+
 
 const Questions: React.FC = () => {
   const match = useRouteMatch();
@@ -50,11 +53,9 @@ const Questions: React.FC = () => {
         <Editor />
       </Route>
       <Route path={match.path}>
-        <Link to={`${match.url}/editor`}>Edit Questions</Link>
-        <br />
+        <Link to={`${match.url}/editor`}><Button>Edit Questions</Button></Link>
         Upload Questions
         <input type="file" accept=".json" onChange={(e) => e.target.files && saveQuestionsState(e.target.files)}></input>
-        <br />
         <a
           href={`data:text/plain;charset=utf-8,${encodeURIComponent(
             JSON.stringify(questions)

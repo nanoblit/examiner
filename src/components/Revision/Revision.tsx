@@ -200,7 +200,7 @@ const Revision: React.FC = () => {
     }
   };
 
-  return <div>{render()}</div>;
+  return <>{render()}</>;
 };
 
 export default Revision;
