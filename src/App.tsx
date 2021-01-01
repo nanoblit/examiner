@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Switch } from "react-router";
 import { useDispatch } from "react-redux";
 
@@ -8,8 +8,10 @@ import Questions from "./components/Questions/Questions";
 import { setQuestionsAction } from "./actions";
 import { Question } from "./models/Question";
 import { isQuestionsState } from "./actions/types";
+import GlobalStyle from "./styles/globalStyles";
 
 const App: React.FC = () => {
+  const [questionsLoaded, setQuestionsLoaded] = useState(false);
   const dispatch = useDispatch();
 
   const setQuestionsFromLocalStorage = () => {
@@ -19,6 +21,8 @@ const App: React.FC = () => {
     isQuestionsState(questions)
       ? dispatch(setQuestionsAction(questions))
       : console.error("Questions in local storage are wrong");
+
+    setQuestionsLoaded(() => true);
   };
 
   useEffect(() => {
@@ -26,18 +30,19 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="App">
-      <Navbar />
-      <Switch>
-        <Route path="/questions">
-          <Questions />
-        </Route>
-        <Route path="/revision">
-          <Revision />
-        </Route>
-        {/* <Route path="/exam" component={} /> */}
-      </Switch>
-    </div>
+    <>
+      <GlobalStyle />
+      <div className="App">
+        <Navbar />
+        <Switch>
+          <Route path="/questions">
+            <Questions />
+          </Route>
+          {/* So it can use the questions in store */}
+          <Route path="/revision">{questionsLoaded && <Revision />}</Route>{" "}
+        </Switch>
+      </div>
+    </>
   );
 };
 
