@@ -8,9 +8,12 @@ const GlobalStyle = createGlobalStyle`
   ${reset}
   ${setSizing}
   @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-  body  {
+  body, button  {
     font-family: 'Roboto', sans-serif; 
     color: ${fontColor};
+  }
+  i {
+    cursor: default;
   }
 `;
 
