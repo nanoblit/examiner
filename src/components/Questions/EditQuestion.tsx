@@ -62,7 +62,7 @@ const EditQuestion: React.FC = () => {
     let currentQuestionBeginning = "A.";
 
     const newQuestionText = questionText.slice(
-      questionText.indexOf(" ") + 1,
+      0,
       questionText.indexOf(currentQuestionBeginning)
     );
 
@@ -74,9 +74,7 @@ const EditQuestion: React.FC = () => {
         questionReminder.indexOf(currentQuestionBeginning) + 3
       );
       currentQuestionBeginning = `${nextLetter(currentQuestionBeginning)}.`;
-      const nextEndIndex = questionReminder.indexOf(
-        `${nextLetter(currentQuestionBeginning)}.`
-      );
+      const nextEndIndex = questionReminder.indexOf(currentQuestionBeginning);
       newAnswers.push(
         questionReminder.slice(
           0,
