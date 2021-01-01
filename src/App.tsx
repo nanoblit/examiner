@@ -22,7 +22,7 @@ const App: React.FC = () => {
       ? dispatch(setQuestionsAction(questions))
       : console.error("Questions in local storage are wrong");
 
-    setQuestionsLoaded(true);
+    setQuestionsLoaded(() => true);
   };
 
   useEffect(() => {
