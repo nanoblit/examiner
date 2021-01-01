@@ -7,7 +7,7 @@ type props = {
   selectedAnswers: number[];
   score: string;
   buttons: React.ReactNode;
-};
+}; 
 
 const AnswerSubpage: React.FC<props> = ({
   question,
