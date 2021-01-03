@@ -19,7 +19,7 @@ const Editor: React.FC = () => {
         ({ question }) =>
           question.toLowerCase().indexOf(search.toLowerCase()) >= 0
       )
-      .sort((a, b) => (a.question < b.question ? -1 : 1))
+      .sort((a, b) => (a.question.toLowerCase() < b.question.toLowerCase() ? -1 : 1))
   );
 
   const updateSearch = (text: string) => {
