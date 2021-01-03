@@ -8,7 +8,7 @@ import { QuestionsState, isQuestionsState } from "../../actions/types";
 import { setQuestionsAction } from "../../actions";
 import Button from "../common/Button/Button";
 import StyledDiv from "./QuestionsStyle";
-import Dropzone from "../Dropzone/Dropzone";
+import Dropzone from "../common/Dropzone/Dropzone";
 
 
 const Questions: React.FC = () => {

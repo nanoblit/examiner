@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { borderRadius, buttonColor, grayColor } from "../../styles/values";
 
+import { borderRadius, grayColor } from "../../../styles/values";
 
 
 const StyledDropzone = styled.div`
