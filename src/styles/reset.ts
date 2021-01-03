@@ -47,6 +47,16 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
 `
 
 export default reset;

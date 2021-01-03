@@ -4,6 +4,10 @@ import { Link } from "react-router-dom";
 import EditQuestion from "./EditQuestion";
 
 import { useTypedSelector } from "../../reducers";
+import QuestionListElement from "../common/QuestionListElement/QuestionListElement";
+import StyledDiv from "./EditorStyle";
+import Button from "../common/Button/Button";
+import SearchBar from "../common/SearchBar/SearchBar";
 
 const Editor: React.FC = () => {
   const [search, setSearch] = useState("");
@@ -31,21 +35,27 @@ const Editor: React.FC = () => {
         <EditQuestion />
       </Route>
       <Route path={match.path}>
-        <div>
-          <input
-            placeholder="Search"
+        <StyledDiv>
+          <SearchBar
             value={search}
             onChange={(e) => updateSearch(e.target.value)}
           />
           <Link to={`${match.url}/addQuestion`}>
-            <button>Add New Question</button>
+            <Button
+              backgroundIcon="add"
+              width="17.5rem"
+              height="9.6rem"
+              backgroundIconSize="7rem"
+            >
+              Add New Question
+            </Button>
           </Link>
           {questions.map(({ question, id }) => (
-            <Link key={id} to={`${match.url}/${id}`}>
-              <p>{question}</p>
+            <Link className="questionLink" key={id} to={`${match.url}/${id}`}>
+              <QuestionListElement>{question}</QuestionListElement>
             </Link>
           ))}
-        </div>
+        </StyledDiv>
       </Route>
     </Switch>
   );
