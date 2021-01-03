@@ -71,7 +71,7 @@ const EditQuestion: React.FC = () => {
     const newAnswers: string[] = [];
     do {
       questionReminder = questionReminder.slice(
-        questionReminder.indexOf(currentQuestionBeginning) + 3
+        questionReminder.indexOf(currentQuestionBeginning)
       );
       currentQuestionBeginning = `${nextLetter(currentQuestionBeginning)}.`;
       const nextEndIndex = questionReminder.indexOf(currentQuestionBeginning);
