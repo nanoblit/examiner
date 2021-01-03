@@ -1,48 +1,19 @@
 import React from "react";
 import { useRouteMatch, Switch, Route } from "react-router";
-import Editor from "./Editor";
 import { Link } from "react-router-dom";
+
+import Editor from "./Editor";
 import { useTypedSelector } from "../../reducers";
 import { QuestionsState, isQuestionsState } from "../../actions/types";
-import { useDispatch } from "react-redux";
 import { setQuestionsAction } from "../../actions";
+import Button from "../common/Button/Button";
+import StyledDiv from "./QuestionsStyle";
+import Dropzone from "../Dropzone/Dropzone";
+
 
 const Questions: React.FC = () => {
   const match = useRouteMatch();
   const questions = useTypedSelector(({ questions }) => questions);
-  const dispatch = useDispatch();
-
-  const questionsStateFromString = (contents: string) => {
-    try {
-      const parsedFileContents = JSON.parse(contents);
-      if (!isQuestionsState(parsedFileContents)) {
-        console.log("File isn't in correct questions format"); 
-        return;
-      }
-      return parsedFileContents as QuestionsState;
-    } catch (e) {
-      console.log("Couldn't parse file contents as JSON");
-    }
-  }
-
-  const saveQuestionsState = (fileList: FileList) => {
-    if (fileList.length < 1) {
-      return;
-    }
-    const file = fileList[0];
-
-    const reader = new FileReader();
-
-    reader.addEventListener('load', (e) => {
-      if (typeof e.target?.result !== "string") {
-        console.log("Couldn't get string from file");
-        return;
-      }
-      const questionsState = questionsStateFromString(e.target.result);
-      questionsState && dispatch(setQuestionsAction(questionsState));
-    })
-    reader.readAsText(file);
-  }
 
   return (
     <Switch>
@@ -50,19 +21,35 @@ const Questions: React.FC = () => {
         <Editor />
       </Route>
       <Route path={match.path}>
-        <Link to={`${match.url}/editor`}>Edit Questions</Link>
-        <br />
-        Upload Questions
-        <input type="file" accept=".json" onChange={(e) => e.target.files && saveQuestionsState(e.target.files)}></input>
-        <br />
-        <a
-          href={`data:text/plain;charset=utf-8,${encodeURIComponent(
-            JSON.stringify(questions)
-          )}`}
-          download="questions.json"
-        >
-          Download Questions
-        </a>
+        <StyledDiv>
+          <Link to={`${match.url}/editor`}>
+            <Button
+              backgroundIcon="create"
+              width="23rem"
+              height="12.4rem"
+              fontSize="1.9rem"
+              backgroundIconSize="10rem"
+            >
+              Edit Questions
+            </Button>
+          </Link>
+          <Dropzone />
+          <a
+            href={`data:text/plain;charset=utf-8,${encodeURIComponent(
+              JSON.stringify(questions)
+            )}`}
+            download="questions.json"
+          >
+            <Button
+              backgroundIcon="get_app"
+              width="17.5rem"
+              height="9.6rem"
+              backgroundIconSize="7rem"
+            >
+              Download Questions
+            </Button>
+          </a>
+        </StyledDiv>
       </Route>
     </Switch>
   );
