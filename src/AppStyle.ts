@@ -1,9 +1,8 @@
 import styled from "styled-components";
+import { contentDisplay } from "./styles/values";
 
 const StyledContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  ${contentDisplay}
 `;
 
 export default StyledContent;

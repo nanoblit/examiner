@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { borderRadius, buttonColor } from "../../../styles/values";
+import { borderRadius, buttonColor, logoColor, darkButtonColor } from "../../../styles/values";
 
 type Props = {
   width?: string;
@@ -20,7 +20,10 @@ const StyledButton = styled.button<Props>`
   outline: none;
   ${({ width }) => (width ? `width: ${width};` : "")}
   ${({ height }) => (height ? `height: ${height};` : "")}
-  ${({ fontSize }) => (fontSize ? `font-size: ${fontSize};` : "")}
+
+  &:hover {
+    background: ${darkButtonColor};
+  }
 
   .buttonIcon {
     left: 0;
@@ -34,9 +37,15 @@ const StyledButton = styled.button<Props>`
 
     i {
       cursor: pointer;
+      color: ${logoColor};
       font-size: ${({ backgroundIconSize }) =>
         backgroundIconSize ? backgroundIconSize : "3rem"};
     }
+  }
+
+  span {
+    position: relative;
+    ${({ fontSize }) => (fontSize ? `font-size: ${fontSize};` : "")}
   }
 `;
 

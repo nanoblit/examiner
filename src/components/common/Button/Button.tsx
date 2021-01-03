@@ -28,8 +28,12 @@ const Button: React.FC<Props> = ({
       backgroundIconSize={backgroundIconSize}
       onClick={onClick}
     >
-      <div className="buttonIcon"><i className="material-icons">done</i></div>
-      {children}
+      {backgroundIcon && (
+        <div className="buttonIcon">
+          <i className="material-icons">{backgroundIcon}</i>
+        </div>
+      )}
+      <span>{children}</span>
     </StyledButton>
   );
 };
