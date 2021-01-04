@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { borderRadius, buttonColor, logoColor, darkButtonColor } from "../../../styles/values";
+import { borderRadius, buttonColor, logoColor, darkButtonColor, shadow } from "../../../styles/values";
 
 type Props = {
   width?: string;
@@ -12,7 +12,7 @@ type Props = {
 const StyledButton = styled.button<Props>`
   border: none;
   background: ${buttonColor};
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: ${shadow};
   padding: 5px 10px;
   border-radius: ${borderRadius};
   position: relative;

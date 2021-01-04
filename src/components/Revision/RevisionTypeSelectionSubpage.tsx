@@ -1,6 +1,8 @@
 import React from "react";
 
 import { RevisionType } from "./Revision";
+import Button from "../common/Button/Button";
+import StyledDiv from "./RevisionTypeSelectionSubpageStyle";
 
 
 type props = {
@@ -10,24 +12,24 @@ type props = {
 const RevisionTypeSelectionSubpage: React.FC<props> = ({ setRevisionType }) => {
   // Add a generic search bar for questions to pick which questions to include (how?)
   return (
-    <>
+    <StyledDiv>
       <p>What do you want to do?</p>
-      <button onClick={() => setRevisionType(() => RevisionType.NewSession)}>
-        start a new session
-      </button>
-      <button
+      <Button onClick={() => setRevisionType(() => RevisionType.NewSession)}>
+        Start a new session
+      </Button>
+      <Button
         onClick={() => setRevisionType(() => RevisionType.ContinueLastSession)}
       >
-        continue last session
-      </button>
-      <button
+        Continue last session
+      </Button>
+      <Button
         onClick={() =>
           setRevisionType(() => RevisionType.IncorrectAndUnansweredQuestions)
         }
       >
-        answer incorrect and unanswered questions
-      </button>
-    </>
+        Answer incorrect and unanswered questions
+      </Button>
+    </StyledDiv>
   );
 };
 

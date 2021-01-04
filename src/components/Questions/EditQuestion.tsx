@@ -9,6 +9,8 @@ import {
   deleteQuestionAction,
 } from "../../actions";
 import { useTypedSelector } from "../../reducers";
+import AnswerField from "../common/AnswerField/AnswerField";
+import StyledDiv from "./EditQuestionStyle";
 
 const EditQuestion: React.FC = () => {
   const { questionId }: { questionId: string | undefined } = useParams();
@@ -171,23 +173,31 @@ const EditQuestion: React.FC = () => {
   }, []);
 
   return (
-    <div>
+    <StyledDiv>
       <p>Question:</p>
       <textarea value={questionText} onChange={updateQuestion}></textarea>
       <p>Answers:</p>
       <div className="answers">
         {answers.map((answer, idx) => (
-          <div key={idx}>
-            <textarea
-              value={answer}
-              onChange={(e) => updateAnswer(e.target.value, idx)}
-            ></textarea>
-            <input
-              type="checkbox"
-              defaultChecked={correctAnswers.includes(idx)}
-              onChange={() => switchAnswer(idx)}
-            ></input>
-          </div>
+          // <div key={idx}>
+          //   <textarea
+          //     value={answer}
+          //     onChange={(e) => updateAnswer(e.target.value, idx)}
+          //   ></textarea>
+          //   <input
+          //     type="checkbox"
+          //     defaultChecked={correctAnswers.includes(idx)}
+          //     onChange={() => switchAnswer(idx)}
+          //   ></input>
+          // </div>
+          <AnswerField
+            key={idx}
+            text={answer}
+            onChangeText={(e) => updateAnswer(e.target.value, idx)}
+            defaultChecked={correctAnswers.includes(idx)}
+            isChecked={correctAnswers.includes(idx)}
+            onChangeCheckbox={() => switchAnswer(idx)}
+          />
         ))}
       </div>
       <button onClick={() => addNewAnswer()}>+</button>
@@ -201,7 +211,7 @@ const EditQuestion: React.FC = () => {
         <button onClick={addQuestionAndRedirect}>Add Question</button>
       )}
       {redirect && <Redirect to="/questions/editor" />}
-    </div>
+    </StyledDiv>
   );
 };
 
