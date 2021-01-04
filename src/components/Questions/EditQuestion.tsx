@@ -11,6 +11,7 @@ import {
 import { useTypedSelector } from "../../reducers";
 import AnswerField from "../common/AnswerField/AnswerField";
 import StyledDiv from "./EditQuestionStyle";
+import Button from "../common/Button/Button";
 
 const EditQuestion: React.FC = () => {
   const { questionId }: { questionId: string | undefined } = useParams();
@@ -179,17 +180,6 @@ const EditQuestion: React.FC = () => {
       <p>Answers:</p>
       <div className="answers">
         {answers.map((answer, idx) => (
-          // <div key={idx}>
-          //   <textarea
-          //     value={answer}
-          //     onChange={(e) => updateAnswer(e.target.value, idx)}
-          //   ></textarea>
-          //   <input
-          //     type="checkbox"
-          //     defaultChecked={correctAnswers.includes(idx)}
-          //     onChange={() => switchAnswer(idx)}
-          //   ></input>
-          // </div>
           <AnswerField
             key={idx}
             text={answer}
@@ -200,16 +190,33 @@ const EditQuestion: React.FC = () => {
           />
         ))}
       </div>
-      <button onClick={() => addNewAnswer()}>+</button>
-      <button onClick={removeLastAnswer}>-</button>
-      {questionId ? (
-        <>
-          <button onClick={editQuestionAndRedirect}>Save Question</button>
-          <button onClick={deleteQuestionAndRedirect}>Delete Question</button>
-        </>
-      ) : (
-        <button onClick={addQuestionAndRedirect}>Add Question</button>
-      )}
+      <div className="answersButtons">
+        <Button
+          backgroundIcon="add"
+          width="5rem"
+          height="5rem"
+          backgroundIconSize="3rem"
+          onClick={() => addNewAnswer()}
+        ></Button>
+        <Button
+          backgroundIcon="remove"
+          width="5rem"
+          height="5rem"
+          backgroundIconSize="3rem"
+          onClick={removeLastAnswer}
+        >
+        </Button>
+      </div>
+      <div className="questionButtons">
+        {questionId ? (
+          <>
+            <Button onClick={editQuestionAndRedirect}>Save Question</Button>
+            <Button onClick={deleteQuestionAndRedirect}>Delete Question</Button>
+          </>
+        ) : (
+          <Button onClick={addQuestionAndRedirect}>Save Question</Button>
+        )}
+      </div>
       {redirect && <Redirect to="/questions/editor" />}
     </StyledDiv>
   );

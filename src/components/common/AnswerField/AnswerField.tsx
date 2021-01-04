@@ -20,7 +20,7 @@ const AnswerField: React.FC<Props> = ({
   onChangeCheckbox,
 }) => {
   return (
-    <StyledAnswer>
+    <StyledAnswer className="answer">
       {readOnly ? (
         <div className="answerText">
           <span>{text}</span>
