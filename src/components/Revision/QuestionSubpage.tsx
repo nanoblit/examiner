@@ -1,6 +1,10 @@
 import { Question } from "../../models/Question";
 
 import React from "react";
+import AnswerField from "../common/AnswerField/AnswerField";
+import StyledDiv from "./QuestionSubpageStyle";
+import Button from "../common/Button/Button";
+import QuestionField from "../common/QuestionField/QuestionField";
 
 type props = {
   question: Question;
@@ -28,25 +32,24 @@ const QuestionSubpage: React.FC<props> = ({
   };
 
   return (
-    <>
-      <p>{question.question}</p>
+    <StyledDiv>
+      <QuestionField text={question.question} readonly />
       {question.answers.map((answer, idx) => (
-        <div key={idx}>
-          <span>{answer}</span>
-          <input
-            type="checkbox"
-            checked={isChecked(idx)}
-            onChange={() => switchSelectedAnswer(idx)}
-          ></input>
-        </div>
+        <AnswerField
+        key={idx}
+        text={answer}
+        isChecked={isChecked(idx)}
+        onChangeCheckbox={() => switchSelectedAnswer(idx)}
+        textareaReadOnly
+      />
       ))}
       <p>
         You've answered this question {question.correctlyAnsweredCount ?? 0}/
         {question.totalAnsweredCount ?? 0} times correctly
       </p>
       <p>Your score: {score}</p>
-      <button onClick={submitAnswer}>Submit</button>
-    </>
+      <Button onClick={submitAnswer}>Answer</Button>
+    </StyledDiv>
   );
 };
 

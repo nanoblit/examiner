@@ -5,23 +5,32 @@ import StyledAnswer from "./AnswerFieldStyle";
 type Props = {
   text?: string;
   onChangeText?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  readOnly?: boolean;
-  defaultChecked: boolean;
+  textareaReadOnly?: boolean;
+  checkboxReadOnly?: boolean;
+  defaultChecked?: boolean;
   isChecked: boolean;
+  isHighlighted?: boolean;
   onChangeCheckbox?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 const AnswerField: React.FC<Props> = ({
   text,
   onChangeText,
-  readOnly = false,
-  defaultChecked,
+  textareaReadOnly = false,
+  checkboxReadOnly = false,
+  defaultChecked = false,
   isChecked,
+  isHighlighted = false,
   onChangeCheckbox,
 }) => {
   return (
-    <StyledAnswer className="answer">
-      {readOnly ? (
+    <StyledAnswer
+      className="answer"
+      textareaReadOnly={textareaReadOnly}
+      checkboxReadOnly={checkboxReadOnly}
+      isHighlighted={isHighlighted}
+    >
+      {textareaReadOnly ? (
         <div className="answerText">
           <span>{text}</span>
         </div>
@@ -29,13 +38,13 @@ const AnswerField: React.FC<Props> = ({
         <textarea value={text} onChange={onChangeText}></textarea>
       )}
       <div className="answerIcons">
-        <i className="material-icons">create</i>
+        {textareaReadOnly || <i className="material-icons">create</i>}
         <div className="checkbox">
           <input
             type="checkbox"
             onChange={onChangeCheckbox}
             defaultChecked={defaultChecked}
-            readOnly={readOnly}
+            readOnly={checkboxReadOnly}
           ></input>
           {isChecked ? (
             <i className="material-icons iconChecked">done</i>
