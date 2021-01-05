@@ -7,6 +7,7 @@ export const grayColor = "#CECECE";
 export const searchBarColor = "#F0F0F0";
 export const greenColor = "#48CF65";
 export const redColor = "#E15C5C";
+export const highlightColor = "#9EF0B0";
 
 export const shadow = "0px 4px 4px rgba(0, 0, 0, 0.25)";
 

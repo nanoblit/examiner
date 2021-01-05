@@ -6,9 +6,16 @@ import {
   logoColor,
   greenColor,
   redColor,
+  highlightColor,
 } from "../../../styles/values";
 
-const StyledAnswer = styled.div`
+type Props = {
+  textareaReadOnly: boolean;
+  checkboxReadOnly: boolean;
+  isHighlighted: boolean;
+};
+
+const StyledAnswer = styled.div<Props>`
   width: 100%;
   position: relative;
 
@@ -18,10 +25,13 @@ const StyledAnswer = styled.div`
     border: none;
     border-radius: ${borderRadius};
     font-size: 1.4rem;
-    background-color: ${buttonColor};
+    background-color: ${({ isHighlighted }) =>
+      isHighlighted ? highlightColor : buttonColor};
     box-shadow: ${shadow};
     width: 100%;
-    padding: 1rem 8rem 1rem 1.5rem;
+    padding: 1rem
+      ${({ textareaReadOnly }) => (textareaReadOnly ? "4rem" : "8rem")} 1rem
+      1.5rem;
   }
 
   > textarea {
@@ -30,7 +40,7 @@ const StyledAnswer = styled.div`
 
   .answerIcons {
     pointer-events: none;
-    width: 8rem;
+    width: ${({ textareaReadOnly }) => (textareaReadOnly ? "4rem" : "8rem")};
     right: 0;
     top: 0;
     height: 100%;
@@ -51,6 +61,8 @@ const StyledAnswer = styled.div`
       align-items: center;
 
       input {
+        cursor: ${({ checkboxReadOnly }) =>
+          checkboxReadOnly ? "default" : "pointer"};
         opacity: 0;
         pointer-events: auto;
         width: 2.4rem;

@@ -8,6 +8,7 @@ import RevisionTypeSelectionSubpage from "./RevisionTypeSelectionSubpage";
 import FinalScoreSubpage from "./FinalScoreSubpage";
 import QuestionSubpage from "./QuestionSubpage";
 import AnswerSubpage from "./AnswerSubpage";
+import Button from "../common/Button/Button";
 
 export enum RevisionType {
   None,
@@ -165,6 +166,7 @@ const Revision: React.FC = () => {
           tryAgain={tryAgain}
           questions={questions}
           score={countScore()}
+          percentScore={`${Math.round((score / maxScore) * 100 * 100) / 100}%`}
         />
       );
     } else if (!answered) {
@@ -189,9 +191,9 @@ const Revision: React.FC = () => {
             buttons={
               <>
                 {questionIds.length > 1 && (
-                  <button onClick={nextQuestion}>Next Question</button>
+                  <Button onClick={nextQuestion}>Next Question</Button>
                 )}
-                <button onClick={finishAnswering}>Finish</button>
+                <Button onClick={finishAnswering}>Finish</Button>
               </>
             }
           />

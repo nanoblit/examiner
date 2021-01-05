@@ -12,6 +12,7 @@ import { useTypedSelector } from "../../reducers";
 import AnswerField from "../common/AnswerField/AnswerField";
 import StyledDiv from "./EditQuestionStyle";
 import Button from "../common/Button/Button";
+import QuestionField from "../common/QuestionField/QuestionField";
 
 const EditQuestion: React.FC = () => {
   const { questionId }: { questionId: string | undefined } = useParams();
@@ -176,7 +177,7 @@ const EditQuestion: React.FC = () => {
   return (
     <StyledDiv>
       <p>Question:</p>
-      <textarea value={questionText} onChange={updateQuestion}></textarea>
+      <QuestionField text={questionText} onChange={updateQuestion}></QuestionField>
       <p>Answers:</p>
       <div className="answers">
         {answers.map((answer, idx) => (

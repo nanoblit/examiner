@@ -43,7 +43,14 @@ const App: React.FC = () => {
             {/* So it can use the questions in store */}
             <Route path="/revision">
               {questionsLoaded && <Revision />}
-            </Route>{" "}
+            </Route>
+            <Route path="/">
+              <p>Welcome to Examify!</p>
+              <p>
+                Try adding questions in the Questions subpage and then answer
+                them them in Revision!
+              </p>
+            </Route>
           </Switch>
         </StyledContent>
       </div>
