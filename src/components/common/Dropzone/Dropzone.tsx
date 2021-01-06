@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { useDropzone } from "react-dropzone";
+import { toast } from "react-toastify";
 
 import { isQuestionsState, QuestionsState } from "../../../actions/types";
 import { setQuestionsAction } from "../../../actions";
@@ -13,12 +14,14 @@ const Dropzone: React.FC = () => {
     try {
       const parsedFileContents = JSON.parse(contents);
       if (!isQuestionsState(parsedFileContents)) {
-        console.log("File isn't in correct questions format");
+        console.warn("File isn't in the correct questions format (.json)");
+        toast.error("File isn't in the correct questions format (.json)");
         return;
       }
       return parsedFileContents as QuestionsState;
     } catch (e) {
-      console.log("Couldn't parse file contents as JSON");
+      console.warn("Couldn't parse file contents as JSON");
+      toast.error("Couldn't parse file contents as JSON");
     }
   };
 
@@ -26,11 +29,18 @@ const Dropzone: React.FC = () => {
     const file = acceptedFiles[0];
     const reader = new FileReader();
 
-    reader.onabort = () => console.log("file reading was aborted");
-    reader.onerror = (e) => console.log(e);
+    reader.onabort = () => {
+      console.warn("File reading was aborted");
+      toast.error("File reading was aborted");
+    };
+    reader.onerror = (e) => {
+      console.warn(e);
+      toast.error(e);
+    };
     reader.onload = (e) => {
       if (typeof e.target?.result !== "string") {
-        console.log("Couldn't get string from file");
+        console.warn("Couldn't get string from file");
+        toast.error("Couldn't get string from file");
         return;
       }
       const questionsState = questionsStateFromString(e.target.result);

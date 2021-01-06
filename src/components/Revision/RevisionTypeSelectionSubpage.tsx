@@ -20,14 +20,14 @@ const RevisionTypeSelectionSubpage: React.FC<props> = ({ setRevisionType }) => {
       <Button
         onClick={() => setRevisionType(() => RevisionType.ContinueLastSession)}
       >
-        Continue last session
+        Continue the last session
       </Button>
       <Button
         onClick={() =>
           setRevisionType(() => RevisionType.IncorrectAndUnansweredQuestions)
         }
       >
-        Answer incorrect and unanswered questions
+        Continue the last session with incorrectly answered questions
       </Button>
     </StyledDiv>
   );
