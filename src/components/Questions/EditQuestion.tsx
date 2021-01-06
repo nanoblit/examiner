@@ -13,6 +13,7 @@ import AnswerField from "../common/AnswerField/AnswerField";
 import StyledDiv from "./EditQuestionStyle";
 import Button from "../common/Button/Button";
 import QuestionField from "../common/QuestionField/QuestionField";
+import { toast } from "react-toastify";
 
 const EditQuestion: React.FC = () => {
   const { questionId }: { questionId: string | undefined } = useParams();
@@ -99,20 +100,24 @@ const EditQuestion: React.FC = () => {
   const isQuestionValid = () => {
     if (questionText.trim().localeCompare("") === 0) {
       console.warn("Question text is required");
+      toast.error("Question text is required");
       return false;
     }
     if (answers.length === 0) {
       console.warn("Answers are required");
+      toast.error("Answers are required");
       return false;
     }
     for (const answer of answers) {
       if (answer.trim().localeCompare("") === 0) {
         console.warn("All answer texts are required");
+        toast.error("All answer texts are required");
         return false;
       }
     }
     if (correctAnswers.length === 0) {
       console.warn("At least one answer has to be correct");
+      toast.error("At least one answer has to be correct");
       return false;
     }
     return true;

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Route, Switch } from "react-router";
 import { useDispatch } from "react-redux";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css'
 
 import Navbar from "./components/Navbar/Navbar";
 import Revision from "./components/Revision/Revision";
@@ -52,6 +54,7 @@ const App: React.FC = () => {
               </p>
             </Route>
           </Switch>
+          <ToastContainer />
         </StyledContent>
       </div>
     </>
