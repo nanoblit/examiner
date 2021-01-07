@@ -1,6 +1,7 @@
-import React from "react";
+import React, { createRef, useEffect } from "react";
 
 import StyledAnswer from "./AnswerFieldStyle";
+import setupAutoResize from "../../../utils/setupAutoResize";
 
 type Props = {
   text?: string;
@@ -23,6 +24,10 @@ const AnswerField: React.FC<Props> = ({
   isHighlighted = false,
   onChangeCheckbox,
 }) => {
+  const textAreaRef = createRef<HTMLTextAreaElement>();
+
+  useEffect(() => setupAutoResize(textAreaRef), []);
+
   return (
     <StyledAnswer
       className="answer"
@@ -35,7 +40,11 @@ const AnswerField: React.FC<Props> = ({
           <span>{text}</span>
         </div>
       ) : (
-        <textarea value={text} onChange={onChangeText}></textarea>
+        <textarea
+          ref={textAreaRef}
+          value={text}
+          onChange={onChangeText}
+        ></textarea>
       )}
       <div className="answerIcons">
         {textareaReadOnly || <i className="material-icons">create</i>}
