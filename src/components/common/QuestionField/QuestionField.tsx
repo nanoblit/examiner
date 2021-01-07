@@ -1,11 +1,12 @@
-import React from "react";
+import React, { createRef, useEffect } from "react";
 
 import StyledQuestion from "./QuestionFieldStyle";
+import setupAutoResize from "../../../utils/setupAutoResize";
 
 type Props = {
   text?: string;
   onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  readonly?: boolean
+  readonly?: boolean;
 };
 
 const QuestionField: React.FC<Props> = ({
@@ -13,17 +14,23 @@ const QuestionField: React.FC<Props> = ({
   onChange,
   readonly = false,
 }) => {
+  const textAreaRef = createRef<HTMLTextAreaElement>();
+
+  useEffect(() => setupAutoResize(textAreaRef), []);
+
   return (
-    <StyledQuestion
-      className="question"
-      textareaReadOnly={readonly}
-    >
+    <StyledQuestion className="question" textareaReadOnly={readonly}>
       {readonly ? (
         <div className="questionText">
           <span>{text}</span>
         </div>
       ) : (
-        <textarea rows={4} value={text} onChange={onChange}></textarea>
+        <textarea
+          ref={textAreaRef}
+          rows={1}
+          value={text}
+          onChange={onChange}
+        ></textarea>
       )}
       <div className="questionIcons">
         {readonly || <i className="material-icons">create</i>}
