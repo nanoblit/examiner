@@ -29,7 +29,7 @@ const StyledQuestion = styled.div<Props>`
   }
 
   > textarea {
-    resize: vertical;
+    resize: none;
   }
 
   .questionIcons {

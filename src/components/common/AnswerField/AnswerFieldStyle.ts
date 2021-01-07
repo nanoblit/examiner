@@ -35,7 +35,7 @@ const StyledAnswer = styled.div<Props>`
   }
 
   > textarea {
-    resize: vertical;
+    resize: none;
   }
 
   .answerIcons {
