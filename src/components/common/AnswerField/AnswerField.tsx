@@ -42,6 +42,7 @@ const AnswerField: React.FC<Props> = ({
       ) : (
         <textarea
           ref={textAreaRef}
+          rows={1}
           value={text}
           onChange={onChangeText}
         ></textarea>
