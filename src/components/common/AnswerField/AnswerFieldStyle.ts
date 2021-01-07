@@ -43,7 +43,7 @@ const StyledAnswer = styled.div<Props>`
     width: ${({ textareaReadOnly }) => (textareaReadOnly ? "4rem" : "8rem")};
     right: 0;
     top: 0;
-    height: 100%;
+    height: calc(100% - 6px);
     display: flex;
     justify-content: space-evenly;
     align-items: center;
