@@ -17,12 +17,6 @@ export enum RevisionType {
   IncorrectAndUnansweredQuestions,
 }
 
-/*
-- When you open the revision sub-page it asks if you want to continue or start a new session.
-- If you choose to start a new session, it takes all the unanswered questions and puts them in questionIndexes
-- Otherwise it acts normally.
-*/
-
 const Revision: React.FC = () => {
   const [revisionType, setRevisionType] = useState(RevisionType.None);
   const [score, setScore] = useState(0);
@@ -116,6 +110,11 @@ const Revision: React.FC = () => {
 
   const countScore = () => `${Math.round(score * 100) / 100}/${maxScore}`;
 
+  const countPercentScore = () =>
+    maxScore !== 0
+      ? `${Math.round((score / maxScore) * 100 * 100) / 100}%`
+      : "0%";
+
   // give correct questions based on revisionType
   useEffect(() => {
     if (questionIds.length === 0) {
@@ -166,7 +165,7 @@ const Revision: React.FC = () => {
           tryAgain={tryAgain}
           questions={questions}
           score={countScore()}
-          percentScore={`${Math.round((score / maxScore) * 100 * 100) / 100}%`}
+          percentScore={countPercentScore()}
         />
       );
     } else if (!answered) {
@@ -176,6 +175,7 @@ const Revision: React.FC = () => {
             question={currentQuestion}
             selectedAnswers={selectedAnswers}
             score={countScore()}
+            percentScore={countPercentScore()}
             submitAnswer={submitAnswer}
             setSelectedAnswers={setSelectedAnswers}
           />
@@ -188,6 +188,7 @@ const Revision: React.FC = () => {
             question={currentQuestion}
             selectedAnswers={selectedAnswers}
             score={countScore()}
+            percentScore={countPercentScore()}
             buttons={
               <>
                 {questionIds.length > 1 && (

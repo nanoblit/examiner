@@ -5,17 +5,19 @@ import AnswerField from "../common/AnswerField/AnswerField";
 import StyledDiv from "./AnswerSubpageStyle";
 import QuestionField from "../common/QuestionField/QuestionField";
 
-type props = {
+type Props = {
   question: Question;
   selectedAnswers: number[];
   score: string;
+  percentScore: string;
   buttons: React.ReactNode;
 };
 
-const AnswerSubpage: React.FC<props> = ({
+const AnswerSubpage: React.FC<Props> = ({
   question,
   selectedAnswers,
   score,
+  percentScore,
   buttons,
 }) => {
   const isAnswerCorrect = (idx: number) => {
@@ -45,7 +47,7 @@ const AnswerSubpage: React.FC<props> = ({
         You've answered this question {question.correctlyAnsweredCount ?? 0}/
         {question.totalAnsweredCount ?? 0} times correctly
       </p>
-      <p>Your score: {score}</p>
+      <p>Your score: {score} ({percentScore})</p>
       <div className="buttons">{buttons}</div>
     </StyledDiv>
   );
