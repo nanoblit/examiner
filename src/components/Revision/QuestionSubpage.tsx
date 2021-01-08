@@ -6,18 +6,20 @@ import Button from "../common/Button/Button";
 import QuestionField from "../common/QuestionField/QuestionField";
 import AnswerField from "../common/AnswerField/AnswerField";
 
-type props = {
+type Props = {
   question: Question;
   selectedAnswers: number[];
   score: string;
+  percentScore: string;
   submitAnswer: () => void;
   setSelectedAnswers: React.Dispatch<React.SetStateAction<number[]>>;
 };
 
-const QuestionSubpage: React.FC<props> = ({
+const QuestionSubpage: React.FC<Props> = ({
   question,
   selectedAnswers,
   score,
+  percentScore,
   submitAnswer,
   setSelectedAnswers,
 }) => {
@@ -48,7 +50,7 @@ const QuestionSubpage: React.FC<props> = ({
         You've answered this question {question.correctlyAnsweredCount ?? 0}/
         {question.totalAnsweredCount ?? 0} times correctly
       </p>
-      <p>Your score: {score}</p>
+      <p>Your score: {score} ({percentScore})</p>
       <Button onClick={submitAnswer}>Answer</Button>
     </StyledDiv>
   );

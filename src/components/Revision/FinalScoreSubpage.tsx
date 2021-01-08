@@ -4,14 +4,14 @@ import { QuestionsState } from "../../actions/types";
 import StyledDiv from "./FinalScoreSubpageStyle";
 import Button from "../common/Button/Button";
 
-type props = {
+type Props = {
   tryAgain: () => void;
   questions: QuestionsState;
   score: string;
   percentScore: string;
 };
 
-const FinalScoreSubpage: React.FC<props> = ({
+const FinalScoreSubpage: React.FC<Props> = ({
   tryAgain,
   questions,
   score,
@@ -26,7 +26,7 @@ const FinalScoreSubpage: React.FC<props> = ({
       ) : (
         <>
           <p className="finalScore">{percentScore}</p>
-          <p className="answeredQuestions">Answered questions: {score}</p>
+          <p className="answeredQuestions">Score: {score}</p>
         </>
       )}
       {questions.length > 0 && <Button onClick={tryAgain}>Try Again</Button>}
