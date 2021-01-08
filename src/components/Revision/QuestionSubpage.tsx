@@ -1,10 +1,10 @@
 import { Question } from "../../models/Question";
 
 import React from "react";
-import AnswerField from "../common/AnswerField/AnswerField";
 import StyledDiv from "./QuestionSubpageStyle";
 import Button from "../common/Button/Button";
 import QuestionField from "../common/QuestionField/QuestionField";
+import AnswerField from "../common/AnswerField/AnswerField";
 
 type props = {
   question: Question;
@@ -40,6 +40,7 @@ const QuestionSubpage: React.FC<props> = ({
         text={answer}
         isChecked={isChecked(idx)}
         onChangeCheckbox={() => switchSelectedAnswer(idx)}
+        fullBodyCheckbox
         textareaReadOnly
       />
       ))}

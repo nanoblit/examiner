@@ -11,7 +11,12 @@ type Props = {
   defaultChecked?: boolean;
   isChecked: boolean;
   isHighlighted?: boolean;
-  onChangeCheckbox?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  fullBodyCheckbox?: boolean;
+  onChangeCheckbox?: (
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => void;
 };
 
 const AnswerField: React.FC<Props> = ({
@@ -22,6 +27,7 @@ const AnswerField: React.FC<Props> = ({
   defaultChecked = false,
   isChecked,
   isHighlighted = false,
+  fullBodyCheckbox = false,
   onChangeCheckbox,
 }) => {
   const textAreaRef = createRef<HTMLTextAreaElement>();
@@ -34,6 +40,8 @@ const AnswerField: React.FC<Props> = ({
       textareaReadOnly={textareaReadOnly}
       checkboxReadOnly={checkboxReadOnly}
       isHighlighted={isHighlighted}
+      fullBodyCheckbox={fullBodyCheckbox}
+      onClick={fullBodyCheckbox ? onChangeCheckbox : undefined}
     >
       {textareaReadOnly ? (
         <div className="answerText">

@@ -26,10 +26,7 @@ const StyledQuestion = styled.div<Props>`
     padding: 1rem
       ${({ textareaReadOnly }) => (textareaReadOnly ? "1rem" : "4rem")} 1rem
       1.5rem;
-  }
-
-  > textarea {
-    resize: none;
+    display: block;
   }
 
   .questionIcons {
@@ -37,7 +34,7 @@ const StyledQuestion = styled.div<Props>`
     width: ${({ textareaReadOnly }) => (textareaReadOnly ? "0" : "4rem")};
     right: 0;
     top: 0;
-    height: calc(100% - 6px);
+    height: 100%;
     display: flex;
     justify-content: space-evenly;
     align-items: center;

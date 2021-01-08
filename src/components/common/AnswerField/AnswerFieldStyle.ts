@@ -13,11 +13,13 @@ type Props = {
   textareaReadOnly: boolean;
   checkboxReadOnly: boolean;
   isHighlighted: boolean;
+  fullBodyCheckbox: boolean;
 };
 
 const StyledAnswer = styled.div<Props>`
   width: 100%;
   position: relative;
+  ${({ fullBodyCheckbox }) => (fullBodyCheckbox ? "cursor: pointer;" : "")}
 
   > .answerText,
   > textarea {
@@ -32,10 +34,7 @@ const StyledAnswer = styled.div<Props>`
     padding: 1rem
       ${({ textareaReadOnly }) => (textareaReadOnly ? "4rem" : "8rem")} 1rem
       1.5rem;
-  }
-
-  > textarea {
-    resize: none;
+    display: block;
   }
 
   .answerIcons {
@@ -43,7 +42,7 @@ const StyledAnswer = styled.div<Props>`
     width: ${({ textareaReadOnly }) => (textareaReadOnly ? "4rem" : "8rem")};
     right: 0;
     top: 0;
-    height: calc(100% - 6px);
+    height: 100%;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
