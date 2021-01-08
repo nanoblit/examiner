@@ -23,7 +23,7 @@ const setupAutoResize = (textAreaRef: RefObject<HTMLTextAreaElement>) => {
 
   textArea.focus();
   textArea.select();
-  resize();
+  delayedResize();
 };
 
 export default setupAutoResize;

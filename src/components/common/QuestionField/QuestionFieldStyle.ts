@@ -27,6 +27,7 @@ const StyledQuestion = styled.div<Props>`
       ${({ textareaReadOnly }) => (textareaReadOnly ? "1rem" : "4rem")} 1rem
       1.5rem;
     display: block;
+    resize: none;
   }
 
   .questionIcons {

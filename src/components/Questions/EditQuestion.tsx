@@ -176,13 +176,18 @@ const EditQuestion: React.FC = () => {
   };
 
   useEffect(() => {
-    questionId && setQuestionData();
-  }, []);
+    if (questionId) {
+      setQuestionData();
+    }
+  }, [questionFromStore]);
 
   return (
     <StyledDiv>
       <p>Question:</p>
-      <QuestionField text={questionText} onChange={updateQuestion}></QuestionField>
+      <QuestionField
+        text={questionText}
+        onChange={updateQuestion}
+      ></QuestionField>
       <p>Answers:</p>
       <div className="answers">
         {answers.map((answer, idx) => (
@@ -210,8 +215,7 @@ const EditQuestion: React.FC = () => {
           height="5rem"
           backgroundIconSize="3rem"
           onClick={removeLastAnswer}
-        >
-        </Button>
+        ></Button>
       </div>
       <div className="questionButtons">
         {questionId ? (
