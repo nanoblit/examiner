@@ -35,6 +35,7 @@ const StyledAnswer = styled.div<Props>`
       ${({ textareaReadOnly }) => (textareaReadOnly ? "4rem" : "8rem")} 1rem
       1.5rem;
     display: block;
+    resize: none;
   }
 
   .answerIcons {
