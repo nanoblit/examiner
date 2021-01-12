@@ -58,7 +58,7 @@ const Revision: React.FC = () => {
 
   const finishAnswering = () => {
     setSelectedAnswers(() => []);
-    // Because current index is taken from question indexes.
+    // Because current id is taken from question ids.
     setQuestionIds(() => []);
   };
 
