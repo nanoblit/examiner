@@ -189,14 +189,9 @@ const Revision: React.FC = () => {
             selectedAnswers={selectedAnswers}
             score={countScore()}
             percentScore={countPercentScore()}
-            buttons={
-              <>
-                {questionIds.length > 1 && (
-                  <Button onClick={nextQuestion}>Next Question</Button>
-                )}
-                <Button onClick={finishAnswering}>Finish</Button>
-              </>
-            }
+            questionIds={questionIds}
+            nextQuestion={nextQuestion}
+            finishAnswering={finishAnswering}
           />
         )
       );
