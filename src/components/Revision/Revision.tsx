@@ -31,7 +31,7 @@ const Revision: React.FC = () => {
   const questions = useTypedSelector(({ questions }) => questions);
   const currentQuestion = useMemo(
     () => questions.find(({ id }) => currentId === id),
-    [currentId]
+    [currentId, questions]
   );
   const dispatch = useDispatch();
 
