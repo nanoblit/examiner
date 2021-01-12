@@ -13,7 +13,7 @@ const RevisionTypeSelectionSubpage: React.FC<props> = ({ setRevisionType }) => {
   // Add a generic search bar for questions to pick which questions to include (how?)
   return (
     <StyledDiv>
-      <p>What do you want to do?</p>
+      <p>What would you like to do?</p>
       <Button onClick={() => setRevisionType(() => RevisionType.NewSession)}>
         Start a new session
       </Button>
