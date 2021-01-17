@@ -19,7 +19,7 @@ const QuestionField: React.FC<Props> = ({
   useEffect(() => {
     setupAutoResize(textAreaRef);
     textAreaRef.current?.blur();
-  }, [textAreaRef]);
+  }, []);
 
   return (
     <StyledQuestion className="question" textareaReadOnly={readonly}>

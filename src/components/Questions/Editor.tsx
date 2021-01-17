@@ -92,7 +92,7 @@ const Editor: React.FC = () => {
             </Link>
           ))}
           <p>
-            {(page - 1) * pageLength + 1} -{" "}
+            {questionsAfterSearch.length > 0 ? (page - 1) * pageLength + 1 : 0} -{" "}
             {(page - 1) * pageLength + pageLength <=
             questionsAfterSearch.length - 1
               ? (page - 1) * pageLength + pageLength + 1
