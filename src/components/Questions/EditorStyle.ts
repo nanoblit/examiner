@@ -11,12 +11,15 @@ import {
 const StyledEditor = styled.main`
   ${contentDisplay};
 
+  > p {
+    margin: 3rem 0 0 0;
+  }
+
   > * {
     margin-top: 3rem;
   }
 
   > .questionLink {
-    margin-top: 3rem;
     width: 100%;
     text-decoration: none;
   }

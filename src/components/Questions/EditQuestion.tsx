@@ -163,6 +163,7 @@ const EditQuestion: React.FC = () => {
     if (!questionId) {
       return;
     }
+    toast.success("Question deleted");
     dispatch(deleteQuestionAction(questionId));
     setRedirect(() => true);
   };
