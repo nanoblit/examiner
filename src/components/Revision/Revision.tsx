@@ -115,6 +115,14 @@ const Revision: React.FC = () => {
       ? `${Math.round((score / maxScore) * 100 * 100) / 100}%`
       : "0%";
 
+  const getUnansweredQuestions = () =>
+    questions.filter(
+      ({ lastAnsweredCorrectly }) => lastAnsweredCorrectly === undefined
+    );
+
+  const getIncorrectAndUnansweredQuestions = () =>
+    questions.filter(({ lastAnsweredCorrectly }) => !lastAnsweredCorrectly);
+
   // give correct questions based on revisionType
   useEffect(() => {
     if (questionIds.length === 0) {
@@ -131,23 +139,12 @@ const Revision: React.FC = () => {
           break;
         case RevisionType.ContinueLastSession:
           setQuestionIds(() =>
-            shuffle(
-              questions
-                .filter(
-                  ({ lastAnsweredCorrectly }) =>
-                    lastAnsweredCorrectly === undefined
-                )
-                .map(({ id }) => id)
-            )
+            shuffle(getUnansweredQuestions().map(({ id }) => id))
           );
           break;
         case RevisionType.IncorrectAndUnansweredQuestions:
           setQuestionIds(() =>
-            shuffle(
-              questions
-                .filter(({ lastAnsweredCorrectly }) => !lastAnsweredCorrectly)
-                .map(({ id }) => id)
-            )
+            shuffle(getIncorrectAndUnansweredQuestions().map(({ id }) => id))
           );
           break;
         default:
@@ -158,7 +155,18 @@ const Revision: React.FC = () => {
 
   const render = () => {
     if (revisionType === RevisionType.None) {
-      return <RevisionTypeSelectionSubpage setRevisionType={setRevisionType} />;
+      return (
+        <RevisionTypeSelectionSubpage
+          setRevisionType={setRevisionType}
+          allQuestions={questions.length}
+          unansweredQuestions={
+            getUnansweredQuestions().length
+          }
+          incorrectAndUnansweredQuestions={
+            getIncorrectAndUnansweredQuestions().length
+          }
+        />
+      );
     } else if (currentId === "") {
       return (
         <FinalScoreSubpage

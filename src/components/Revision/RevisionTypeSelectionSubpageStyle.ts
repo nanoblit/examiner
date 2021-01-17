@@ -7,6 +7,16 @@ const StyledRevisionTypeSelectionSubpage = styled.main`
   > * {
     margin-top: 2rem;
   }
+
+  .continueGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    p {
+      margin: 1rem 0 0 0;
+    }
+  }
 `;
 
 export default StyledRevisionTypeSelectionSubpage;
