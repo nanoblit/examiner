@@ -35,7 +35,7 @@ const AnswerField: React.FC<Props> = ({
   useEffect(() => {
     setupAutoResize(textAreaRef);
     textAreaRef.current?.blur();
-  }, [textAreaRef]);
+  }, []);
 
   return (
     <StyledAnswer
