@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 
 import Editor from "./Editor";
 import { useTypedSelector } from "../../reducers";
-import { QuestionsState, isQuestionsState } from "../../actions/types";
-import { setQuestionsAction } from "../../actions";
 import Button from "../common/Button/Button";
 import StyledQuestions from "./QuestionsStyle";
 import Dropzone from "../common/Dropzone/Dropzone";

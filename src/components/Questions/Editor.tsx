@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import { useRouteMatch, Switch, Route } from "react-router";
 import { Link } from "react-router-dom";
 import ReactPaginate from "react-paginate";
@@ -16,16 +16,19 @@ const Editor: React.FC = () => {
   const pageLength = 10;
   let pageCount = useRef(1);
   const questions = useTypedSelector(({ questions }) => questions);
+  const questionsAfterSearch = useMemo(
+    () =>
+      questions
+        .filter(
+          ({ question }) =>
+            question.toLowerCase().indexOf(search.toLowerCase()) >= 0
+        )
+        .sort((a, b) =>
+          a.question.toLowerCase() < b.question.toLowerCase() ? -1 : 1
+        ),
+    [questions, search]
+  );
   const questionsToDisplay = useMemo(() => {
-    const questionsAfterSearch = questions
-      .filter(
-        ({ question }) =>
-          question.toLowerCase().indexOf(search.toLowerCase()) >= 0
-      )
-      .sort((a, b) =>
-        a.question.toLowerCase() < b.question.toLowerCase() ? -1 : 1
-      );
-
     pageCount.current = Math.ceil(questionsAfterSearch.length / pageLength);
 
     const firstElementIdx = (page - 1) * pageLength;
@@ -36,7 +39,7 @@ const Editor: React.FC = () => {
         : questionsAfterSearch.length;
 
     return questionsAfterSearch.slice(firstElementIdx, lastElementIdx);
-  }, [questions, search, page]);
+  }, [questionsAfterSearch, page]);
   const match = useRouteMatch();
 
   const updateSearch = (text: string) => {
@@ -46,6 +49,13 @@ const Editor: React.FC = () => {
   const handlePageChange = ({ selected }: { selected: number }) => {
     setPage(() => selected + 1);
   };
+
+  useEffect(() => {
+    const lastPage = Math.ceil(questionsAfterSearch.length / pageLength);
+    if (page > lastPage && lastPage > 0) {
+      setPage(() => lastPage || 1);
+    }
+  }, [questionsAfterSearch, page]);
 
   return (
     <Switch>
@@ -72,15 +82,29 @@ const Editor: React.FC = () => {
             </Button>
           </Link>
           {questionsToDisplay.map(({ question, id }) => (
-            <Link className="questionLink" key={id} to={`${match.url}/${id}`} tabIndex={-1}>
+            <Link
+              className="questionLink"
+              key={id}
+              to={`${match.url}/${id}`}
+              tabIndex={-1}
+            >
               <QuestionListElement>{question}</QuestionListElement>
             </Link>
           ))}
+          <p>
+            {(page - 1) * pageLength + 1} -{" "}
+            {(page - 1) * pageLength + pageLength <=
+            questionsAfterSearch.length - 1
+              ? (page - 1) * pageLength + pageLength + 1
+              : questionsAfterSearch.length}{" "}
+            / {questionsAfterSearch.length} questions
+          </p>
           <ReactPaginate
             pageCount={pageCount.current}
             pageRangeDisplayed={pageLength}
             marginPagesDisplayed={2}
             onPageChange={handlePageChange}
+            forcePage={page - 1}
             containerClassName="paginationContainer"
             pageLinkClassName="paginationLink"
             previousClassName="paginationMove"

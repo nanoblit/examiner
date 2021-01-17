@@ -12,6 +12,7 @@ export const highlightColor = "#9EF0B0";
 export const shadow = "0px 4px 4px rgba(0, 0, 0, 0.25)";
 
 export const borderRadius = "3px";
+export const navHeight = "4rem";
 
 export const contentDisplay = `
 display: flex;
@@ -20,5 +21,5 @@ align-items: center;
 width: 100%;
 max-width: 600px;
 margin: auto;
-padding: 0 20px;
+padding: ${navHeight} 20px ${navHeight} 20px;
 `;
