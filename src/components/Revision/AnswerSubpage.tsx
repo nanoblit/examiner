@@ -2,7 +2,7 @@ import { Question } from "../../models/Question";
 
 import React from "react";
 import AnswerField from "../common/AnswerField/AnswerField";
-import StyledDiv from "./AnswerSubpageStyle";
+import StyledAnswerSubpage from "./AnswerSubpageStyle";
 import QuestionField from "../common/QuestionField/QuestionField";
 import Button from "../common/Button/Button";
 
@@ -35,7 +35,7 @@ const AnswerSubpage: React.FC<Props> = ({
   };
 
   return (
-    <StyledDiv>
+    <StyledAnswerSubpage>
       <QuestionField text={question.question} readonly />
       {question.answers.map((answer, idx) => (
         <AnswerField
@@ -61,7 +61,7 @@ const AnswerSubpage: React.FC<Props> = ({
         )}
         <Button onClick={finishAnswering}>Finish</Button>
       </div>
-    </StyledDiv>
+    </StyledAnswerSubpage>
   );
 };
 

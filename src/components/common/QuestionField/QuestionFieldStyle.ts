@@ -16,7 +16,6 @@ const StyledQuestion = styled.div<Props>`
 
   > .questionText,
   > textarea {
-    outline: none;
     border: none;
     border-radius: ${borderRadius};
     font-size: 1.4rem;

@@ -10,7 +10,7 @@ import {
 } from "../../actions";
 import { useTypedSelector } from "../../reducers";
 import AnswerField from "../common/AnswerField/AnswerField";
-import StyledDiv from "./EditQuestionStyle";
+import StyledEditQuestion from "./EditQuestionStyle";
 import Button from "../common/Button/Button";
 import QuestionField from "../common/QuestionField/QuestionField";
 import { toast } from "react-toastify";
@@ -186,7 +186,7 @@ const EditQuestion: React.FC = () => {
   }, [questionFromStore]);
 
   return (
-    <StyledDiv>
+    <StyledEditQuestion>
       <p>Question:</p>
       <QuestionField
         text={questionText}
@@ -212,6 +212,7 @@ const EditQuestion: React.FC = () => {
           height="5rem"
           backgroundIconSize="3rem"
           onClick={() => addNewAnswer()}
+          ariaLabel="Add Answer"
         ></Button>
         <Button
           backgroundIcon="remove"
@@ -219,6 +220,7 @@ const EditQuestion: React.FC = () => {
           height="5rem"
           backgroundIconSize="3rem"
           onClick={removeLastAnswer}
+          ariaLabel="Remove Last Answer"
         ></Button>
       </div>
       <div className="questionButtons">
@@ -232,7 +234,7 @@ const EditQuestion: React.FC = () => {
         )}
       </div>
       {redirect && <Redirect to="/questions/editor" />}
-    </StyledDiv>
+    </StyledEditQuestion>
   );
 };
 

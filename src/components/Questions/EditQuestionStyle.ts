@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { contentDisplay } from "../../styles/values";
 
-const StyledDiv = styled.div`
+const StyledEditQuestion = styled.main`
   ${contentDisplay};
 
   .answers {
@@ -35,4 +35,4 @@ const StyledDiv = styled.div`
   }
 `;
 
-export default StyledDiv;
+export default StyledEditQuestion;

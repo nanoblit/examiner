@@ -10,10 +10,10 @@ const Navbar: React.FC = () => {
   return (
     <StyledNavbar>
       <i className="material-icons">done</i>
-      <NavLink to="/questions">
+      <NavLink to="/questions" tabIndex={-1}>
         <Button>Questions</Button>
       </NavLink>
-      <NavLink to="/revision">
+      <NavLink to="/revision" tabIndex={-1}>
         <Button
           onClick={() => {
             history.push("/revision");

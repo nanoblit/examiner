@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { contentDisplay } from "./styles/values";
 
-const StyledContent = styled.div`
+const StyledContent = styled.main`
   ${contentDisplay}
-  max-width: 600px;
-  margin: auto;
-  padding: 0 20px;
+  
+  * {
+    margin: 2rem 0;
+  }
 `;
 
 export default StyledContent;

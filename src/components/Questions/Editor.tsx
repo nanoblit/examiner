@@ -5,7 +5,7 @@ import ReactPaginate from "react-paginate";
 
 import { useTypedSelector } from "../../reducers";
 import QuestionListElement from "../common/QuestionListElement/QuestionListElement";
-import StyledDiv from "./EditorStyle";
+import StyledEditor from "./EditorStyle";
 import Button from "../common/Button/Button";
 import SearchBar from "../common/SearchBar/SearchBar";
 import EditQuestion from "./EditQuestion";
@@ -56,12 +56,12 @@ const Editor: React.FC = () => {
         <EditQuestion />
       </Route>
       <Route path={match.path}>
-        <StyledDiv>
+        <StyledEditor>
           <SearchBar
             value={search}
             onChange={(e) => updateSearch(e.target.value)}
           />
-          <Link to={`${match.url}/addQuestion`}>
+          <Link to={`${match.url}/addQuestion`} tabIndex={-1}>
             <Button
               backgroundIcon="add"
               width="17.5rem"
@@ -72,7 +72,7 @@ const Editor: React.FC = () => {
             </Button>
           </Link>
           {questionsToDisplay.map(({ question, id }) => (
-            <Link className="questionLink" key={id} to={`${match.url}/${id}`}>
+            <Link className="questionLink" key={id} to={`${match.url}/${id}`} tabIndex={-1}>
               <QuestionListElement>{question}</QuestionListElement>
             </Link>
           ))}
@@ -90,7 +90,7 @@ const Editor: React.FC = () => {
             }
             nextLabel={<i className="material-icons">keyboard_arrow_right</i>}
           />
-        </StyledDiv>
+        </StyledEditor>
       </Route>
     </Switch>
   );

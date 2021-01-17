@@ -7,7 +7,7 @@ import { useTypedSelector } from "../../reducers";
 import { QuestionsState, isQuestionsState } from "../../actions/types";
 import { setQuestionsAction } from "../../actions";
 import Button from "../common/Button/Button";
-import StyledDiv from "./QuestionsStyle";
+import StyledQuestions from "./QuestionsStyle";
 import Dropzone from "../common/Dropzone/Dropzone";
 
 
@@ -21,8 +21,8 @@ const Questions: React.FC = () => {
         <Editor />
       </Route>
       <Route path={match.path}>
-        <StyledDiv>
-          <Link to={`${match.url}/editor`}>
+        <StyledQuestions>
+          <Link to={`${match.url}/editor`} tabIndex={-1}>
             <Button
               backgroundIcon="create"
               width="23rem"
@@ -49,7 +49,7 @@ const Questions: React.FC = () => {
               Download Questions
             </Button>
           </a>
-        </StyledDiv>
+        </StyledQuestions>
       </Route>
     </Switch>
   );
