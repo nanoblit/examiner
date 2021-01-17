@@ -2,15 +2,18 @@ import { Question } from "../../models/Question";
 
 import React from "react";
 import AnswerField from "../common/AnswerField/AnswerField";
-import StyledDiv from "./AnswerSubpageStyle";
+import StyledAnswerSubpage from "./AnswerSubpageStyle";
 import QuestionField from "../common/QuestionField/QuestionField";
+import Button from "../common/Button/Button";
 
 type Props = {
   question: Question;
   selectedAnswers: number[];
   score: string;
   percentScore: string;
-  buttons: React.ReactNode;
+  questionIds: string[];
+  nextQuestion: () => void;
+  finishAnswering: () => void;
 };
 
 const AnswerSubpage: React.FC<Props> = ({
@@ -18,7 +21,9 @@ const AnswerSubpage: React.FC<Props> = ({
   selectedAnswers,
   score,
   percentScore,
-  buttons,
+  questionIds,
+  nextQuestion,
+  finishAnswering,
 }) => {
   const isAnswerCorrect = (idx: number) => {
     const correctAnswerIndex = question.correctAnswers.indexOf(idx);
@@ -30,7 +35,7 @@ const AnswerSubpage: React.FC<Props> = ({
   };
 
   return (
-    <StyledDiv>
+    <StyledAnswerSubpage>
       <QuestionField text={question.question} readonly />
       {question.answers.map((answer, idx) => (
         <AnswerField
@@ -47,9 +52,16 @@ const AnswerSubpage: React.FC<Props> = ({
         You've answered this question {question.correctlyAnsweredCount ?? 0}/
         {question.totalAnsweredCount ?? 0} times correctly
       </p>
-      <p>Your score: {score} ({percentScore})</p>
-      <div className="buttons">{buttons}</div>
-    </StyledDiv>
+      <p>
+        Your score: {score} ({percentScore})
+      </p>
+      <div className="buttons">
+        {questionIds.length > 1 && (
+          <Button onClick={nextQuestion}>Next Question</Button>
+        )}
+        <Button onClick={finishAnswering}>Finish</Button>
+      </div>
+    </StyledAnswerSubpage>
   );
 };
 

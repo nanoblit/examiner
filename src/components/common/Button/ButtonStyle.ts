@@ -17,7 +17,6 @@ const StyledButton = styled.button<Props>`
   border-radius: ${borderRadius};
   position: relative;
   cursor: pointer;
-  outline: none;
   ${({ width }) => (width ? `width: ${width};` : "")}
   ${({ height }) => (height ? `height: ${height};` : "")}
 

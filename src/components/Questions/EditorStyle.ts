@@ -8,7 +8,7 @@ import {
   logoColor,
 } from "../../styles/values";
 
-const StyledDiv = styled.div`
+const StyledEditor = styled.main`
   ${contentDisplay};
 
   > * {
@@ -70,4 +70,4 @@ const StyledDiv = styled.div`
   }
 `;
 
-export default StyledDiv;
+export default StyledEditor;

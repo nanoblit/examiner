@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Route, Switch } from "react-router";
 import { useDispatch } from "react-redux";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css'
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 import Navbar from "./components/Navbar/Navbar";
 import Revision from "./components/Revision/Revision";
@@ -35,28 +35,26 @@ const App: React.FC = () => {
   return (
     <>
       <GlobalStyle />
-      <div className="App">
+      <>
         <Navbar />
-        <StyledContent>
-          <Switch>
-            <Route path="/questions">
-              <Questions />
-            </Route>
-            {/* So it can use the questions in store */}
-            <Route path="/revision">
-              {questionsLoaded && <Revision />}
-            </Route>
-            <Route path="/">
-              <p>Welcome to Examify!</p>
+        <Switch>
+          <Route path="/questions">
+            <Questions />
+          </Route>
+          {/* So it can use the questions in store */}
+          <Route path="/revision">{questionsLoaded && <Revision />}</Route>
+          <Route path="/">
+            <StyledContent>
+              <h1>Welcome to Examify!</h1>
               <p>
                 Try adding questions in the Questions subpage and then answer
                 them them in Revision!
               </p>
-            </Route>
-          </Switch>
-          <ToastContainer />
-        </StyledContent>
-      </div>
+            </StyledContent>
+          </Route>
+        </Switch>
+        <ToastContainer />
+      </>
     </>
   );
 };

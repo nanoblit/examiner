@@ -23,7 +23,6 @@ const StyledAnswer = styled.div<Props>`
 
   > .answerText,
   > textarea {
-    outline: none;
     border: none;
     border-radius: ${borderRadius};
     font-size: 1.4rem;
@@ -35,6 +34,7 @@ const StyledAnswer = styled.div<Props>`
       ${({ textareaReadOnly }) => (textareaReadOnly ? "4rem" : "8rem")} 1rem
       1.5rem;
     display: block;
+    resize: none;
   }
 
   .answerIcons {
@@ -67,22 +67,27 @@ const StyledAnswer = styled.div<Props>`
         width: 2.4rem;
         height: 2.4rem;
         margin: 0;
+
+        &:focus + i {
+          outline: auto;
+          outline-color: black;
+        }
       }
+    }
+    .iconChecked,
+    .iconUnchecked {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      right: 0;
+      top: 0;
 
-      i {
-        position: absolute;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        right: 0;
-        top: 0;
-
-        &.iconChecked {
-          color: ${greenColor};
-        }
-        &.iconUnchecked {
-          color: ${redColor};
-        }
+      &.iconChecked {
+        color: ${greenColor};
+      }
+      &.iconUnchecked {
+        color: ${redColor};
       }
     }
   }

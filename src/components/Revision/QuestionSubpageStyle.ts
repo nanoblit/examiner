@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { contentDisplay } from "../../styles/values";
 
-const StyledDiv = styled.div`
+const StyledQuestionSubpage = styled.main`
   ${contentDisplay};
 
   .question {
@@ -13,4 +13,4 @@ const StyledDiv = styled.div`
   }
 `;
 
-export default StyledDiv;
+export default StyledQuestionSubpage;

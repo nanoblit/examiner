@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { Redirect, useParams } from "react-router";
 import { v4 as uuidv4 } from "uuid";
@@ -10,7 +10,7 @@ import {
 } from "../../actions";
 import { useTypedSelector } from "../../reducers";
 import AnswerField from "../common/AnswerField/AnswerField";
-import StyledDiv from "./EditQuestionStyle";
+import StyledEditQuestion from "./EditQuestionStyle";
 import Button from "../common/Button/Button";
 import QuestionField from "../common/QuestionField/QuestionField";
 import { toast } from "react-toastify";
@@ -21,9 +21,13 @@ const EditQuestion: React.FC = () => {
   const [answers, setAnswers] = useState<string[]>([]);
   const [correctAnswers, setCorrectAnswers] = useState<number[]>([]);
   const [redirect, setRedirect] = useState(false);
-  const questionFromStore = useTypedSelector(({ questions }) =>
-    questions.find(({ id }) => id === questionId)
+  const questions = useTypedSelector(({ questions }) => questions);
+
+  const questionFromStore = useMemo(
+    () => questions.find(({ id }) => id === questionId),
+    [questionId, questions]
   );
+
   const dispatch = useDispatch();
 
   const updateQuestion = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -182,7 +186,7 @@ const EditQuestion: React.FC = () => {
   }, [questionFromStore]);
 
   return (
-    <StyledDiv>
+    <StyledEditQuestion>
       <p>Question:</p>
       <QuestionField
         text={questionText}
@@ -208,6 +212,7 @@ const EditQuestion: React.FC = () => {
           height="5rem"
           backgroundIconSize="3rem"
           onClick={() => addNewAnswer()}
+          ariaLabel="Add Answer"
         ></Button>
         <Button
           backgroundIcon="remove"
@@ -215,6 +220,7 @@ const EditQuestion: React.FC = () => {
           height="5rem"
           backgroundIconSize="3rem"
           onClick={removeLastAnswer}
+          ariaLabel="Remove Last Answer"
         ></Button>
       </div>
       <div className="questionButtons">
@@ -228,7 +234,7 @@ const EditQuestion: React.FC = () => {
         )}
       </div>
       {redirect && <Redirect to="/questions/editor" />}
-    </StyledDiv>
+    </StyledEditQuestion>
   );
 };
 

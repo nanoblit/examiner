@@ -9,6 +9,7 @@ type Props = {
   fontSize?: string;
   backgroundIcon?: string;
   backgroundIconSize?: string;
+  ariaLabel?: string;
 };
 
 const Button: React.FC<Props> = ({
@@ -19,6 +20,7 @@ const Button: React.FC<Props> = ({
   fontSize,
   backgroundIconSize,
   backgroundIcon,
+  ariaLabel,
 }) => {
   return (
     <StyledButton
@@ -27,6 +29,7 @@ const Button: React.FC<Props> = ({
       fontSize={fontSize}
       backgroundIconSize={backgroundIconSize}
       onClick={onClick}
+      aria-label={ariaLabel}
     >
       {backgroundIcon && (
         <div className="buttonIcon">

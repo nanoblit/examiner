@@ -18,4 +18,7 @@ display: flex;
 flex-direction: column;
 align-items: center;
 width: 100%;
+max-width: 600px;
+margin: auto;
+padding: 0 20px;
 `;

@@ -31,7 +31,7 @@ const Revision: React.FC = () => {
   const questions = useTypedSelector(({ questions }) => questions);
   const currentQuestion = useMemo(
     () => questions.find(({ id }) => currentId === id),
-    [currentId]
+    [currentId, questions]
   );
   const dispatch = useDispatch();
 
@@ -58,7 +58,7 @@ const Revision: React.FC = () => {
 
   const finishAnswering = () => {
     setSelectedAnswers(() => []);
-    // Because current index is taken from question indexes.
+    // Because current id is taken from question ids.
     setQuestionIds(() => []);
   };
 
@@ -189,14 +189,9 @@ const Revision: React.FC = () => {
             selectedAnswers={selectedAnswers}
             score={countScore()}
             percentScore={countPercentScore()}
-            buttons={
-              <>
-                {questionIds.length > 1 && (
-                  <Button onClick={nextQuestion}>Next Question</Button>
-                )}
-                <Button onClick={finishAnswering}>Finish</Button>
-              </>
-            }
+            questionIds={questionIds}
+            nextQuestion={nextQuestion}
+            finishAnswering={finishAnswering}
           />
         )
       );

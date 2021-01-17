@@ -63,6 +63,7 @@ const AnswerField: React.FC<Props> = ({
             onChange={onChangeCheckbox}
             defaultChecked={defaultChecked}
             readOnly={checkboxReadOnly}
+            disabled={checkboxReadOnly}
           ></input>
           {isChecked ? (
             <i className="material-icons iconChecked">done</i>

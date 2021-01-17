@@ -4,7 +4,6 @@ import { borderRadius, buttonColor, darkButtonColor } from "../../../styles/valu
 
 
 const StyledQuestion = styled.button`
-  outline: none;
   display: block;
   border: none;
   background: ${buttonColor};
@@ -19,11 +18,6 @@ const StyledQuestion = styled.button`
   &:hover {
     background: ${darkButtonColor};
   }
-
-  span {
-    
-  }
-
 `;
 
 export default StyledQuestion;
