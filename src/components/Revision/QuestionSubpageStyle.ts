@@ -11,6 +11,10 @@ const StyledQuestionSubpage = styled.main`
   .answer {
     margin-bottom: 1rem;
   }
+
+  p {
+    margin: 1rem 0;
+  }
 `;
 
 export default StyledQuestionSubpage;

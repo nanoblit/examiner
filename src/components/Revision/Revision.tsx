@@ -180,6 +180,7 @@ const Revision: React.FC = () => {
             percentScore={countPercentScore()}
             submitAnswer={submitAnswer}
             setSelectedAnswers={setSelectedAnswers}
+            questionsToAnswer={questionIds.length}
           />
         )
       );
@@ -194,6 +195,7 @@ const Revision: React.FC = () => {
             questionIds={questionIds}
             nextQuestion={nextQuestion}
             finishAnswering={finishAnswering}
+            questionsToAnswer={questionIds.length - 1}
           />
         )
       );
