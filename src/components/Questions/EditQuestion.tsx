@@ -20,6 +20,7 @@ const EditQuestion: React.FC = () => {
   const [questionText, setQuestionText] = useState("");
   const [answers, setAnswers] = useState<string[]>([]);
   const [correctAnswers, setCorrectAnswers] = useState<number[]>([]);
+  const [explanation, setExplanation] = useState("");
   const [redirect, setRedirect] = useState(false);
   const questions = useTypedSelector(({ questions }) => questions);
 
@@ -33,6 +34,11 @@ const EditQuestion: React.FC = () => {
   const updateQuestion = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = e.target;
     setQuestionText(() => value);
+  };
+
+  const updateExplanation = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = e.target;
+    setExplanation(() => value);
   };
 
   const updateAnswer = (answerText: string, answerIdx: number) => {
@@ -64,15 +70,35 @@ const EditQuestion: React.FC = () => {
       return String.fromCharCode(letter.charCodeAt(0) + 1);
     };
 
+    const getQuestionNumber = (question: string) => {
+      return question.slice(question.indexOf(".") + 1, question.indexOf(" "));
+    };
+
+    const generateLongNumberString = (num: string) => {
+      let newNum = `${num}`;
+      while (newNum.length < 3) {
+        newNum = `0${newNum}`;
+      }
+      return newNum;
+    };
+
     if (questionText.indexOf("Answer:") < 0) {
       return;
     }
 
     let currentQuestionBeginning = "A.";
 
-    const newQuestionText = questionText.slice(
+    let newQuestionText = questionText.slice(
       0,
       questionText.indexOf(currentQuestionBeginning)
+    );
+
+    let questionNumber = getQuestionNumber(newQuestionText);
+    let longerQuestionNumber = generateLongNumberString(questionNumber);
+
+    newQuestionText = newQuestionText.replace(
+      questionNumber,
+      longerQuestionNumber
     );
 
     let questionReminder = questionText;
@@ -96,9 +122,14 @@ const EditQuestion: React.FC = () => {
       questionReminder[questionReminder.indexOf("Answer: ") + 8].charCodeAt(0) -
       65;
 
+    const newExplanation = questionReminder.slice(
+      questionReminder.indexOf("Explanation") + 12
+    );
+
     setQuestionText(() => newQuestionText);
     setAnswers(() => newAnswers);
     setCorrectAnswers(() => [newCorrectAnswer]);
+    setExplanation(() => newExplanation);
   };
 
   const isQuestionValid = () => {
@@ -139,6 +170,7 @@ const EditQuestion: React.FC = () => {
         question: questionText.trim(),
         answers: Object.entries(answers).map(([_, answer]) => answer.trim()),
         correctAnswers,
+        explanation: explanation.length > 0 ? explanation : undefined,
       })
     );
     setRedirect(() => true);
@@ -178,6 +210,7 @@ const EditQuestion: React.FC = () => {
         switchAnswer(idx);
       }
     });
+    setExplanation(() => (q.explanation ? q.explanation : ""));
   };
 
   useEffect(() => {
@@ -224,6 +257,11 @@ const EditQuestion: React.FC = () => {
           ariaLabel="Remove Last Answer"
         ></Button>
       </div>
+      <p>Explanation (optional):</p>
+      <QuestionField
+        text={explanation}
+        onChange={updateExplanation}
+      ></QuestionField>
       <div className="questionButtons">
         {questionId ? (
           <>

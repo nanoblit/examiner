@@ -37,17 +37,22 @@ const AnswerSubpage: React.FC<Props> = ({
   return (
     <StyledAnswerSubpage>
       <QuestionField text={question.question} readonly />
-      {question.answers.map((answer, idx) => (
-        <AnswerField
-          key={idx}
-          text={answer}
-          defaultChecked={isChecked(idx)}
-          isHighlighted={isAnswerCorrect(idx)}
-          isChecked={isChecked(idx)}
-          textareaReadOnly
-          checkboxReadOnly
-        />
-      ))}
+      <div>
+        {question.answers.map((answer, idx) => (
+          <AnswerField
+            key={idx}
+            text={answer}
+            defaultChecked={isChecked(idx)}
+            isHighlighted={isAnswerCorrect(idx)}
+            isChecked={isChecked(idx)}
+            textareaReadOnly
+            checkboxReadOnly
+          />
+        ))}
+      </div>
+      {!question.explanation || (
+        <QuestionField text={question.explanation} readonly />
+      )}
       <p>
         You've answered this question {question.correctlyAnsweredCount ?? 0}/
         {question.totalAnsweredCount ?? 0} times correctly

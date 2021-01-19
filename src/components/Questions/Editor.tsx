@@ -50,11 +50,15 @@ const Editor: React.FC = () => {
     setPage(() => selected + 1);
   };
 
-  useEffect(() => {
+  const setCorrectPage = () => {
     const lastPage = Math.ceil(questionsAfterSearch.length / pageLength);
     if (page > lastPage && lastPage > 0) {
       setPage(() => lastPage || 1);
     }
+  };
+
+  useEffect(() => {
+    setCorrectPage();
   }, [questionsAfterSearch, page]);
 
   return (
@@ -92,7 +96,8 @@ const Editor: React.FC = () => {
             </Link>
           ))}
           <p>
-            {questionsAfterSearch.length > 0 ? (page - 1) * pageLength + 1 : 0} -{" "}
+            {questionsAfterSearch.length > 0 ? (page - 1) * pageLength + 1 : 0}{" "}
+            -{" "}
             {(page - 1) * pageLength + pageLength <=
             questionsAfterSearch.length - 1
               ? (page - 1) * pageLength + pageLength + 1

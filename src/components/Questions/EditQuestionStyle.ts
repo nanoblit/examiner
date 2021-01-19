@@ -16,14 +16,13 @@ const StyledEditQuestion = styled.main`
     width: 100%;
     display: flex;
     justify-content: space-around;
-    margin-bottom: 2rem;
   }
 
   .questionButtons {
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-bottom: 2rem;
+    margin: 2rem 0;
 
     button {
       margin-right: 3rem;

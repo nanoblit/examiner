@@ -37,6 +37,11 @@ const AnswerField: React.FC<Props> = ({
     textAreaRef.current?.blur();
   }, []);
 
+  useEffect(() => {
+    let change = new Event("change");
+    textAreaRef.current?.dispatchEvent(change);
+  }, [text]);
+
   return (
     <StyledAnswer
       className="answer"
