@@ -53,7 +53,7 @@ const AnswerSubpage: React.FC<Props> = ({
       {!question.explanation || (
         <QuestionField text={question.explanation} readonly />
       )}
-      <p>{questionsToAnswer} questions left</p>
+      <p>{questionsToAnswer} {questionsToAnswer === 1 ? "question" : "questions"} left</p>
       <p>
         You've answered this question {question.correctlyAnsweredCount ?? 0}/
         {question.totalAnsweredCount ?? 0} times correctly
