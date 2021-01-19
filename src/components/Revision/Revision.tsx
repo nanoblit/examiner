@@ -88,9 +88,7 @@ const Revision: React.FC = () => {
       editQuestionAction({
         ...currentQuestion,
         lastAnsweredCorrectly:
-          correctAnswers === currentQuestion.correctAnswers.length
-            ? true
-            : false,
+          correctAnswers === currentQuestion.correctAnswers.length,
         totalAnsweredCount: questionTotalAnsweredCount + 1,
         correctlyAnsweredCount:
           questionCorrectlyAnsweredCount +
