@@ -65,13 +65,11 @@ const Revision: React.FC = () => {
   const countCorrectAnswers = () => {
     let correctAnswers = 0;
     selectedAnswers.forEach((answer) => {
-      if (
-        currentQuestion?.correctAnswers.some(
-          (correctAnswer) => correctAnswer === answer
-        )
-      ) {
-        correctAnswers++;
-      }
+      currentQuestion?.correctAnswers.some(
+        (correctAnswer) => correctAnswer === answer
+      )
+        ? correctAnswers++
+        : correctAnswers--;
     });
 
     return correctAnswers;
@@ -100,9 +98,9 @@ const Revision: React.FC = () => {
       })
     );
     setScore((prev) => {
-      const newPrev = (prev +=
-        correctAnswers / currentQuestion.correctAnswers.length);
-      return isNaN(newPrev) ? 0 : newPrev;
+      const newScore = (prev +=
+        correctAnswers === currentQuestion.correctAnswers.length ? 1 : 0);
+      return isNaN(newScore) ? 0 : newScore;
     });
     setMaxScore((prev) => (prev += 1));
     setAnswered(() => true);
@@ -159,9 +157,7 @@ const Revision: React.FC = () => {
         <RevisionTypeSelectionSubpage
           setRevisionType={setRevisionType}
           allQuestions={questions.length}
-          unansweredQuestions={
-            getUnansweredQuestions().length
-          }
+          unansweredQuestions={getUnansweredQuestions().length}
           incorrectAndUnansweredQuestions={
             getIncorrectAndUnansweredQuestions().length
           }
