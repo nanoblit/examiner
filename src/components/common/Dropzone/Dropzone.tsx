@@ -43,6 +43,7 @@ const Dropzone: React.FC = () => {
         toast.error("Couldn't get string from file");
         return;
       }
+      toast.success("Questions successfully loaded!");
       const questionsState = questionsStateFromString(e.target.result);
       questionsState && dispatch(setQuestionsAction(questionsState));
     };

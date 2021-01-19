@@ -8,6 +8,7 @@ export interface Question {
   correctlyAnsweredCount?: number;
   totalAnsweredCount?: number;
   lastAnsweredCorrectly?: boolean;
+  explanation?: string;
 }
 
 export const isQuestion = (value: Object): value is Question => {

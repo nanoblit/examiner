@@ -21,6 +21,11 @@ const QuestionField: React.FC<Props> = ({
     textAreaRef.current?.blur();
   }, []);
 
+  useEffect(() => {
+    let change = new Event("change");
+    textAreaRef.current?.dispatchEvent(change);
+  }, [text]);
+
   return (
     <StyledQuestion className="question" textareaReadOnly={readonly}>
       {readonly ? (
