@@ -8,16 +8,12 @@ const StyledAnswerSubpage = styled.main`
     margin: 2rem 0 2rem 0;
   }
 
-  > div {
-    width: 100%;
-  }
-
   .answer {
     margin-bottom: 1rem;
+  }
 
-    &:last-child {
-      margin-bottom: 0;
-    }
+  p {
+    margin: 1rem 0;
   }
 
   .buttons {

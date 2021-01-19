@@ -11,6 +11,7 @@ type Props = {
   selectedAnswers: number[];
   score: string;
   percentScore: string;
+  questionsToAnswer: number;
   submitAnswer: () => void;
   setSelectedAnswers: React.Dispatch<React.SetStateAction<number[]>>;
 };
@@ -20,6 +21,7 @@ const QuestionSubpage: React.FC<Props> = ({
   selectedAnswers,
   score,
   percentScore,
+  questionsToAnswer,
   submitAnswer,
   setSelectedAnswers,
 }) => {
@@ -36,21 +38,24 @@ const QuestionSubpage: React.FC<Props> = ({
   return (
     <StyledQuestionSubpage>
       <QuestionField text={question.question} readonly />
-      {question.answers.map((answer, idx) => (
-        <AnswerField
-        key={idx}
-        text={answer}
-        isChecked={isChecked(idx)}
-        onChangeCheckbox={() => switchSelectedAnswer(idx)}
-        fullBodyCheckbox
-        textareaReadOnly
-      />
-      ))}
+        {question.answers.map((answer, idx) => (
+          <AnswerField
+            key={idx}
+            text={answer}
+            isChecked={isChecked(idx)}
+            onChangeCheckbox={() => switchSelectedAnswer(idx)}
+            fullBodyCheckbox
+            textareaReadOnly
+          />
+        ))}
+      <p>{questionsToAnswer} questions left</p>
       <p>
         You've answered this question {question.correctlyAnsweredCount ?? 0}/
         {question.totalAnsweredCount ?? 0} times correctly
       </p>
-      <p>Your score: {score} ({percentScore})</p>
+      <p>
+        Your score: {score} ({percentScore})
+      </p>
       <Button onClick={submitAnswer}>Answer</Button>
     </StyledQuestionSubpage>
   );

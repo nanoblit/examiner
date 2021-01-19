@@ -88,9 +88,7 @@ const Revision: React.FC = () => {
       editQuestionAction({
         ...currentQuestion,
         lastAnsweredCorrectly:
-          correctAnswers === currentQuestion.correctAnswers.length
-            ? true
-            : false,
+          correctAnswers === currentQuestion.correctAnswers.length,
         totalAnsweredCount: questionTotalAnsweredCount + 1,
         correctlyAnsweredCount:
           questionCorrectlyAnsweredCount +
@@ -182,6 +180,7 @@ const Revision: React.FC = () => {
             percentScore={countPercentScore()}
             submitAnswer={submitAnswer}
             setSelectedAnswers={setSelectedAnswers}
+            questionsToAnswer={questionIds.length}
           />
         )
       );
@@ -196,6 +195,7 @@ const Revision: React.FC = () => {
             questionIds={questionIds}
             nextQuestion={nextQuestion}
             finishAnswering={finishAnswering}
+            questionsToAnswer={questionIds.length - 1}
           />
         )
       );

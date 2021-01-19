@@ -12,6 +12,7 @@ type Props = {
   score: string;
   percentScore: string;
   questionIds: string[];
+  questionsToAnswer: number;
   nextQuestion: () => void;
   finishAnswering: () => void;
 };
@@ -22,6 +23,7 @@ const AnswerSubpage: React.FC<Props> = ({
   score,
   percentScore,
   questionIds,
+  questionsToAnswer,
   nextQuestion,
   finishAnswering,
 }) => {
@@ -37,22 +39,21 @@ const AnswerSubpage: React.FC<Props> = ({
   return (
     <StyledAnswerSubpage>
       <QuestionField text={question.question} readonly />
-      <div>
-        {question.answers.map((answer, idx) => (
-          <AnswerField
-            key={idx}
-            text={answer}
-            defaultChecked={isChecked(idx)}
-            isHighlighted={isAnswerCorrect(idx)}
-            isChecked={isChecked(idx)}
-            textareaReadOnly
-            checkboxReadOnly
-          />
-        ))}
-      </div>
+      {question.answers.map((answer, idx) => (
+        <AnswerField
+          key={idx}
+          text={answer}
+          defaultChecked={isChecked(idx)}
+          isHighlighted={isAnswerCorrect(idx)}
+          isChecked={isChecked(idx)}
+          textareaReadOnly
+          checkboxReadOnly
+        />
+      ))}
       {!question.explanation || (
         <QuestionField text={question.explanation} readonly />
       )}
+      <p>{questionsToAnswer} questions left</p>
       <p>
         You've answered this question {question.correctlyAnsweredCount ?? 0}/
         {question.totalAnsweredCount ?? 0} times correctly
