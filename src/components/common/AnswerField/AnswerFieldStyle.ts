@@ -21,6 +21,10 @@ const StyledAnswer = styled.div<Props>`
   position: relative;
   ${({ fullBodyCheckbox }) => (fullBodyCheckbox ? "cursor: pointer;" : "")}
 
+  .answerText p {
+    margin: 0;
+  }
+
   > .answerText,
   > textarea {
     border: none;

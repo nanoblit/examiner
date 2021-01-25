@@ -18,6 +18,10 @@ const StyledQuestion = styled.button`
   &:hover {
     background: ${darkButtonColor};
   }
+
+  p {
+    margin: 0;
+  }
 `;
 
 export default StyledQuestion;

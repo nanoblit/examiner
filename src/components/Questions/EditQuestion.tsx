@@ -158,12 +158,7 @@ const EditQuestion: React.FC = () => {
     return true;
   };
 
-  const addQuestionAndRedirect = () => {
-    resolveSecret();
-    if (!isQuestionValid()) {
-      return;
-    }
-
+  const addQuestion = () => {
     dispatch(
       addQuestionAction({
         id: uuidv4(),
@@ -173,6 +168,14 @@ const EditQuestion: React.FC = () => {
         explanation: explanation.length > 0 ? explanation : undefined,
       })
     );
+  };
+
+  const addQuestionAndRedirect = () => {
+    resolveSecret();
+    if (!isQuestionValid()) {
+      return;
+    }
+    addQuestion();
     setRedirect(() => true);
   };
 
@@ -180,14 +183,7 @@ const EditQuestion: React.FC = () => {
     if (!questionId) {
       return;
     }
-    dispatch(
-      editQuestionAction({
-        id: questionId,
-        question: questionText,
-        answers: Object.entries(answers).map(([_, answer]) => answer),
-        correctAnswers,
-      })
-    );
+    addQuestion();
     setRedirect(() => true);
   };
 
