@@ -92,7 +92,7 @@ const Editor: React.FC = () => {
               to={`${match.url}/${id}`}
               tabIndex={-1}
             >
-              <QuestionListElement>{question}</QuestionListElement>
+              <QuestionListElement text={question}></QuestionListElement>
             </Link>
           ))}
           <p>

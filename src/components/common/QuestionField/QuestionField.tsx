@@ -1,4 +1,4 @@
-import React, { createRef, useEffect } from "react";
+import React, { createRef, useEffect, useMemo } from "react";
 
 import StyledQuestion from "./QuestionFieldStyle";
 import setupAutoResize from "../../../utils/setupAutoResize";
@@ -15,6 +15,10 @@ const QuestionField: React.FC<Props> = ({
   readonly = false,
 }) => {
   const textAreaRef = createRef<HTMLTextAreaElement>();
+  const textWithLinebreaks = useMemo(
+    () => text?.split("\n").map((str) => <p>{str}</p>),
+    [text]
+  );
 
   useEffect(() => {
     setupAutoResize(textAreaRef);
@@ -29,9 +33,7 @@ const QuestionField: React.FC<Props> = ({
   return (
     <StyledQuestion className="question" textareaReadOnly={readonly}>
       {readonly ? (
-        <div className="questionText">
-          <span>{text}</span>
-        </div>
+        <div className="questionText">{textWithLinebreaks}</div>
       ) : (
         <textarea
           ref={textAreaRef}

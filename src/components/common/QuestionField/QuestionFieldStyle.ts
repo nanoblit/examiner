@@ -14,6 +14,10 @@ const StyledQuestion = styled.div<Props>`
   width: 100%;
   position: relative;
 
+  .answerText p {
+    margin: 0;
+  }
+
   > .questionText,
   > textarea {
     border: none;

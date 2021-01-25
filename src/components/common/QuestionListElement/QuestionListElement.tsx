@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useMemo, useEffect } from "react";
 import StyledQuestion from "./QuestionListElementStyle";
 
-type Props = {};
+type Props = { text: string };
 
-const QuestionListElement: React.FC = ({ children }) => {
+const QuestionListElement: React.FC<Props> = ({ text }) => {
+  const textWithLinebreaks = useMemo(
+    () => text?.split("\n").map((str) => <p>{str}</p>),
+    [text]
+  );
+
+  useEffect(() => console.log(textWithLinebreaks), [textWithLinebreaks]);
+
   return (
     <StyledQuestion>
-      <span>{children}</span>
+      {textWithLinebreaks}
     </StyledQuestion>
   );
 };

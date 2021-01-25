@@ -1,4 +1,4 @@
-import React, { createRef, useEffect } from "react";
+import React, { createRef, useEffect, useMemo } from "react";
 
 import StyledAnswer from "./AnswerFieldStyle";
 import setupAutoResize from "../../../utils/setupAutoResize";
@@ -31,6 +31,10 @@ const AnswerField: React.FC<Props> = ({
   onChangeCheckbox,
 }) => {
   const textAreaRef = createRef<HTMLTextAreaElement>();
+  const textWithLinebreaks = useMemo(
+    () => text?.split("\n").map((str) => <p>{str}</p>),
+    [text]
+  );
 
   useEffect(() => {
     setupAutoResize(textAreaRef);
@@ -52,9 +56,7 @@ const AnswerField: React.FC<Props> = ({
       onClick={fullBodyCheckbox ? onChangeCheckbox : undefined}
     >
       {textareaReadOnly ? (
-        <div className="answerText">
-          <span>{text}</span>
-        </div>
+        <div className="answerText">{textWithLinebreaks}</div>
       ) : (
         <textarea
           ref={textAreaRef}
