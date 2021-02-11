@@ -122,9 +122,10 @@ const EditQuestion: React.FC = () => {
       questionReminder[questionReminder.indexOf("Answer: ") + 8].charCodeAt(0) -
       65;
 
-    const newExplanation = questionReminder.slice(
-      questionReminder.indexOf("Explanation") + 12
-    );
+    const newExplanation =
+      questionReminder.indexOf("Explanation") > -1
+        ? questionReminder.slice(questionReminder.indexOf("Explanation") + 12)
+        : "";
 
     setQuestionText(() => newQuestionText);
     setAnswers(() => newAnswers);
