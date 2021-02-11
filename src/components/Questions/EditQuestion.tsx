@@ -171,6 +171,21 @@ const EditQuestion: React.FC = () => {
     );
   };
 
+  const editQuestion = () => {
+    if (!questionId) {
+      return;
+    }
+    dispatch(
+      editQuestionAction({
+        id: questionId,
+        question: questionText.trim(),
+        answers: Object.entries(answers).map(([_, answer]) => answer.trim()),
+        correctAnswers,
+        explanation: explanation.length > 0 ? explanation : undefined,
+      })
+    );
+  };
+
   const addQuestionAndRedirect = () => {
     resolveSecret();
     if (!isQuestionValid()) {
@@ -181,10 +196,10 @@ const EditQuestion: React.FC = () => {
   };
 
   const editQuestionAndRedirect = () => {
-    if (!questionId) {
+    if (!questionId || !isQuestionValid()) {
       return;
     }
-    addQuestion();
+    editQuestion();
     setRedirect(() => true);
   };
 
