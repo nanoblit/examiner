@@ -118,9 +118,14 @@ const EditQuestion: React.FC = () => {
       );
     } while (questionReminder.indexOf(currentQuestionBeginning) > -1);
 
-    const newCorrectAnswer =
-      questionReminder[questionReminder.indexOf("Answer: ") + 8].charCodeAt(0) -
-      65;
+    const newCorrectAnswers = questionReminder
+      .slice(
+        questionReminder.indexOf("Answer: ") + 8,
+        questionReminder.indexOf("Explanation")
+      )
+      .trim()
+      .split(" ")
+      .map((answer) => answer.charCodeAt(0) - 65);
 
     const newExplanation =
       questionReminder.indexOf("Explanation") > -1
@@ -129,7 +134,7 @@ const EditQuestion: React.FC = () => {
 
     setQuestionText(() => newQuestionText);
     setAnswers(() => newAnswers);
-    setCorrectAnswers(() => [newCorrectAnswer]);
+    setCorrectAnswers(() => newCorrectAnswers);
     setExplanation(() => newExplanation);
   };
 
