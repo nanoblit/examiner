@@ -121,7 +121,9 @@ const EditQuestion: React.FC = () => {
     const newCorrectAnswers = questionReminder
       .slice(
         questionReminder.indexOf("Answer: ") + 8,
-        questionReminder.indexOf("Explanation")
+        questionReminder.indexOf("Explanation") !== -1
+          ? questionReminder.indexOf("Explanation")
+          : undefined
       )
       .trim()
       .split(" ")
