@@ -38,6 +38,7 @@ const QuestionSubpage: React.FC<Props> = ({
   return (
     <StyledQuestionSubpage>
       <QuestionField text={question.question} readonly />
+        <p>Pick the correct answers:</p> 
         {question.answers.map((answer, idx) => (
           <AnswerField
             key={idx}

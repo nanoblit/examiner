@@ -2,12 +2,7 @@ import React, { createRef, useEffect, useMemo } from "react";
 
 import StyledAnswer from "./AnswerFieldStyle";
 import setupAutoResize from "../../../utils/setupAutoResize";
-/*
-tick and highlighted -> green outline
-tick and not highlighted -> red outline
-x and highlighted -> red outline
-x and not hightlighted -> green outline
-*/
+
 type Props = {
   text?: string;
   onChangeText?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
@@ -24,7 +19,7 @@ type Props = {
   ) => void;
 };
 
-const AnswerField: React.FC<Props> = ({
+const AnswerFieldSelectable: React.FC<Props> = ({
   text,
   onChangeText,
   textareaReadOnly = false,
@@ -91,4 +86,4 @@ const AnswerField: React.FC<Props> = ({
   );
 };
 
-export default AnswerField;
+export default AnswerFieldSelectable;

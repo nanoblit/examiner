@@ -43,7 +43,7 @@ const RevisionTypeSelectionSubpage: React.FC<props> = ({
             setRevisionType(() => RevisionType.IncorrectAndUnansweredQuestions)
           }
         >
-          Continue the last session with incorrectly answered questions
+          Continue with incorrectly answered and unanswered questions
         </Button>
         <p>Questions to answer: {incorrectAndUnansweredQuestions}</p>
       </div>

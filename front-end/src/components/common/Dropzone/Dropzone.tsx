@@ -61,7 +61,7 @@ const Dropzone: React.FC = () => {
       {isDragActive ? (
         <span>Drop the questions file here...</span>
       ) : (
-        <span>Drag and drop here or click to upload the questions file</span>
+        <span>Upload Questions File</span>
       )}
     </StyledDropzone>
   );

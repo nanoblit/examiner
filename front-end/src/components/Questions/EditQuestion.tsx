@@ -14,6 +14,7 @@ import StyledEditQuestion from "./EditQuestionStyle";
 import Button from "../common/Button/Button";
 import QuestionField from "../common/QuestionField/QuestionField";
 import { toast } from "react-toastify";
+import AnswerFieldEditable from "../common/AnswerField/AnswerFiledEditable";
 
 const EditQuestion: React.FC = () => {
   const { questionId }: { questionId: string | undefined } = useParams();
@@ -248,7 +249,7 @@ const EditQuestion: React.FC = () => {
       <p>Answers:</p>
       <div className="answers">
         {answers.map((answer, idx) => (
-          <AnswerField
+          <AnswerFieldEditable
             key={idx}
             text={answer}
             onChangeText={(e) => updateAnswer(e.target.value, idx)}
@@ -276,7 +277,7 @@ const EditQuestion: React.FC = () => {
           ariaLabel="Remove Last Answer"
         ></Button>
       </div>
-      <p>Explanation (optional):</p>
+      <p>Explanation (optional, seen after answering the question):</p>
       <QuestionField
         text={explanation}
         onChange={updateExplanation}

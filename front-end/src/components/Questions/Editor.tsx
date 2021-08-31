@@ -85,6 +85,7 @@ const Editor: React.FC = () => {
               Add New Question
             </Button>
           </Link>
+          {questionsToDisplay.length > 0 && <p>Click a question to edit it</p>}
           {questionsToDisplay.map(({ question, id }) => (
             <Link
               className="questionLink"
@@ -95,30 +96,38 @@ const Editor: React.FC = () => {
               <QuestionListElement text={question}></QuestionListElement>
             </Link>
           ))}
-          <p>
-            {questionsAfterSearch.length > 0 ? (page - 1) * pageLength + 1 : 0}{" "}
-            -{" "}
-            {(page - 1) * pageLength + pageLength <=
-            questionsAfterSearch.length - 1
-              ? (page - 1) * pageLength + pageLength + 1
-              : questionsAfterSearch.length}{" "}
-            / {questionsAfterSearch.length} questions
-          </p>
-          <ReactPaginate
-            pageCount={pageCount.current}
-            pageRangeDisplayed={pageLength}
-            marginPagesDisplayed={2}
-            onPageChange={handlePageChange}
-            forcePage={page - 1}
-            containerClassName="paginationContainer"
-            pageLinkClassName="paginationLink"
-            previousClassName="paginationMove"
-            nextClassName="paginationMove"
-            previousLabel={
-              <i className="material-icons">keyboard_arrow_left</i>
-            }
-            nextLabel={<i className="material-icons">keyboard_arrow_right</i>}
-          />
+          {questionsToDisplay.length > 0 && (
+            <>
+              <p>
+                {questionsAfterSearch.length > 0
+                  ? (page - 1) * pageLength + 1
+                  : 0}{" "}
+                -{" "}
+                {(page - 1) * pageLength + pageLength <=
+                questionsAfterSearch.length - 1
+                  ? (page - 1) * pageLength + pageLength + 1
+                  : questionsAfterSearch.length}{" "}
+                / {questionsAfterSearch.length} questions
+              </p>
+              <ReactPaginate
+                pageCount={pageCount.current}
+                pageRangeDisplayed={pageLength}
+                marginPagesDisplayed={2}
+                onPageChange={handlePageChange}
+                forcePage={page - 1}
+                containerClassName="paginationContainer"
+                pageLinkClassName="paginationLink"
+                previousClassName="paginationMove"
+                nextClassName="paginationMove"
+                previousLabel={
+                  <i className="material-icons">keyboard_arrow_left</i>
+                }
+                nextLabel={
+                  <i className="material-icons">keyboard_arrow_right</i>
+                }
+              />{" "}
+            </>
+          )}
         </StyledEditor>
       </Route>
     </Switch>

@@ -28,10 +28,10 @@ const Questions: React.FC = () => {
               fontSize="1.9rem"
               backgroundIconSize="10rem"
             >
-              Edit Questions
+              Add/Edit Questions
             </Button>
           </Link>
-          <Dropzone />
+          <p>To make sure you don't lose the questions, you can download and upload them back later</p>
           <a
             href={`data:text/plain;charset=utf-8,${encodeURIComponent(
               JSON.stringify(questions)
@@ -44,9 +44,10 @@ const Questions: React.FC = () => {
               height="9.6rem"
               backgroundIconSize="7rem"
             >
-              Download Questions
+              Download Questions File
             </Button>
           </a>
+          <Dropzone />
         </StyledQuestions>
       </Route>
     </Switch>
