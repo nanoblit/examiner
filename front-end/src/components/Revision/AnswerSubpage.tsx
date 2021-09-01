@@ -1,7 +1,7 @@
 import { Question } from "../../models/Question";
 
 import React from "react";
-import AnswerField from "../common/AnswerField/AnswerField";
+import AnswerField, { AnswerFieldType } from "../common/AnswerField/AnswerField";
 import StyledAnswerSubpage from "./AnswerSubpageStyle";
 import QuestionField from "../common/QuestionField/QuestionField";
 import Button from "../common/Button/Button";
@@ -43,12 +43,11 @@ const AnswerSubpage: React.FC<Props> = ({
       {question.answers.map((answer, idx) => (
         <AnswerField
           key={idx}
+          type={AnswerFieldType.Answer}
           text={answer}
           defaultChecked={isChecked(idx)}
           isHighlighted={isAnswerCorrect(idx)}
           isChecked={isChecked(idx)}
-          textareaReadOnly
-          checkboxReadOnly
         />
       ))}
       {!question.explanation || (

@@ -8,25 +8,26 @@ import {
   redColor,
   highlightColor,
 } from "../../../styles/values";
+import { AnswerFieldType } from "./AnswerField";
+
+export const AnswerText = styled.div``;
 
 type Props = {
-  textareaReadOnly: boolean;
-  checkboxReadOnly: boolean;
+  type: AnswerFieldType;
   isHighlighted: boolean;
-  fullBodyCheckbox: boolean;
 };
 
 const StyledAnswer = styled.div<Props>`
   width: 100%;
   position: relative;
-  ${({ fullBodyCheckbox }) => (fullBodyCheckbox ? "cursor: pointer;" : "")}
+  ${({ type }) =>
+    type === AnswerFieldType.Selectable ? "cursor: pointer;" : ""}
 
-  .answerText p {
+  ${AnswerText} p {
     margin: 0;
   }
 
-  > .answerText,
-  > textarea {
+  ${AnswerText} {
     border: none;
     border-radius: ${borderRadius};
     font-size: 1.4rem;
@@ -35,15 +36,16 @@ const StyledAnswer = styled.div<Props>`
     box-shadow: ${shadow};
     width: 100%;
     padding: 1rem
-      ${({ textareaReadOnly }) => (textareaReadOnly ? "4rem" : "8rem")} 1rem
-      1.5rem;
+      ${({ type }) => (type === AnswerFieldType.Editable ? "8rem" : "4rem")}
+      1rem 1.5rem;
     display: block;
     resize: none;
   }
 
   .answerIcons {
     pointer-events: none;
-    width: ${({ textareaReadOnly }) => (textareaReadOnly ? "4rem" : "8rem")};
+    width: ${({ type }) =>
+      type === AnswerFieldType.Editable ? "8rem" : "4rem"};
     right: 0;
     top: 0;
     height: 100%;
@@ -64,8 +66,8 @@ const StyledAnswer = styled.div<Props>`
       align-items: center;
 
       input {
-        cursor: ${({ checkboxReadOnly }) =>
-          checkboxReadOnly ? "default" : "pointer"};
+        cursor: ${({ type }) =>
+          type === AnswerFieldType.Selectable ? "pointer" : "default"};
         opacity: 0;
         pointer-events: auto;
         width: 2.4rem;

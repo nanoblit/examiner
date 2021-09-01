@@ -9,15 +9,17 @@ import {
   deleteQuestionAction,
 } from "../../actions";
 import { useTypedSelector } from "../../reducers";
-import AnswerField from "../common/AnswerField/AnswerField";
+import AnswerField, {
+  AnswerFieldType,
+} from "../common/AnswerField/AnswerField";
 import StyledEditQuestion from "./EditQuestionStyle";
 import Button from "../common/Button/Button";
 import QuestionField from "../common/QuestionField/QuestionField";
 import { toast } from "react-toastify";
-import AnswerFieldEditable from "../common/AnswerField/AnswerFiledEditable";
 
 const EditQuestion: React.FC = () => {
   const { questionId }: { questionId: string | undefined } = useParams();
+  const editingExistingQuestion = useMemo(() => !!questionId, [questionId]);
   const [questionText, setQuestionText] = useState("");
   const [answers, setAnswers] = useState<string[]>([]);
   const [correctAnswers, setCorrectAnswers] = useState<number[]>([]);
@@ -32,15 +34,21 @@ const EditQuestion: React.FC = () => {
 
   const dispatch = useDispatch();
 
+  /////////////////// Question Field ///////////////////
+
   const updateQuestion = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = e.target;
     setQuestionText(() => value);
   };
 
+  /////////////////// Explanation Field ///////////////////
+
   const updateExplanation = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = e.target;
     setExplanation(() => value);
   };
+
+  /////////////////// Answer Fields ///////////////////
 
   const updateAnswer = (answerText: string, answerIdx: number) => {
     setAnswers((prev) => {
@@ -66,80 +74,7 @@ const EditQuestion: React.FC = () => {
     setAnswers((prev) => prev.filter((_, idx) => idx !== prev.length - 1));
   };
 
-  const resolveSecret = () => {
-    const nextLetter = (letter: string) => {
-      return String.fromCharCode(letter.charCodeAt(0) + 1);
-    };
-
-    const getQuestionNumber = (question: string) => {
-      return question.slice(question.indexOf(".") + 1, question.indexOf(" "));
-    };
-
-    const generateLongNumberString = (num: string) => {
-      let newNum = `${num}`;
-      while (newNum.length < 3) {
-        newNum = `0${newNum}`;
-      }
-      return newNum;
-    };
-
-    if (questionText.indexOf("Answer:") < 0) {
-      return;
-    }
-
-    let currentQuestionBeginning = "A.";
-
-    let newQuestionText = questionText.slice(
-      0,
-      questionText.indexOf(currentQuestionBeginning)
-    );
-
-    let questionNumber = getQuestionNumber(newQuestionText);
-    let longerQuestionNumber = generateLongNumberString(questionNumber);
-
-    newQuestionText = newQuestionText.replace(
-      questionNumber,
-      longerQuestionNumber
-    );
-
-    let questionReminder = questionText;
-
-    const newAnswers: string[] = [];
-    do {
-      questionReminder = questionReminder.slice(
-        questionReminder.indexOf(currentQuestionBeginning)
-      );
-      currentQuestionBeginning = `${nextLetter(currentQuestionBeginning)}.`;
-      const nextEndIndex = questionReminder.indexOf(currentQuestionBeginning);
-      newAnswers.push(
-        questionReminder.slice(
-          0,
-          nextEndIndex > -1 ? nextEndIndex : questionReminder.indexOf("Answer:")
-        )
-      );
-    } while (questionReminder.indexOf(currentQuestionBeginning) > -1);
-
-    const newCorrectAnswers = questionReminder
-      .slice(
-        questionReminder.indexOf("Answer: ") + 8,
-        questionReminder.indexOf("Explanation") !== -1
-          ? questionReminder.indexOf("Explanation")
-          : undefined
-      )
-      .trim()
-      .split(" ")
-      .map((answer) => answer.charCodeAt(0) - 65);
-
-    const newExplanation =
-      questionReminder.indexOf("Explanation") > -1
-        ? questionReminder.slice(questionReminder.indexOf("Explanation") + 12)
-        : "";
-
-    setQuestionText(() => newQuestionText);
-    setAnswers(() => newAnswers);
-    setCorrectAnswers(() => newCorrectAnswers);
-    setExplanation(() => newExplanation);
-  };
+  /////////////////// Question Content ///////////////////
 
   const isQuestionValid = () => {
     if (questionText.trim().localeCompare("") === 0) {
@@ -195,7 +130,6 @@ const EditQuestion: React.FC = () => {
   };
 
   const addQuestionAndRedirect = () => {
-    resolveSecret();
     if (!isQuestionValid()) {
       return;
     }
@@ -204,7 +138,7 @@ const EditQuestion: React.FC = () => {
   };
 
   const editQuestionAndRedirect = () => {
-    if (!questionId || !isQuestionValid()) {
+    if (!editingExistingQuestion || !isQuestionValid()) {
       return;
     }
     editQuestion();
@@ -233,10 +167,12 @@ const EditQuestion: React.FC = () => {
     setExplanation(() => (q.explanation ? q.explanation : ""));
   };
 
+  // Insert question data into the fields
   useEffect(() => {
-    if (questionId) {
+    if (editingExistingQuestion) {
       setQuestionData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questionFromStore]);
 
   return (
@@ -246,11 +182,12 @@ const EditQuestion: React.FC = () => {
         text={questionText}
         onChange={updateQuestion}
       ></QuestionField>
-      <p>Answers:</p>
+      <p>Answers (click the "x" symbol to select which answers are correct):</p>
       <div className="answers">
         {answers.map((answer, idx) => (
-          <AnswerFieldEditable
+          <AnswerField
             key={idx}
+            type={AnswerFieldType.Editable}
             text={answer}
             onChangeText={(e) => updateAnswer(e.target.value, idx)}
             defaultChecked={correctAnswers.includes(idx)}
@@ -283,7 +220,7 @@ const EditQuestion: React.FC = () => {
         onChange={updateExplanation}
       ></QuestionField>
       <div className="questionButtons">
-        {questionId ? (
+        {editingExistingQuestion ? (
           <>
             <Button onClick={editQuestionAndRedirect}>Save Question</Button>
             <Button onClick={deleteQuestionAndRedirect}>Delete Question</Button>

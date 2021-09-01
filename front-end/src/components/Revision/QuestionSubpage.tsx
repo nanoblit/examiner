@@ -4,7 +4,9 @@ import React from "react";
 import StyledQuestionSubpage from "./QuestionSubpageStyle";
 import Button from "../common/Button/Button";
 import QuestionField from "../common/QuestionField/QuestionField";
-import AnswerField from "../common/AnswerField/AnswerField";
+import AnswerField, {
+  AnswerFieldType,
+} from "../common/AnswerField/AnswerField";
 
 type Props = {
   question: Question;
@@ -38,18 +40,20 @@ const QuestionSubpage: React.FC<Props> = ({
   return (
     <StyledQuestionSubpage>
       <QuestionField text={question.question} readonly />
-        <p>Pick the correct answers:</p> 
-        {question.answers.map((answer, idx) => (
-          <AnswerField
-            key={idx}
-            text={answer}
-            isChecked={isChecked(idx)}
-            onChangeCheckbox={() => switchSelectedAnswer(idx)}
-            fullBodyCheckbox
-            textareaReadOnly
-          />
-        ))}
-      <p>{questionsToAnswer} {questionsToAnswer === 1 ? "question" : "questions"} left</p>
+      <p>Pick the correct answers:</p>
+      {question.answers.map((answer, idx) => (
+        <AnswerField
+          key={idx}
+          type={AnswerFieldType.Selectable}
+          text={answer}
+          isChecked={isChecked(idx)}
+          onChangeCheckbox={() => switchSelectedAnswer(idx)}
+        />
+      ))}
+      <p>
+        {questionsToAnswer} {questionsToAnswer === 1 ? "question" : "questions"}{" "}
+        left
+      </p>
       <p>
         You've answered this question {question.correctlyAnsweredCount ?? 0}/
         {question.totalAnsweredCount ?? 0} times correctly

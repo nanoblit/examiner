@@ -57,8 +57,10 @@ const Editor: React.FC = () => {
     }
   };
 
+  // Set the correct visual page after the page changes
   useEffect(() => {
     setCorrectPage();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questionsAfterSearch, page]);
 
   return (
@@ -71,10 +73,13 @@ const Editor: React.FC = () => {
       </Route>
       <Route path={match.path}>
         <StyledEditor>
-          <SearchBar
-            value={search}
-            onChange={(e) => updateSearch(e.target.value)}
-          />
+          {questions.length > 1 && (
+            <SearchBar
+              value={search}
+              onChange={(e) => updateSearch(e.target.value)}
+            />
+          )}
+
           <Link to={`${match.url}/addQuestion`} tabIndex={-1}>
             <Button
               backgroundIcon="add"
