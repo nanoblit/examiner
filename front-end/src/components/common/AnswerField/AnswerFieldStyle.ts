@@ -12,6 +12,10 @@ import { AnswerFieldType } from "./AnswerField";
 
 export const AnswerText = styled.div``;
 
+export const AnswerIcons = styled.div``;
+
+export const AnswerCheckbox = styled.div``;
+
 type Props = {
   type: AnswerFieldType;
   isHighlighted: boolean;
@@ -42,7 +46,7 @@ const StyledAnswer = styled.div<Props>`
     resize: none;
   }
 
-  .answerIcons {
+  ${AnswerIcons} {
     pointer-events: none;
     width: ${({ type }) =>
       type === AnswerFieldType.Editable ? "8rem" : "4rem"};
@@ -59,7 +63,7 @@ const StyledAnswer = styled.div<Props>`
       cursor: default;
     }
 
-    .checkbox {
+    ${AnswerCheckbox} {
       position: relative;
       display: flex;
       justify-content: center;

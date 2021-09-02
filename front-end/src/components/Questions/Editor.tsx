@@ -28,6 +28,7 @@ const Editor: React.FC = () => {
         ),
     [questions, search]
   );
+  // Based on found questions and current page
   const questionsToDisplay = useMemo(() => {
     pageCount.current = Math.ceil(questionsAfterSearch.length / pageLength);
 

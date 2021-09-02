@@ -1,6 +1,6 @@
 import React, { createRef, useEffect, useMemo } from "react";
 
-import StyledAnswer, { AnswerText } from "./AnswerFieldStyle";
+import StyledAnswer, { AnswerText, AnswerIcons, AnswerCheckbox } from "./AnswerFieldStyle";
 import setupAutoResize from "../../../utils/setupAutoResize";
 /*
 tick and highlighted -> green outline
@@ -83,11 +83,11 @@ const AnswerField: React.FC<Props> = ({
       ) : (
         <AnswerText>{textWithLinebreaks}</AnswerText>
       )}
-      <div className="answerIcons">
+      <AnswerIcons>
         {type === AnswerFieldType.Editable && (
           <i className="material-icons">create</i>
         )}
-        <div className="checkbox">
+        <AnswerCheckbox>
           <input
             type="checkbox"
             onChange={onChangeCheckbox}
@@ -100,8 +100,8 @@ const AnswerField: React.FC<Props> = ({
           ) : (
             <i className="material-icons iconUnchecked">close</i>
           )}
-        </div>
-      </div>
+        </AnswerCheckbox>
+      </AnswerIcons>
     </StyledAnswer>
   );
 };
