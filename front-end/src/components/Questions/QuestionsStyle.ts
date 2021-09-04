@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import { contentDisplay } from "../../styles/values";
+import { centeredColumn } from "../../styles/values";
 
 const StyledQuestions = styled.main`
-  ${contentDisplay};
+  ${centeredColumn}
 
   > * {
-    margin-top: 5rem;
+    margin: 2rem 0 0 0;
   }
 `;
 

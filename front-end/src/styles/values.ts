@@ -23,3 +23,9 @@ max-width: 600px;
 margin: auto;
 padding: ${navHeight} 20px ${navHeight} 20px;
 `;
+
+export const centeredColumn = `
+display: flex;
+flex-direction: column;
+align-items: center;
+`;
