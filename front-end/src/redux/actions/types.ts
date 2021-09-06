@@ -1,6 +1,6 @@
-import { Question, isQuestion } from "../models/Question";
-import { isArrayOfType } from "../utils/isArrayOfType";
-import { ReviewSessionData } from "../models/ReviewSessionData";
+import { Question, isQuestion } from "../../models/Question";
+import { isArrayOfType } from "../../utils/isArrayOfType";
+import { ReviewSessionData } from "../../models/ReviewSessionData";
 
 export const CURRENT_VERSION = 1;
 

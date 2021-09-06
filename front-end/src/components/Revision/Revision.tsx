@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
 
-import { useTypedSelector } from "../../reducers";
+import { useTypedSelector } from "../../redux/reducers";
 import { shuffle } from "../../utils/shuffle";
-import { editQuestionAction, setQuestionsAction } from "../../actions";
+import { editQuestionAction, setQuestionsAction } from "../../redux/actions";
 import RevisionTypeSelectionSubpage from "./RevisionTypeSelectionSubpage";
 import FinalScoreSubpage from "./FinalScoreSubpage";
 import QuestionSubpage from "./QuestionSubpage";

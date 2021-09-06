@@ -3,7 +3,7 @@ import { useRouteMatch, Switch, Route } from "react-router";
 import { Link } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 
-import { useTypedSelector } from "../../reducers";
+import { useTypedSelector } from "../../redux/reducers";
 import QuestionListElement from "../common/QuestionListElement/QuestionListElement";
 import StyledEditor, { QuestionLink } from "./EditorStyle";
 import Button from "../common/Button/Button";

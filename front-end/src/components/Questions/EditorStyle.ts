@@ -3,11 +3,11 @@ import {
   buttonColor,
   shadow,
   borderRadius,
-  darkButtonColor,
   logoColor,
   centeredColumn,
 } from "../../styles/values";
 import { Link } from "react-router-dom";
+import { lighten } from "polished";
 
 export const QuestionLink = styled(Link)``;
 
@@ -55,7 +55,6 @@ const StyledEditor = styled.main`
 
         & i {
           cursor: pointer;
-          
         }
       }
 
@@ -69,7 +68,7 @@ const StyledEditor = styled.main`
         cursor: pointer;
 
         &:hover {
-          background: ${darkButtonColor};
+          background: ${lighten(0.06, buttonColor)};
         }
       }
     }

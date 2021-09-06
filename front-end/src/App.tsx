@@ -4,12 +4,11 @@ import { useDispatch } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
-import Navbar from "./components/Navbar/Navbar";
 import Revision from "./components/Revision/Revision";
 import Questions from "./components/Questions/Questions";
-import { setQuestionsAction } from "./actions";
+import { setQuestionsAction } from "./redux/actions";
 import { Question } from "./models/Question";
-import { isQuestionsState } from "./actions/types";
+import { isQuestionsState } from "./redux/actions/types";
 import GlobalStyle from "./styles/globalStyles";
 import StyledApp from "./AppStyle";
 import ReviewSessionTest from "./components/Revision/ReviewSessionTest";
@@ -32,13 +31,13 @@ const App: React.FC = () => {
 
   useEffect(() => {
     setQuestionsFromLocalStorage();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
       <GlobalStyle />
       <>
-        {/* <Navbar /> */}
         <Switch>
           <Route path="/questions">
             <Questions />

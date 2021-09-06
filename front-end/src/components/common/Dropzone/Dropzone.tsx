@@ -3,8 +3,8 @@ import { useDispatch } from "react-redux";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
 
-import { isQuestionsState, QuestionsState } from "../../../actions/types";
-import { setQuestionsAction } from "../../../actions";
+import { isQuestionsState, QuestionsState } from "../../../redux/actions/types";
+import { setQuestionsAction } from "../../../redux/actions";
 import StyledDropzone from "./DropzoneStyle";
 
 const Dropzone: React.FC = () => {

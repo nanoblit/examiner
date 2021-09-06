@@ -1,6 +1,6 @@
 import React from "react";
 
-import { QuestionsState } from "../../actions/types";
+import { QuestionsState } from "../../redux/actions/types";
 import StyledFinalScoreSubpage from "./FinalScoreSubpageStyle";
 import Button from "../common/Button/Button";
 import Layout from "../common/Layout/Layout";

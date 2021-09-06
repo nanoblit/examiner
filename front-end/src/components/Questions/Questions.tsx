@@ -3,7 +3,7 @@ import { useRouteMatch, Switch, Route } from "react-router";
 import { Link } from "react-router-dom";
 
 import Editor from "./Editor";
-import { useTypedSelector } from "../../reducers";
+import { useTypedSelector } from "../../redux/reducers";
 import Button from "../common/Button/Button";
 import StyledQuestions from "./QuestionsStyle";
 import Dropzone from "../common/Dropzone/Dropzone";

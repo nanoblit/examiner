@@ -7,8 +7,8 @@ import {
   addQuestionAction,
   editQuestionAction,
   deleteQuestionAction,
-} from "../../actions";
-import { useTypedSelector } from "../../reducers";
+} from "../../redux/actions";
+import { useTypedSelector } from "../../redux/reducers";
 import AnswerField, {
   AnswerFieldType,
 } from "../common/AnswerField/AnswerField";

@@ -1,4 +1,4 @@
-import { Question } from "../models/Question";
+import { Question } from "../../models/Question";
 import {
   AddQuestionAction,
   ADD_QUESTION,
@@ -19,7 +19,7 @@ import {
 } from "./types";
 import { AppThunk } from "../reducers";
 import { ThunkDispatch } from "redux-thunk";
-import { ReviewSessionData } from "../models/ReviewSessionData";
+import { ReviewSessionData } from "../../models/ReviewSessionData";
 
 /////////////////// Question Actions ///////////////////
 
