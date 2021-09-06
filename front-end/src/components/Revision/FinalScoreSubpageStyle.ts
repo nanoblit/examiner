@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { contentDisplay } from "../../styles/values";
+import { centeredColumn } from "../../styles/values";
 
 const StyledFinalScoreSubpage = styled.main`
-  ${contentDisplay};
+  ${centeredColumn};
 
   .finalScore {
     font-size: 2rem

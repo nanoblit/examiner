@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { contentDisplay } from "../../styles/values";
+import { centeredColumn } from "../../styles/values";
 
 const StyledAnswerSubpage = styled.main`
-  ${contentDisplay};
+  ${centeredColumn};
 
   .question {
     margin: 2rem 0 2rem 0;

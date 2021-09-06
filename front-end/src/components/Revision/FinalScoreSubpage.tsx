@@ -3,6 +3,7 @@ import React from "react";
 import { QuestionsState } from "../../actions/types";
 import StyledFinalScoreSubpage from "./FinalScoreSubpageStyle";
 import Button from "../common/Button/Button";
+import Layout from "../common/Layout/Layout";
 
 type Props = {
   tryAgain: () => void;
@@ -18,6 +19,7 @@ const FinalScoreSubpage: React.FC<Props> = ({
   percentScore,
 }) => {
   return (
+    <Layout>
     <StyledFinalScoreSubpage>
       {score === "0/0" ? (
         <>
@@ -31,6 +33,7 @@ const FinalScoreSubpage: React.FC<Props> = ({
       )}
       {questions.length > 0 && <Button onClick={tryAgain}>Try Again</Button>}
     </StyledFinalScoreSubpage>
+    </Layout>
   );
 };
 

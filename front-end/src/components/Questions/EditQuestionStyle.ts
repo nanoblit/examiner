@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { contentDisplay } from "../../styles/values";
+import { centeredColumn } from "../../styles/values";
 
 const StyledEditQuestion = styled.main`
-  ${contentDisplay};
+  ${centeredColumn};
 
   .answers {
     width: 100%;

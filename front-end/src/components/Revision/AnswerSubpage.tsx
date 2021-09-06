@@ -1,10 +1,13 @@
 import { Question } from "../../models/Question";
 
 import React from "react";
-import AnswerField, { AnswerFieldType } from "../common/AnswerField/AnswerField";
+import AnswerField, {
+  AnswerFieldType,
+} from "../common/AnswerField/AnswerField";
 import StyledAnswerSubpage from "./AnswerSubpageStyle";
 import QuestionField from "../common/QuestionField/QuestionField";
 import Button from "../common/Button/Button";
+import Layout from "../common/Layout/Layout";
 
 type Props = {
   question: Question;
@@ -37,37 +40,44 @@ const AnswerSubpage: React.FC<Props> = ({
   };
 
   return (
-    <StyledAnswerSubpage>
-      <QuestionField text={question.question} readonly />
-      <p>The highlighted answers are correct</p>
-      {question.answers.map((answer, idx) => (
-        <AnswerField
-          key={idx}
-          type={AnswerFieldType.Answer}
-          text={answer}
-          defaultChecked={isChecked(idx)}
-          isHighlighted={isAnswerCorrect(idx)}
-          isChecked={isChecked(idx)}
-        />
-      ))}
-      {!question.explanation || (
-        <QuestionField text={question.explanation} readonly />
-      )}
-      <p>{questionsToAnswer} {questionsToAnswer === 1 ? "question" : "questions"} left</p>
-      <p>
-        You've answered this question {question.correctlyAnsweredCount ?? 0}/
-        {question.totalAnsweredCount ?? 0} times correctly
-      </p>
-      <p>
-        Your score: {score} ({percentScore})
-      </p>
-      <div className="buttons">
-        {questionIds.length > 1 && (
-          <Button onClick={nextQuestion}>Next Question</Button>
+    <Layout>
+      <StyledAnswerSubpage>
+        <QuestionField text={question.question} readonly />
+        <p>The highlighted answers are correct</p>
+        {question.answers.map((answer, idx) => (
+          <AnswerField
+            key={idx}
+            type={AnswerFieldType.Answer}
+            text={answer}
+            defaultChecked={isChecked(idx)}
+            isHighlighted={isAnswerCorrect(idx)}
+            isChecked={isChecked(idx)}
+          />
+        ))}
+        {!question.explanation || (
+          <QuestionField text={question.explanation} readonly />
         )}
-        <Button onClick={finishAnswering}>Finish</Button>
-      </div>
-    </StyledAnswerSubpage>
+        <p>
+          {questionsToAnswer}{" "}
+          {questionsToAnswer === 1 ? "question" : "questions"} left
+        </p>
+        <p>
+          You've answered this question {question.correctlyAnsweredCount ?? 0}/
+          {question.totalAnsweredCount ?? 0} times correctly
+        </p>
+        <p>
+          Your score: {score} ({percentScore})
+        </p>
+        <div className="buttons">
+          {questionIds.length > 1 && (
+            <Button onClick={nextQuestion}>Next Question</Button>
+          )}
+          <Button onClick={finishAnswering} color="danger">
+            Finish
+          </Button>
+        </div>
+      </StyledAnswerSubpage>
+    </Layout>
   );
 };
 

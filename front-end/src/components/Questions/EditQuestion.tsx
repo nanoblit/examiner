@@ -16,6 +16,7 @@ import StyledEditQuestion from "./EditQuestionStyle";
 import Button from "../common/Button/Button";
 import QuestionField from "../common/QuestionField/QuestionField";
 import { toast } from "react-toastify";
+import Layout from "../common/Layout/Layout";
 
 const EditQuestion: React.FC = () => {
   const { questionId }: { questionId: string | undefined } = useParams();
@@ -176,61 +177,67 @@ const EditQuestion: React.FC = () => {
   }, [questionFromStore]);
 
   return (
-    <StyledEditQuestion>
-      <p>Question:</p>
-      <QuestionField
-        text={questionText}
-        onChange={updateQuestion}
-      ></QuestionField>
-      <p>Answers (click the "x" symbol to select which answers are correct):</p>
-      <div className="answers">
-        {answers.map((answer, idx) => (
-          <AnswerField
-            key={idx}
-            type={AnswerFieldType.Editable}
-            text={answer}
-            onChangeText={(e) => updateAnswer(e.target.value, idx)}
-            defaultChecked={correctAnswers.includes(idx)}
-            isChecked={correctAnswers.includes(idx)}
-            onChangeCheckbox={() => switchAnswer(idx)}
-          />
-        ))}
-      </div>
-      <div className="answersButtons">
-        <Button
-          backgroundIcon="add"
-          width="5rem"
-          height="5rem"
-          backgroundIconSize="3rem"
-          onClick={() => addNewAnswer()}
-          ariaLabel="Add Answer"
-        ></Button>
-        <Button
-          backgroundIcon="remove"
-          width="5rem"
-          height="5rem"
-          backgroundIconSize="3rem"
-          onClick={removeLastAnswer}
-          ariaLabel="Remove Last Answer"
-        ></Button>
-      </div>
-      <p>Explanation (optional, seen after answering the question):</p>
-      <QuestionField
-        text={explanation}
-        onChange={updateExplanation}
-      ></QuestionField>
-      <div className="questionButtons">
-        {editingExistingQuestion ? (
-          <>
-            <Button onClick={editQuestionAndRedirect}>Save Question</Button>
-            <Button onClick={deleteQuestionAndRedirect}>Delete Question</Button>
-          </>
-        ) : (
-          <Button onClick={addQuestionAndRedirect}>Save Question</Button>
-        )}
-      </div>
-      {redirect && <Redirect to="/questions/editor" />}
-    </StyledEditQuestion>
+    <Layout>
+      <StyledEditQuestion>
+        <p>Question:</p>
+        <QuestionField
+          text={questionText}
+          onChange={updateQuestion}
+        ></QuestionField>
+        <p>
+          Answers (click the "x" symbol to select which answers are correct):
+        </p>
+        <div className="answers">
+          {answers.map((answer, idx) => (
+            <AnswerField
+              key={idx}
+              type={AnswerFieldType.Editable}
+              text={answer}
+              onChangeText={(e) => updateAnswer(e.target.value, idx)}
+              defaultChecked={correctAnswers.includes(idx)}
+              isChecked={correctAnswers.includes(idx)}
+              onChangeCheckbox={() => switchAnswer(idx)}
+            />
+          ))}
+        </div>
+        <div className="answersButtons">
+          <Button
+            backgroundIcon="add"
+            width="5rem"
+            height="5rem"
+            backgroundIconSize="3rem"
+            onClick={() => addNewAnswer()}
+            ariaLabel="Add Answer"
+          ></Button>
+          <Button
+            backgroundIcon="remove"
+            width="5rem"
+            height="5rem"
+            backgroundIconSize="3rem"
+            onClick={removeLastAnswer}
+            ariaLabel="Remove Last Answer"
+          ></Button>
+        </div>
+        <p>Explanation (optional, seen after answering the question):</p>
+        <QuestionField
+          text={explanation}
+          onChange={updateExplanation}
+        ></QuestionField>
+        <div className="questionButtons">
+          {editingExistingQuestion ? (
+            <>
+              <Button onClick={editQuestionAndRedirect}>Save Question</Button>
+              <Button onClick={deleteQuestionAndRedirect} color="danger">
+                Delete Question
+              </Button>
+            </>
+          ) : (
+            <Button onClick={addQuestionAndRedirect}>Save Question</Button>
+          )}
+        </div>
+        {redirect && <Redirect to="/questions/editor" />}
+      </StyledEditQuestion>
+    </Layout>
   );
 };
 

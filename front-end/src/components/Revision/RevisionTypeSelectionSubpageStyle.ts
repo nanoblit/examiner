@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { contentDisplay } from "../../styles/values";
+import { centeredColumn } from "../../styles/values";
 
 const StyledRevisionTypeSelectionSubpage = styled.main`
-  ${contentDisplay};
+  ${centeredColumn};
 
   > * {
     margin-top: 2rem;

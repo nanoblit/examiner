@@ -7,6 +7,7 @@ import QuestionField from "../common/QuestionField/QuestionField";
 import AnswerField, {
   AnswerFieldType,
 } from "../common/AnswerField/AnswerField";
+import Layout from "../common/Layout/Layout";
 
 type Props = {
   question: Question;
@@ -38,31 +39,33 @@ const QuestionSubpage: React.FC<Props> = ({
   };
 
   return (
-    <StyledQuestionSubpage>
-      <QuestionField text={question.question} readonly />
-      <p>Pick the correct answers:</p>
-      {question.answers.map((answer, idx) => (
-        <AnswerField
-          key={idx}
-          type={AnswerFieldType.Selectable}
-          text={answer}
-          isChecked={isChecked(idx)}
-          onChangeCheckbox={() => switchSelectedAnswer(idx)}
-        />
-      ))}
-      <p>
-        {questionsToAnswer} {questionsToAnswer === 1 ? "question" : "questions"}{" "}
-        left
-      </p>
-      <p>
-        You've answered this question {question.correctlyAnsweredCount ?? 0}/
-        {question.totalAnsweredCount ?? 0} times correctly
-      </p>
-      <p>
-        Your score: {score} ({percentScore})
-      </p>
-      <Button onClick={submitAnswer}>Answer</Button>
-    </StyledQuestionSubpage>
+    <Layout>
+      <StyledQuestionSubpage>
+        <QuestionField text={question.question} readonly />
+        <p>Pick the correct answers:</p>
+        {question.answers.map((answer, idx) => (
+          <AnswerField
+            key={idx}
+            type={AnswerFieldType.Selectable}
+            text={answer}
+            isChecked={isChecked(idx)}
+            onChangeCheckbox={() => switchSelectedAnswer(idx)}
+          />
+        ))}
+        <p>
+          {questionsToAnswer}{" "}
+          {questionsToAnswer === 1 ? "question" : "questions"} left
+        </p>
+        <p>
+          You've answered this question {question.correctlyAnsweredCount ?? 0}/
+          {question.totalAnsweredCount ?? 0} times correctly
+        </p>
+        <p>
+          Your score: {score} ({percentScore})
+        </p>
+        <Button onClick={submitAnswer}>Answer</Button>
+      </StyledQuestionSubpage>
+    </Layout>
   );
 };
 

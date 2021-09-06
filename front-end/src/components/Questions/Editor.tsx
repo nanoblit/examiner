@@ -5,10 +5,11 @@ import ReactPaginate from "react-paginate";
 
 import { useTypedSelector } from "../../reducers";
 import QuestionListElement from "../common/QuestionListElement/QuestionListElement";
-import StyledEditor from "./EditorStyle";
+import StyledEditor, { QuestionLink } from "./EditorStyle";
 import Button from "../common/Button/Button";
 import SearchBar from "../common/SearchBar/SearchBar";
 import EditQuestion from "./EditQuestion";
+import Layout from "../common/Layout/Layout";
 
 const Editor: React.FC = () => {
   const [search, setSearch] = useState("");
@@ -61,7 +62,7 @@ const Editor: React.FC = () => {
   // Set the correct visual page after the page changes
   useEffect(() => {
     setCorrectPage();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questionsAfterSearch, page]);
 
   return (
@@ -73,68 +74,71 @@ const Editor: React.FC = () => {
         <EditQuestion />
       </Route>
       <Route path={match.path}>
-        <StyledEditor>
-          {questions.length > 1 && (
-            <SearchBar
-              value={search}
-              onChange={(e) => updateSearch(e.target.value)}
-            />
-          )}
+        <Layout>
+          <StyledEditor>
+            {questions.length > 1 && (
+              <SearchBar
+                value={search}
+                onChange={(e) => updateSearch(e.target.value)}
+              />
+            )}
 
-          <Link to={`${match.url}/addQuestion`} tabIndex={-1}>
-            <Button
-              backgroundIcon="add"
-              width="17.5rem"
-              height="9.6rem"
-              backgroundIconSize="7rem"
-            >
-              Add New Question
-            </Button>
-          </Link>
-          {questionsToDisplay.length > 0 && <p>Click a question to edit it</p>}
-          {questionsToDisplay.map(({ question, id }) => (
-            <Link
-              className="questionLink"
-              key={id}
-              to={`${match.url}/${id}`}
-              tabIndex={-1}
-            >
-              <QuestionListElement text={question}></QuestionListElement>
+            <Link to={`${match.url}/addQuestion`} tabIndex={-1}>
+              <Button
+                backgroundIcon="add"
+                width="17.5rem"
+                height="9.6rem"
+                backgroundIconSize="7rem"
+              >
+                Add New Question
+              </Button>
             </Link>
-          ))}
-          {questionsToDisplay.length > 0 && (
-            <>
-              <p>
-                {questionsAfterSearch.length > 0
-                  ? (page - 1) * pageLength + 1
-                  : 0}{" "}
-                -{" "}
-                {(page - 1) * pageLength + pageLength <=
-                questionsAfterSearch.length - 1
-                  ? (page - 1) * pageLength + pageLength + 1
-                  : questionsAfterSearch.length}{" "}
-                / {questionsAfterSearch.length} questions
-              </p>
-              <ReactPaginate
-                pageCount={pageCount.current}
-                pageRangeDisplayed={pageLength}
-                marginPagesDisplayed={2}
-                onPageChange={handlePageChange}
-                forcePage={page - 1}
-                containerClassName="paginationContainer"
-                pageLinkClassName="paginationLink"
-                previousClassName="paginationMove"
-                nextClassName="paginationMove"
-                previousLabel={
-                  <i className="material-icons">keyboard_arrow_left</i>
-                }
-                nextLabel={
-                  <i className="material-icons">keyboard_arrow_right</i>
-                }
-              />{" "}
-            </>
-          )}
-        </StyledEditor>
+            {questionsToDisplay.length > 0 && (
+              <p>Click a question to edit it</p>
+            )}
+            {questionsToDisplay.map(({ question, id }) => (
+              <QuestionLink
+                key={id}
+                to={`${match.url}/${id}`}
+                tabIndex={-1}
+              >
+                <QuestionListElement text={question}></QuestionListElement>
+              </QuestionLink>
+            ))}
+            {questionsToDisplay.length > 0 && (
+              <>
+                <p>
+                  {questionsAfterSearch.length > 0
+                    ? (page - 1) * pageLength + 1
+                    : 0}{" "}
+                  -{" "}
+                  {(page - 1) * pageLength + pageLength <=
+                  questionsAfterSearch.length - 1
+                    ? (page - 1) * pageLength + pageLength + 1
+                    : questionsAfterSearch.length}{" "}
+                  / {questionsAfterSearch.length} questions
+                </p>
+                <ReactPaginate
+                  pageCount={pageCount.current}
+                  pageRangeDisplayed={pageLength}
+                  marginPagesDisplayed={2}
+                  onPageChange={handlePageChange}
+                  forcePage={page - 1}
+                  containerClassName="paginationContainer"
+                  pageLinkClassName="paginationLink"
+                  previousClassName="paginationMove"
+                  nextClassName="paginationMove"
+                  previousLabel={
+                    <i className="material-icons">keyboard_arrow_left</i>
+                  }
+                  nextLabel={
+                    <i className="material-icons">keyboard_arrow_right</i>
+                  }
+                />{" "}
+              </>
+            )}
+          </StyledEditor>
+        </Layout>
       </Route>
     </Switch>
   );

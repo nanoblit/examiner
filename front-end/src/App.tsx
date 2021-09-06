@@ -11,8 +11,9 @@ import { setQuestionsAction } from "./actions";
 import { Question } from "./models/Question";
 import { isQuestionsState } from "./actions/types";
 import GlobalStyle from "./styles/globalStyles";
-import StyledContent from "./AppStyle";
+import StyledApp from "./AppStyle";
 import ReviewSessionTest from "./components/Revision/ReviewSessionTest";
+import Layout from "./components/common/Layout/Layout";
 
 const App: React.FC = () => {
   const [questionsLoaded, setQuestionsLoaded] = useState(false);
@@ -46,10 +47,12 @@ const App: React.FC = () => {
           <Route path="/review">{questionsLoaded && <Revision />}</Route>
           <Route path="/reviewSessionTest">{<ReviewSessionTest />}</Route>
           <Route path="/">
-            <StyledContent>
-              <h1>Welcome to Examify!</h1>
-              <p>Add some questions, then review them!</p>
-            </StyledContent>
+            <Layout>
+              <StyledApp>
+                <h1>Welcome to Examify!</h1>
+                <p>Add some questions, then review them!</p>
+              </StyledApp>
+            </Layout>
           </Route>
         </Switch>
         <ToastContainer />
