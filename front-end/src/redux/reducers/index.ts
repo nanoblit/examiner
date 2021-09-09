@@ -48,7 +48,7 @@ export const reviewSessionReducer = (
       return { ...state, [action.payload.id]: action.payload.data };
     case DELETE_REVIEW_SESSION_ITEM:
       return Object.keys(state).reduce((acc, s) => {
-        return s === action.payload ? acc : { ...acc, [s]: state.s };
+        return s === action.payload ? acc : { ...acc, [s]: state[s] };
       }, {} as ReviewSessionState);
     case SET_REVIEW_SESSION:
       return action.payload;

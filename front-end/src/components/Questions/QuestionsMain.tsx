@@ -2,25 +2,25 @@ import React from "react";
 import { useRouteMatch, Switch, Route } from "react-router";
 import { Link } from "react-router-dom";
 
-import Editor from "./Editor";
+import AllQuestions from "./AllQuestions";
 import { useTypedSelector } from "../../redux/reducers";
 import Button from "../common/Button/Button";
-import StyledQuestions from "./QuestionsStyle";
+import StyledQuestionsMain from "./QuestionsMainStyle";
 import Dropzone from "../common/Dropzone/Dropzone";
 import Layout from "../common/Layout/Layout";
 
-const Questions: React.FC = () => {
+const QuestionsMain: React.FC = () => {
   const match = useRouteMatch();
   const questions = useTypedSelector(({ questions }) => questions);
 
   return (
     <Switch>
       <Route path={`${match.path}/editor`}>
-        <Editor />
+        <AllQuestions />
       </Route>
       <Route path={match.path}>
         <Layout>
-          <StyledQuestions>
+          <StyledQuestionsMain>
             <Link to={`${match.url}/editor`} tabIndex={-1}>
               <Button
                 backgroundIcon="create"
@@ -52,11 +52,11 @@ const Questions: React.FC = () => {
               </Button>
             </a>
             <Dropzone />
-          </StyledQuestions>
+          </StyledQuestionsMain>
         </Layout>
       </Route>
     </Switch>
   );
 };
 
-export default Questions;
+export default QuestionsMain;

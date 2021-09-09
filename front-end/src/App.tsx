@@ -4,8 +4,7 @@ import { useDispatch } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
-import Revision from "./components/Revision/Revision";
-import Questions from "./components/Questions/Questions";
+import QuestionsMain from "./components/Questions/QuestionsMain";
 import { setQuestionsAction } from "./redux/actions";
 import { Question } from "./models/Question";
 import { isQuestionsState } from "./redux/actions/types";
@@ -13,6 +12,7 @@ import GlobalStyle from "./styles/globalStyles";
 import StyledApp from "./AppStyle";
 import ReviewSessionTest from "./components/Revision/ReviewSessionTest";
 import Layout from "./components/common/Layout/Layout";
+import ReviewPicker from "./components/Review/ReviewPicker";
 
 const App: React.FC = () => {
   const [questionsLoaded, setQuestionsLoaded] = useState(false);
@@ -40,10 +40,10 @@ const App: React.FC = () => {
       <>
         <Switch>
           <Route path="/questions">
-            <Questions />
+            <QuestionsMain />
           </Route>
           {/* So it can use the questions in store */}
-          <Route path="/review">{questionsLoaded && <Revision />}</Route>
+          <Route path="/review">{questionsLoaded && <ReviewPicker />}</Route>
           <Route path="/reviewSessionTest">{<ReviewSessionTest />}</Route>
           <Route path="/">
             <Layout>

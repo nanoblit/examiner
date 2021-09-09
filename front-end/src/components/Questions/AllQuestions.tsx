@@ -5,13 +5,13 @@ import ReactPaginate from "react-paginate";
 
 import { useTypedSelector } from "../../redux/reducers";
 import QuestionListElement from "../common/QuestionListElement/QuestionListElement";
-import StyledEditor, { QuestionLink } from "./EditorStyle";
+import StyledEditor, { QuestionLink } from "./AllQuestionsStyle";
 import Button from "../common/Button/Button";
 import SearchBar from "../common/SearchBar/SearchBar";
 import EditQuestion from "./EditQuestion";
 import Layout from "../common/Layout/Layout";
 
-const Editor: React.FC = () => {
+const AllQuestions: React.FC = () => {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const pageLength = 10;
@@ -144,4 +144,4 @@ const Editor: React.FC = () => {
   );
 };
 
-export default Editor;
+export default AllQuestions;

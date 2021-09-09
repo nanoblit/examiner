@@ -1,4 +1,4 @@
-export const isArrayOfType = (
+const isArrayOfType = (
   value: any,
   type: string | ((value: Object) => boolean)
 ) => {
@@ -22,3 +22,5 @@ export const isArrayOfType = (
   }
   return true;
 };
+
+export default isArrayOfType;

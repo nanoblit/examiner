@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { centeredColumn } from "../../styles/values";
 
-const StyledQuestions = styled.main`
+const StyledQuestionsMain = styled.main`
   ${centeredColumn}
 
   > * {
@@ -9,4 +9,4 @@ const StyledQuestions = styled.main`
   }
 `;
 
-export default StyledQuestions;
+export default StyledQuestionsMain;

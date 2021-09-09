@@ -1,4 +1,3 @@
 export interface ReviewSessionData {
-  answered: boolean;
-  answeredCorrectly: boolean;
+  givenAnswers: number[]
 }

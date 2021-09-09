@@ -27,21 +27,23 @@ const Button: React.FC<Props> = ({
   backgroundIcon,
   ariaLabel,
 }) => {
+  const pickColor = (c: ButtonColorsType | undefined) => {
+    switch (c) {
+      case "primary":
+        return buttonColor;
+      case "danger":
+        return redButtonColor;
+      default:
+        return buttonColor;
+    }
+  };
+
   return (
     <StyledButton
       width={width}
       height={height}
       fontSize={fontSize}
-      color={(() => {
-        switch (color) {
-          case "primary": 
-            return buttonColor;
-          case "danger":
-            return redButtonColor;
-          default:
-            return buttonColor;
-        }
-      })()}
+      color={pickColor(color)}
       backgroundIconSize={backgroundIconSize}
       onClick={onClick}
       aria-label={ariaLabel}
