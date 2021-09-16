@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { useParams, useHistory, useRouteMatch } from "react-router";
 import { useDispatch } from "react-redux";
 
@@ -10,6 +10,9 @@ import AnswerField, {
 } from "../common/AnswerField/AnswerField";
 import Button from "../common/Button/Button";
 import { addOrEditReviewSessionItemAction } from "../../redux/actions";
+import scoreSelector from "../../utils/selectors/scoreSelector";
+import questionsToAnswerCountSelector from "../../utils/selectors/questionsToAnswerCountSelector";
+import questionSelector from "../../utils/selectors/questionSelector";
 
 /*
 If you go open this page and it's already answered -> redirect to answer
@@ -19,36 +22,15 @@ const ReviewQuestion: React.FC = () => {
   const match = useRouteMatch();
   const history = useHistory();
   const { questionId }: { questionId: string } = useParams();
-  const questions = useTypedSelector(({ questions }) => questions);
-  const reviewSession = useTypedSelector(({ reviewSession }) => reviewSession);
-  const dispatch = useDispatch();
-  const question = useMemo(
-    () => questions.find((q) => q.id === questionId),
-    [questions, questionId]
-  );
   const [selectedAnswers, setSelectedAnswers] = useState<Set<number>>(
     new Set()
   );
-  const questionsToAnswer = useMemo(
-    () => questions.length - Object.keys(reviewSession).length,
-    [questions, reviewSession]
+  const dispatch = useDispatch();
+  const question = useTypedSelector(questionSelector(questionId));
+  const questionsToAnswerCount = useTypedSelector(
+    questionsToAnswerCountSelector
   );
-  const score = useMemo(() => {
-    let s = 0;
-    for (const reviewedId in reviewSession) {
-      const givenAnswers = reviewSession[reviewedId].givenAnswers;
-      const correctAnswers =
-        questions.find((q) => q.id === reviewedId)?.correctAnswers ?? [];
-
-      if (
-        JSON.stringify(givenAnswers.sort()) ===
-        JSON.stringify(correctAnswers.sort())
-      ) {
-        s++;
-      }
-    }
-    return `${(s / questions.length) * 100}%`;
-  }, [questions, reviewSession]);
+  const score = useTypedSelector(scoreSelector);
 
   const switchSelectedAnswer = (id: number) => {
     const newAnswers = new Set(selectedAnswers);
@@ -68,7 +50,7 @@ const ReviewQuestion: React.FC = () => {
         givenAnswers: Array.from(selectedAnswers),
       })
     );
-    history.push(`${match.path}/answer`);
+    history.push(`${match.url}/answer`);
   };
 
   return (
@@ -85,8 +67,8 @@ const ReviewQuestion: React.FC = () => {
         />
       ))}
       <p>
-        {questionsToAnswer} {questionsToAnswer === 1 ? "question" : "questions"}{" "}
-        left
+        {questionsToAnswerCount}{" "}
+        {questionsToAnswerCount === 1 ? "question" : "questions"} left
       </p>
       <p>Your score: {score}</p>
       <Button onClick={submitAnswer}>Answer</Button>

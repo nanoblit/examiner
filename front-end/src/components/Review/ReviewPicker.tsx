@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory, useRouteMatch, Switch, Route } from "react-router";
 
@@ -23,9 +23,9 @@ const ReviewPicker: React.FC = () => {
   const dispatch = useDispatch();
   const questions = useTypedSelector(({ questions }) => questions);
   const reviewSession = useTypedSelector(({ reviewSession }) => reviewSession);
-  const unansweredQuestionsCount = useMemo(
-    () => questions.length - Object.keys(reviewSession).length,
-    [questions, reviewSession]
+  const unansweredQuestionsCount = useTypedSelector(
+    ({ questions, reviewSession }) =>
+      questions.length - Object.keys(reviewSession).length
   );
 
   const startNewSession = () => {

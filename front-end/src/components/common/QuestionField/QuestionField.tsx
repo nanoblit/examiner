@@ -16,7 +16,7 @@ const QuestionField: React.FC<Props> = ({
 }) => {
   const textAreaRef = createRef<HTMLTextAreaElement>();
   const textWithLinebreaks = useMemo(
-    () => text?.split("\n").map((str) => <p>{str}</p>),
+    () => text?.split("\n").map((str, idx) => <p key={idx}>{str}</p>),
     [text]
   );
 

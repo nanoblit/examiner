@@ -1,6 +1,10 @@
 import React, { createRef, useEffect, useMemo } from "react";
 
-import StyledAnswer, { AnswerText, AnswerIcons, AnswerCheckbox } from "./AnswerFieldStyle";
+import StyledAnswer, {
+  AnswerText,
+  AnswerIcons,
+  AnswerCheckbox,
+} from "./AnswerFieldStyle";
 import setupAutoResize from "../../../utils/setupAutoResize";
 /*
 tick and highlighted -> green outline
@@ -40,7 +44,7 @@ const AnswerField: React.FC<Props> = ({
 }) => {
   const textAreaRef = createRef<HTMLTextAreaElement>();
   const textWithLinebreaks = useMemo(
-    () => text?.split("\n").map((str) => <p>{str}</p>),
+    () => text?.split("\n").map((str, idx) => <p key={idx}>{str}</p>),
     [text]
   );
 

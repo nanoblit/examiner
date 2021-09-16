@@ -2,6 +2,7 @@ import React, { useState, useMemo, useRef, useEffect } from "react";
 import { useRouteMatch, Switch, Route } from "react-router";
 import { Link } from "react-router-dom";
 import ReactPaginate from "react-paginate";
+import { shallowEqual } from "react-redux";
 
 import { useTypedSelector } from "../../redux/reducers";
 import QuestionListElement from "../common/QuestionListElement/QuestionListElement";
@@ -17,8 +18,8 @@ const AllQuestions: React.FC = () => {
   const pageLength = 10;
   let pageCount = useRef(1);
   const questions = useTypedSelector(({ questions }) => questions);
-  const questionsAfterSearch = useMemo(
-    () =>
+  const questionsAfterSearch = useTypedSelector(
+    ({ questions }) =>
       questions
         .filter(
           ({ question }) =>
@@ -27,7 +28,7 @@ const AllQuestions: React.FC = () => {
         .sort((a, b) =>
           a.question.toLowerCase() < b.question.toLowerCase() ? -1 : 1
         ),
-    [questions, search]
+    shallowEqual
   );
   // Based on found questions and current page
   const questionsToDisplay = useMemo(() => {
@@ -97,11 +98,7 @@ const AllQuestions: React.FC = () => {
               <p>Click a question to edit it</p>
             )}
             {questionsToDisplay.map(({ question, id }) => (
-              <QuestionLink
-                key={id}
-                to={`${match.url}/${id}`}
-                tabIndex={-1}
-              >
+              <QuestionLink key={id} to={`${match.url}/${id}`} tabIndex={-1}>
                 <QuestionListElement text={question}></QuestionListElement>
               </QuestionLink>
             ))}

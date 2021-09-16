@@ -26,12 +26,7 @@ const EditQuestion: React.FC = () => {
   const [correctAnswers, setCorrectAnswers] = useState<number[]>([]);
   const [explanation, setExplanation] = useState("");
   const [redirect, setRedirect] = useState(false);
-  const questions = useTypedSelector(({ questions }) => questions);
-
-  const questionFromStore = useMemo(
-    () => questions.find(({ id }) => id === questionId),
-    [questionId, questions]
-  );
+  const question = useTypedSelector(({ questions }) => questions.find(({ id }) => id === questionId));
 
   const dispatch = useDispatch();
 
@@ -156,7 +151,7 @@ const EditQuestion: React.FC = () => {
   };
 
   const setQuestionData = () => {
-    const q = questionFromStore;
+    const q = question;
     if (!q) return;
     setQuestionText(() => q.question);
     q.answers.forEach((answer, idx) => {
@@ -174,7 +169,7 @@ const EditQuestion: React.FC = () => {
       setQuestionData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [questionFromStore]);
+  }, [question]);
 
   return (
     <Layout>
