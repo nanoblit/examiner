@@ -10,11 +10,12 @@ import getRandomArrayElement from "../../utils/getRandomArrayElement";
 import getRandomUnansweredQuestion from "../../utils/getRandomUnansweredQuestion";
 import ReviewQuestion from "./ReviewQuestion";
 import ReviewAnswer from "./ReviewAnswer";
+import ReviewFinalScore from "./ReviewFinalScore";
 
 /*
-Show all questions number when all questions have been answered
-Hide continue session if there is no session to continue or if all questions have been answered
-Make unansweredQuestionsCount a custom, reusabe hook
+TODO: Show all questions number when all questions have been answered
+TODO: Hide continue session if there is no session to continue or if all questions have been answered
+TODO: Make unansweredQuestionsCount a custom, reusabe hook
 */
 
 const ReviewPicker: React.FC = () => {
@@ -44,6 +45,9 @@ const ReviewPicker: React.FC = () => {
 
   return (
     <Switch>
+      <Route path={`${match.path}/finalScore`}>
+        <ReviewFinalScore />
+      </Route>
       <Route path={`${match.path}/:questionId/answer`}>
         <ReviewAnswer />
       </Route>

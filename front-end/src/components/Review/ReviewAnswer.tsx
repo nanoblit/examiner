@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams, useHistory } from "react-router";
+import { useParams, useHistory, Redirect } from "react-router";
 
 import Layout from "../common/Layout/Layout";
 import StyledAnswerSubpage from "../Revision/AnswerSubpageStyle";
@@ -16,10 +16,7 @@ import scoreSelector from "../../utils/selectors/scoreSelector";
 import getRandomUnansweredQuestion from "../../utils/getRandomUnansweredQuestion";
 
 /*
-If questionId is incorrect -> redirect somewhere
-Fix picking wrong question
-Picking a question should be a hook?
-Fix score
+TODO: Picking a question should be a hook?
 */
 
 const ReviewAnswer: React.FC = () => {
@@ -49,6 +46,10 @@ const ReviewAnswer: React.FC = () => {
     );
 
   const finishAnswering = () => history.push("/review/finalScore");
+
+  if (!questions.some((q) => q.id === questionId)) {
+    return <Redirect to="/review" />;
+  }
 
   return (
     <Layout>

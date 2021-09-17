@@ -7,7 +7,7 @@ const getRandomUnansweredQuestion = (
 ) => {
   const answeredQuestionIds = Object.keys(reviewSession);
   const unansweredQuestionIds = questions.filter((q) =>
-    answeredQuestionIds.some((aqId) => aqId === q.id)
+    answeredQuestionIds.some((aqId) => aqId !== q.id)
   );
   if (unansweredQuestionIds.length === 0) {
     return null;

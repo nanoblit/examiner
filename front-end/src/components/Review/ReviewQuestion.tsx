@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { useParams, useHistory, useRouteMatch } from "react-router";
-import { useDispatch } from "react-redux";
+import { useParams, useHistory, useRouteMatch, Redirect } from "react-router";
+import { useDispatch, shallowEqual } from "react-redux";
+import { toast } from "react-toastify";
 
 import Layout from "../common/Layout/Layout";
 import QuestionField from "../common/QuestionField/QuestionField";
@@ -13,9 +14,10 @@ import { addOrEditReviewSessionItemAction } from "../../redux/actions";
 import scoreSelector from "../../utils/selectors/scoreSelector";
 import questionsToAnswerCountSelector from "../../utils/selectors/questionsToAnswerCountSelector";
 import questionSelector from "../../utils/selectors/questionSelector";
+import answeredQuestionIdsSelector from "../../utils/selectors/answeredQuestionIdsSelector";
 
 /*
-If you go open this page and it's already answered -> redirect to answer
+TODO: If you go open this page and it's already answered -> redirect to answer (CHECK IF IT WORKS AFTER SAVING REVIEW TO LOCALSTORAGE)
 */
 
 const ReviewQuestion: React.FC = () => {
@@ -26,6 +28,11 @@ const ReviewQuestion: React.FC = () => {
     new Set()
   );
   const dispatch = useDispatch();
+  const questions = useTypedSelector(({ questions }) => questions);
+  const answeredQuestionIds = useTypedSelector(
+    answeredQuestionIdsSelector,
+    shallowEqual
+  );
   const question = useTypedSelector(questionSelector(questionId));
   const questionsToAnswerCount = useTypedSelector(
     questionsToAnswerCountSelector
@@ -45,6 +52,9 @@ const ReviewQuestion: React.FC = () => {
   const isChecked = (id: number) => selectedAnswers.has(id);
 
   const submitAnswer = () => {
+    if (selectedAnswers.size === 0) {
+      return toast.error("Please, select at least one answer");
+    }
     dispatch(
       addOrEditReviewSessionItemAction(questionId, {
         givenAnswers: Array.from(selectedAnswers),
@@ -52,6 +62,16 @@ const ReviewQuestion: React.FC = () => {
     );
     history.push(`${match.url}/answer`);
   };
+
+  // If this question doesn't exist, go to /review
+  if (!questions.some((q) => q.id === questionId)) {
+    return <Redirect to="/review" />;
+  }
+
+  // If this question has been answered, go to answer
+  if (answeredQuestionIds.some((aqId) => aqId === questionId)) {
+    return <Redirect to={`${match.url}/answer`} />;
+  }
 
   return (
     <Layout>
