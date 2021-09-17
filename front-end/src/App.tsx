@@ -40,6 +40,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     setQuestionsFromLocalStorage();
+    setReviewSessionFromLocalStorage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
