@@ -49,8 +49,9 @@ const App: React.FC = () => {
           <Route path="/questions">
             <QuestionsMain />
           </Route>
-          {/* So it can use the questions in store */}
-          <Route path="/review">{questionsLoaded && <ReviewPicker />}</Route>
+          <Route path="/review">
+            <ReviewPicker />
+          </Route>
           <Route path="/">
             <Layout>
               <StyledApp>
