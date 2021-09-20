@@ -10,11 +10,8 @@ import { Question } from "./models/Question";
 import { isQuestionsState, ReviewSessionState } from "./redux/actions/types";
 import GlobalStyle from "./styles/globalStyles";
 import StyledApp from "./AppStyle";
-import ReviewSessionTest from "./components/Revision/ReviewSessionTest";
 import Layout from "./components/common/Layout/Layout";
 import ReviewPicker from "./components/Review/ReviewPicker";
-
-// TODO: Make isReviewSessionState guard and use it
 
 const App: React.FC = () => {
   const [questionsLoaded, setQuestionsLoaded] = useState(false);
@@ -54,7 +51,6 @@ const App: React.FC = () => {
           </Route>
           {/* So it can use the questions in store */}
           <Route path="/review">{questionsLoaded && <ReviewPicker />}</Route>
-          <Route path="/reviewSessionTest">{<ReviewSessionTest />}</Route>
           <Route path="/">
             <Layout>
               <StyledApp>
