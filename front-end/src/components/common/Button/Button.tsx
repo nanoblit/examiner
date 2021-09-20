@@ -1,12 +1,16 @@
 import React from "react";
 
-import StyledButton from "./ButtonStyle";
+import StyledButton, { ButtonIcon } from "./ButtonStyle";
+import { buttonColor, redButtonColor } from "../../../styles/values";
+
+type ButtonColorsType = "primary" | "danger";
 
 type Props = {
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   width?: string;
   height?: string;
   fontSize?: string;
+  color?: ButtonColorsType;
   backgroundIcon?: string;
   backgroundIconSize?: string;
   ariaLabel?: string;
@@ -18,23 +22,36 @@ const Button: React.FC<Props> = ({
   width,
   height,
   fontSize,
+  color,
   backgroundIconSize,
   backgroundIcon,
   ariaLabel,
 }) => {
+  const pickColor = (c: ButtonColorsType | undefined) => {
+    switch (c) {
+      case "primary":
+        return buttonColor;
+      case "danger":
+        return redButtonColor;
+      default:
+        return buttonColor;
+    }
+  };
+
   return (
     <StyledButton
       width={width}
       height={height}
       fontSize={fontSize}
+      color={pickColor(color)}
       backgroundIconSize={backgroundIconSize}
       onClick={onClick}
       aria-label={ariaLabel}
     >
       {backgroundIcon && (
-        <div className="buttonIcon">
+        <ButtonIcon>
           <i className="material-icons">{backgroundIcon}</i>
-        </div>
+        </ButtonIcon>
       )}
       <span>{children}</span>
     </StyledButton>

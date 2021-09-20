@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import { contentDisplay } from "./styles/values";
+import { centeredColumn } from "./styles/values";
 
-const StyledContent = styled.main`
-  ${contentDisplay}
+const StyledApp = styled.main`
+  ${centeredColumn}
   
   * {
-    margin: 2rem 0;
+    margin: 2rem 0 0 0;
   }
 `;
 
-export default StyledContent;
+export default StyledApp;

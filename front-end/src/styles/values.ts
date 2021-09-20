@@ -1,6 +1,8 @@
+import { css } from "styled-components";
+
 export const navColor = "#F0EC83";
 export const buttonColor = "#EBE787";
-export const darkButtonColor = "#DEDB7F";
+export const redButtonColor = "#FFA3A3FF";
 export const fontColor = "#5F5F5F";
 export const logoColor = "#BCB96D";
 export const grayColor = "#CECECE";
@@ -14,12 +16,8 @@ export const shadow = "0px 4px 4px rgba(0, 0, 0, 0.25)";
 export const borderRadius = "3px";
 export const navHeight = "4rem";
 
-export const contentDisplay = `
-display: flex;
-flex-direction: column;
-align-items: center;
-width: 100%;
-max-width: 600px;
-margin: auto;
-padding: ${navHeight} 20px ${navHeight} 20px;
+export const centeredColumn = css`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;

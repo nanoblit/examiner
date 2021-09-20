@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from "react";
+import React, { useMemo } from "react";
 import StyledQuestion from "./QuestionListElementStyle";
 
 type Props = { text: string };

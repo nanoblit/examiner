@@ -1,4 +1,4 @@
-import { isArrayOfType } from "../utils/isArrayOfType";
+import isArrayOfType from "../utils/isArrayOfType";
 
 export interface Question {
   id: string;

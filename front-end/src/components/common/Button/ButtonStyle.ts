@@ -1,17 +1,25 @@
 import styled from "styled-components";
+import { desaturate, darken, lighten } from "polished";
 
-import { borderRadius, buttonColor, logoColor, darkButtonColor, shadow } from "../../../styles/values";
+import {
+  borderRadius,
+  shadow,
+  buttonColor,
+} from "../../../styles/values";
 
 type Props = {
   width?: string;
   height?: string;
   fontSize?: string;
   backgroundIconSize?: string;
+  color?: string;
 };
+
+export const ButtonIcon = styled.div``;
 
 const StyledButton = styled.button<Props>`
   border: none;
-  background: ${buttonColor};
+  background: ${({ color }) => (color ? color : buttonColor)};
   box-shadow: ${shadow};
   padding: 5px 10px;
   border-radius: ${borderRadius};
@@ -21,10 +29,10 @@ const StyledButton = styled.button<Props>`
   ${({ height }) => (height ? `height: ${height};` : "")}
 
   &:hover {
-    background: ${darkButtonColor};
+    background: ${({ color }) => lighten(0.06, color ? color : buttonColor)};
   }
 
-  .buttonIcon {
+  ${ButtonIcon} {
     left: 0;
     right: 0;
     top: 0;
@@ -36,7 +44,7 @@ const StyledButton = styled.button<Props>`
 
     i {
       cursor: pointer;
-      color: ${logoColor};
+      color: ${({ color }) => desaturate(0.25, darken(0.1, color ? color : buttonColor))};
       font-size: ${({ backgroundIconSize }) =>
         backgroundIconSize ? backgroundIconSize : "3rem"};
     }

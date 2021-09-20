@@ -1,17 +1,10 @@
-import { Question } from "../models/Question";
-import {
-  AddQuestionAction,
-  ADD_QUESTION,
-  EditQuestionAction,
-  EDIT_QUESTION,
-  QuestionsState,
-  SetQuestionAction,
-  SET_QUESTIONS,
-  DeleteQuestionAction,
-  DELETE_QUESTION,
-} from "./types";
-import { AppThunk } from "../reducers";
+
 import { ThunkDispatch } from "redux-thunk";
+
+import { Question } from "../../models/Question";
+import { AppThunk } from "../reducers";
+import { AddQuestionAction, ADD_QUESTION, DeleteQuestionAction, DELETE_QUESTION, EditQuestionAction, EDIT_QUESTION, QuestionsState, SetQuestionAction, SET_QUESTIONS } from "./types";
+
 
 export const addQuestionAction = (question: Question): AppThunk => (
   dispatch: ThunkDispatch<{}, {}, AddQuestionAction>,

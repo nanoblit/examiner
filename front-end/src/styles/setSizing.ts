@@ -1,18 +1,20 @@
-export const setSizing = `
-html {
-  font-size: 62.5%;
-}
+import { css } from "styled-components";
 
-body {
-  font-size: 1.4rem; 
-  line-height: 1.5;
-}
+export const setSizing = css`
+  html {
+    font-size: 62.5%;
+  }
 
-p {
-  margin: 2rem 0rem;
-}
+  body {
+    font-size: 1.4rem;
+    line-height: 1.5;
+  }
 
-button {
-  font-size: 1.4rem; 
-}
+  p {
+    margin: 2rem 0rem;
+  }
+
+  button {
+    font-size: 1.4rem;
+  }
 `;

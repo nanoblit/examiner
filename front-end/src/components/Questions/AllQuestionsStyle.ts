@@ -1,15 +1,18 @@
 import styled from "styled-components";
 import {
-  contentDisplay,
   buttonColor,
   shadow,
   borderRadius,
-  darkButtonColor,
   logoColor,
+  centeredColumn,
 } from "../../styles/values";
+import { Link } from "react-router-dom";
+import { lighten } from "polished";
+
+export const QuestionLink = styled(Link)``;
 
 const StyledEditor = styled.main`
-  ${contentDisplay};
+  ${centeredColumn};
 
   > p {
     margin: 3rem 0 0 0;
@@ -19,12 +22,12 @@ const StyledEditor = styled.main`
     margin-top: 3rem;
   }
 
-  > .questionLink {
+  > ${QuestionLink} {
     width: 100%;
     text-decoration: none;
   }
 
-  > .questionLink ~ .questionLink {
+  > ${QuestionLink} ~ ${QuestionLink} {
     margin-top: 1.5rem;
   }
 
@@ -52,7 +55,6 @@ const StyledEditor = styled.main`
 
         & i {
           cursor: pointer;
-          
         }
       }
 
@@ -66,7 +68,7 @@ const StyledEditor = styled.main`
         cursor: pointer;
 
         &:hover {
-          background: ${darkButtonColor};
+          background: ${lighten(0.06, buttonColor)};
         }
       }
     }

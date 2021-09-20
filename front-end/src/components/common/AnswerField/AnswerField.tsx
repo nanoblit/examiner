@@ -1,17 +1,31 @@
 import React, { createRef, useEffect, useMemo } from "react";
 
-import StyledAnswer from "./AnswerFieldStyle";
+import StyledAnswer, {
+  AnswerText,
+  AnswerIcons,
+  AnswerCheckbox,
+} from "./AnswerFieldStyle";
 import setupAutoResize from "../../../utils/setupAutoResize";
+/*
+tick and highlighted -> green outline
+tick and not highlighted -> red outline
+x and highlighted -> red outline
+x and not hightlighted -> green outline
+*/
+
+export enum AnswerFieldType {
+  Editable,
+  Selectable,
+  Answer,
+}
 
 type Props = {
+  type: AnswerFieldType;
   text?: string;
   onChangeText?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  textareaReadOnly?: boolean;
-  checkboxReadOnly?: boolean;
   defaultChecked?: boolean;
   isChecked: boolean;
   isHighlighted?: boolean;
-  fullBodyCheckbox?: boolean;
   onChangeCheckbox?: (
     event:
       | React.ChangeEvent<HTMLInputElement>
@@ -20,68 +34,78 @@ type Props = {
 };
 
 const AnswerField: React.FC<Props> = ({
+  type,
   text,
   onChangeText,
-  textareaReadOnly = false,
-  checkboxReadOnly = false,
   defaultChecked = false,
   isChecked,
   isHighlighted = false,
-  fullBodyCheckbox = false,
   onChangeCheckbox,
 }) => {
   const textAreaRef = createRef<HTMLTextAreaElement>();
   const textWithLinebreaks = useMemo(
-    () => text?.split("\n").map((str) => <p>{str}</p>),
+    () => text?.split("\n").map((str, idx) => <p key={idx}>{str}</p>),
     [text]
   );
 
+  // Setup auto-resizing of the textArea
   useEffect(() => {
+    if (textAreaRef.current === null) {
+      return;
+    }
     setupAutoResize(textAreaRef);
-    textAreaRef.current?.blur();
+    textAreaRef.current.blur();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Run "change" event on the textArea so resize works
   useEffect(() => {
+    if (textAreaRef.current === null) {
+      return;
+    }
     let change = new Event("change");
-    textAreaRef.current?.dispatchEvent(change);
-  }, [text]);
+    textAreaRef.current.dispatchEvent(change);
+  }, [text, textAreaRef]);
 
   return (
     <StyledAnswer
       className="answer"
-      textareaReadOnly={textareaReadOnly}
-      checkboxReadOnly={checkboxReadOnly}
+      type={type}
       isHighlighted={isHighlighted}
-      fullBodyCheckbox={fullBodyCheckbox}
-      onClick={fullBodyCheckbox ? onChangeCheckbox : undefined}
+      onClick={
+        type === AnswerFieldType.Selectable ? onChangeCheckbox : undefined
+      }
     >
-      {textareaReadOnly ? (
-        <div className="answerText">{textWithLinebreaks}</div>
-      ) : (
-        <textarea
+      {type === AnswerFieldType.Editable ? (
+        <AnswerText
+          as="textarea"
           ref={textAreaRef}
           rows={1}
           value={text}
           onChange={onChangeText}
-        ></textarea>
+        ></AnswerText>
+      ) : (
+        <AnswerText>{textWithLinebreaks}</AnswerText>
       )}
-      <div className="answerIcons">
-        {textareaReadOnly || <i className="material-icons">create</i>}
-        <div className="checkbox">
+      <AnswerIcons>
+        {type === AnswerFieldType.Editable && (
+          <i className="material-icons">create</i>
+        )}
+        <AnswerCheckbox>
           <input
             type="checkbox"
             onChange={onChangeCheckbox}
             defaultChecked={defaultChecked}
-            readOnly={checkboxReadOnly}
-            disabled={checkboxReadOnly}
+            readOnly={type === AnswerFieldType.Answer}
+            disabled={type === AnswerFieldType.Answer}
           ></input>
           {isChecked ? (
             <i className="material-icons iconChecked">done</i>
           ) : (
             <i className="material-icons iconUnchecked">close</i>
           )}
-        </div>
-      </div>
+        </AnswerCheckbox>
+      </AnswerIcons>
     </StyledAnswer>
   );
 };

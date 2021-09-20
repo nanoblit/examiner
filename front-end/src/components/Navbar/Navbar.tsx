@@ -11,16 +11,16 @@ const Navbar: React.FC = () => {
     <StyledNavbar>
       <i className="material-icons">done</i>
       <NavLink to="/questions" tabIndex={-1}>
-        <Button>Questions</Button>
+        <Button>Add Questions</Button>
       </NavLink>
-      <NavLink to="/revision" tabIndex={-1}>
+      <NavLink to="/review" tabIndex={-1}>
         <Button
           onClick={() => {
-            history.push("/revision");
+            history.push("/review");
             history.go(0);
           }}
         >
-          Revision
+          Review
         </Button>
       </NavLink>
     </StyledNavbar>

@@ -3,8 +3,8 @@ import { useDispatch } from "react-redux";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
 
-import { isQuestionsState, QuestionsState } from "../../../actions/types";
-import { setQuestionsAction } from "../../../actions";
+import { isQuestionsState, QuestionsState } from "../../../redux/actions/types";
+import { setQuestionsAction } from "../../../redux/actions";
 import StyledDropzone from "./DropzoneStyle";
 
 const Dropzone: React.FC = () => {
@@ -61,7 +61,7 @@ const Dropzone: React.FC = () => {
       {isDragActive ? (
         <span>Drop the questions file here...</span>
       ) : (
-        <span>Drag and drop here or click to upload the questions file</span>
+        <span>Upload Questions File</span>
       )}
     </StyledDropzone>
   );
