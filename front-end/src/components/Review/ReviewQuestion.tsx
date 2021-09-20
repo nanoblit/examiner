@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams, useHistory, useRouteMatch, Redirect } from "react-router";
-import { useDispatch, shallowEqual } from "react-redux";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
 import Layout from "../common/Layout/Layout";
@@ -14,11 +14,8 @@ import { addOrEditReviewSessionItemAction } from "../../redux/actions";
 import scoreSelector from "../../utils/selectors/scoreSelector";
 import questionsToAnswerCountSelector from "../../utils/selectors/questionsToAnswerCountSelector";
 import questionSelector from "../../utils/selectors/questionSelector";
-import answeredQuestionIdsSelector from "../../utils/selectors/answeredQuestionIdsSelector";
-
-/*
-TODO: If you go open this page and it's already answered -> redirect to answer (CHECK IF IT WORKS AFTER SAVING REVIEW TO LOCALSTORAGE)
-*/
+import useAsweredQuestionIds from "../../utils/hooks/useAnsweredQuestionIds";
+import ReviewQuestionContainer from "./ReviewQuestionStyle";
 
 const ReviewQuestion: React.FC = () => {
   const match = useRouteMatch();
@@ -29,10 +26,7 @@ const ReviewQuestion: React.FC = () => {
   );
   const dispatch = useDispatch();
   const questions = useTypedSelector(({ questions }) => questions);
-  const answeredQuestionIds = useTypedSelector(
-    answeredQuestionIdsSelector,
-    shallowEqual
-  );
+  const answeredQuestionIds = useAsweredQuestionIds();
   const question = useTypedSelector(questionSelector(questionId));
   const questionsToAnswerCount = useTypedSelector(
     questionsToAnswerCountSelector
@@ -75,23 +69,25 @@ const ReviewQuestion: React.FC = () => {
 
   return (
     <Layout>
-      <QuestionField text={question?.question} readonly />
-      <p>Pick the correct answers:</p>
-      {question?.answers.map((answer, idx) => (
-        <AnswerField
-          key={idx}
-          type={AnswerFieldType.Selectable}
-          text={answer}
-          isChecked={isChecked(idx)}
-          onChangeCheckbox={() => switchSelectedAnswer(idx)}
-        />
-      ))}
-      <p>
-        {questionsToAnswerCount}{" "}
-        {questionsToAnswerCount === 1 ? "question" : "questions"} left
-      </p>
-      <p>Your score: {score}</p>
-      <Button onClick={submitAnswer}>Answer</Button>
+      <ReviewQuestionContainer>
+        <QuestionField text={question?.question} readonly />
+        <p>Pick the correct answers:</p>
+        {question?.answers.map((answer, idx) => (
+          <AnswerField
+            key={idx}
+            type={AnswerFieldType.Selectable}
+            text={answer}
+            isChecked={isChecked(idx)}
+            onChangeCheckbox={() => switchSelectedAnswer(idx)}
+          />
+        ))}
+        <p>
+          {questionsToAnswerCount}{" "}
+          {questionsToAnswerCount === 1 ? "question" : "questions"} left
+        </p>
+        <p>Your score: {score}</p>
+        <Button onClick={submitAnswer}>Answer</Button>
+      </ReviewQuestionContainer>
     </Layout>
   );
 };

@@ -8,7 +8,7 @@ import scoreSelector from "../../utils/selectors/scoreSelector";
 import Button from "../common/Button/Button";
 import { setReviewSessionAction } from "../../redux/actions";
 import getRandomArrayElement from "../../utils/getRandomArrayElement";
-
+import FinalScoreContainer from "./ReviewFinalScoreStyle";
 
 const ReviewFinalScore: React.FC = () => {
   const history = useHistory();
@@ -20,12 +20,14 @@ const ReviewFinalScore: React.FC = () => {
     // Reset session
     dispatch(setReviewSessionAction({}));
     history.push(`/review/${getRandomArrayElement(questions)?.id ?? ""}`);
-  }
+  };
 
   return (
     <Layout>
-      <p className="answeredQuestions">Score: {score}</p>
-      <Button onClick={tryAgain}>Try Again</Button>
+      <FinalScoreContainer>
+        <p>Score: {score}</p>
+        <Button onClick={tryAgain}>Try Again</Button>
+      </FinalScoreContainer>
     </Layout>
   );
 };

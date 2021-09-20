@@ -2,7 +2,6 @@ import React from "react";
 import { useParams, useHistory, Redirect } from "react-router";
 
 import Layout from "../common/Layout/Layout";
-import StyledAnswerSubpage from "../Revision/AnswerSubpageStyle";
 import QuestionField from "../common/QuestionField/QuestionField";
 import AnswerField, {
   AnswerFieldType,
@@ -13,22 +12,20 @@ import questionSelector from "../../utils/selectors/questionSelector";
 import pickedAnswersSelector from "../../utils/selectors/pickedAnswersSelector";
 import questionsToAnswerCountSelector from "../../utils/selectors/questionsToAnswerCountSelector";
 import scoreSelector from "../../utils/selectors/scoreSelector";
-import getRandomUnansweredQuestion from "../../utils/getRandomUnansweredQuestion";
+import useRandomUnansweredQuestion from "../../utils/hooks/useRandomUnansweredQuestion";
+import StyledAnswerContent, { ReviewAnswerButtons } from "./ReviewAnswerStyle";
 
-/*
-TODO: Picking a question should be a hook?
-*/
 
 const ReviewAnswer: React.FC = () => {
   const history = useHistory();
   const { questionId }: { questionId: string } = useParams();
   const questions = useTypedSelector(({ questions }) => questions);
-  const reviewSession = useTypedSelector(({ reviewSession }) => reviewSession);
   const question = useTypedSelector(questionSelector(questionId));
   const pickedAnswers = useTypedSelector(pickedAnswersSelector(questionId));
   const questionsToAnswerCount = useTypedSelector(
     questionsToAnswerCountSelector
   );
+  const randomUnansweredQuestion = useRandomUnansweredQuestion();
   const score = useTypedSelector(scoreSelector);
 
   const isChecked = (answerIdx: number) =>
@@ -41,7 +38,7 @@ const ReviewAnswer: React.FC = () => {
   const nextQuestion = () =>
     history.push(
       `/review/${
-        getRandomUnansweredQuestion(questions, reviewSession)?.id ?? ""
+        randomUnansweredQuestion?.id ?? ""
       }`
     );
 
@@ -53,7 +50,7 @@ const ReviewAnswer: React.FC = () => {
 
   return (
     <Layout>
-      <StyledAnswerSubpage>
+      <StyledAnswerContent>
         <QuestionField text={question?.question} readonly />
         <p>The highlighted answers are correct</p>
         {question?.answers.map((answer, idx) => (
@@ -74,15 +71,15 @@ const ReviewAnswer: React.FC = () => {
           {questionsToAnswerCount === 1 ? "question" : "questions"} left
         </p>
         <p>Your score: {score}</p>
-        <div className="buttons">
+        <ReviewAnswerButtons>
           {questionsToAnswerCount > 0 && (
-            <Button onClick={nextQuestion}>Next Question</Button>
+            <Button onClick={nextQuestion}>Next Question</Button> 
           )}
           <Button onClick={finishAnswering} color="danger">
             Finish
           </Button>
-        </div>
-      </StyledAnswerSubpage>
+        </ReviewAnswerButtons>
+      </StyledAnswerContent>
     </Layout>
   );
 };

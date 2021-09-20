@@ -14,7 +14,7 @@ import ReviewSessionTest from "./components/Revision/ReviewSessionTest";
 import Layout from "./components/common/Layout/Layout";
 import ReviewPicker from "./components/Review/ReviewPicker";
 
-// TODO: Make isReviewSessionState and use it
+// TODO: Make isReviewSessionState guard and use it
 
 const App: React.FC = () => {
   const [questionsLoaded, setQuestionsLoaded] = useState(false);

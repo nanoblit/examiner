@@ -9,6 +9,8 @@ type Props = {
   readonly?: boolean;
 };
 
+// TODO: Replace classes with styled compoenents
+
 const QuestionField: React.FC<Props> = ({
   text,
   onChange,
