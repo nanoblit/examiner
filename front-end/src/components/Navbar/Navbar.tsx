@@ -5,7 +5,6 @@ import Button from "../common/Button/Button";
 import StyledNavbar from "./NavbarStyle";
 
 const Navbar: React.FC = () => {
-  const history = useHistory();
 
   return (
     <StyledNavbar>
@@ -14,14 +13,7 @@ const Navbar: React.FC = () => {
         <Button>Add Questions</Button>
       </NavLink>
       <NavLink to="/review" tabIndex={-1}>
-        <Button
-          onClick={() => {
-            history.push("/review");
-            history.go(0);
-          }}
-        >
-          Review
-        </Button>
+        <Button>Review</Button>
       </NavLink>
     </StyledNavbar>
   );
