@@ -13,8 +13,9 @@ import StyledApp from "./AppStyle";
 import Layout from "./components/common/Layout/Layout";
 import ReviewPicker from "./components/Review/ReviewPicker";
 
+// TODO: Add ThemeProvider and a theme
+
 const App: React.FC = () => {
-  const [questionsLoaded, setQuestionsLoaded] = useState(false);
   const dispatch = useDispatch();
 
   const setQuestionsFromLocalStorage = () => {
@@ -24,8 +25,6 @@ const App: React.FC = () => {
     isQuestionsState(questions)
       ? dispatch(setQuestionsAction(questions))
       : console.error("Questions in local storage are wrong");
-
-    setQuestionsLoaded(() => true);
   };
 
   const setReviewSessionFromLocalStorage = () => {

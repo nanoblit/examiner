@@ -1,6 +1,6 @@
 import { css } from "styled-components";
 
-export const setSizing = css`
+const setSizing = css`
   html {
     font-size: 62.5%;
   }
@@ -18,3 +18,5 @@ export const setSizing = css`
     font-size: 1.4rem;
   }
 `;
+
+export default setSizing;
