@@ -1,24 +1,24 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 
+import { useAppDispatch } from "../../redux/hooks";
 import Layout from "../common/Layout/Layout";
-import { useTypedSelector } from "../../redux/reducers";
+import { useAppSelector } from "../../redux/hooks";
 import scoreSelector from "../../utils/selectors/scoreSelector";
 import Button from "../common/Button/Button";
-import { setReviewSessionAction } from "../../redux/actions";
+import { setReviewSession } from "../../redux/slices/reviewSessionSlice";
 import getRandomArrayElement from "../../utils/getRandomArrayElement";
 import FinalScoreContainer from "./ReviewFinalScoreStyle";
 
 const ReviewFinalScore: React.FC = () => {
   const history = useHistory();
-  const dispatch = useDispatch();
-  const questions = useTypedSelector(({ questions }) => questions);
-  const score = useTypedSelector(scoreSelector);
+  const dispatch = useAppDispatch();
+  const questions = useAppSelector(({ questions }) => questions);
+  const score = useAppSelector(scoreSelector);
 
   const tryAgain = () => {
     // Reset session
-    dispatch(setReviewSessionAction({}));
+    dispatch(setReviewSession({}));
     history.push(`/review/${getRandomArrayElement(questions)?.id ?? ""}`);
   };
 

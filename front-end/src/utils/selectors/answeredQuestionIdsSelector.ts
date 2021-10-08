@@ -1,4 +1,4 @@
-import { ReviewSessionState } from "../../redux/actions/types";
+import { ReviewSessionState } from "../../redux/slices/reviewSessionSlice";
 
 const answeredQuestionIdsSelector = ({
   reviewSession,

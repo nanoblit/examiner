@@ -1,4 +1,4 @@
-import { QuestionsState } from "../../redux/actions/types";
+import { QuestionsState } from "../../redux/slices/questionsSlice";
 
 const questionSelector =
   (questionId: string) =>

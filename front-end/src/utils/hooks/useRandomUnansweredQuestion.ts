@@ -1,9 +1,9 @@
-import { useTypedSelector } from "../../redux/reducers";
+import { useAppSelector } from "../../redux/hooks";
 import getRandomUnansweredQuestion from "../getRandomUnansweredQuestion";
 
 const useRandomUnansweredQuestion = () => {
-  const quesions = useTypedSelector(({ questions }) => questions);
-  const reviewSession = useTypedSelector(({ reviewSession }) => reviewSession);
+  const quesions = useAppSelector(({ questions }) => questions);
+  const reviewSession = useAppSelector(({ reviewSession }) => reviewSession);
 
   return getRandomUnansweredQuestion(quesions, reviewSession);
 };

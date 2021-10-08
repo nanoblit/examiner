@@ -1,23 +1,17 @@
 import React, { useCallback } from "react";
-import { useDispatch } from "react-redux";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
 
-import { isQuestionsState, QuestionsState } from "../../../redux/actions/types";
-import { setQuestionsAction } from "../../../redux/actions";
+import { useAppDispatch } from "../../../redux/hooks";
+import { QuestionsState, setQuestions } from "../../../redux/slices/questionsSlice";
 import StyledDropzone from "./DropzoneStyle";
 
 const Dropzone: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const questionsStateFromString = (contents: string) => {
     try {
       const parsedFileContents = JSON.parse(contents);
-      if (!isQuestionsState(parsedFileContents)) {
-        console.warn("File isn't in the correct questions format (.json)");
-        toast.error("File isn't in the correct questions format (.json)");
-        return;
-      }
       return parsedFileContents as QuestionsState;
     } catch (e) {
       console.warn("Couldn't parse file contents as JSON");
@@ -45,7 +39,7 @@ const Dropzone: React.FC = () => {
       }
       toast.success("Questions successfully loaded!");
       const questionsState = questionsStateFromString(e.target.result);
-      questionsState && dispatch(setQuestionsAction(questionsState));
+      questionsState && dispatch(setQuestions(questionsState));
     };
     reader.readAsText(file);
   }, []);

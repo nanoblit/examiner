@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { useDispatch } from "react-redux";
 import { Redirect, useParams } from "react-router";
 import { v4 as uuidv4 } from "uuid";
 
 import {
-  addQuestionAction,
-  editQuestionAction,
-  deleteQuestionAction,
-} from "../../redux/actions";
-import { useTypedSelector } from "../../redux/reducers";
+  addQuestion,
+  editQuestion,
+  deleteQuestion,
+} from "../../redux/slices/questionsSlice";
+import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import AnswerField, {
   AnswerFieldType,
 } from "../common/AnswerField/AnswerField";
@@ -26,9 +25,9 @@ const EditQuestion: React.FC = () => {
   const [correctAnswers, setCorrectAnswers] = useState<number[]>([]);
   const [explanation, setExplanation] = useState("");
   const [redirect, setRedirect] = useState(false);
-  const question = useTypedSelector(({ questions }) => questions.find(({ id }) => id === questionId));
+  const question = useAppSelector(({ questions }) => questions.find(({ id }) => id === questionId));
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   /////////////////// Question Field ///////////////////
 
@@ -98,9 +97,9 @@ const EditQuestion: React.FC = () => {
     return true;
   };
 
-  const addQuestion = () => {
+  const callAddQuestion = () => {
     dispatch(
-      addQuestionAction({
+      addQuestion({
         id: uuidv4(),
         question: questionText.trim(),
         answers: Object.entries(answers).map(([_, answer]) => answer.trim()),
@@ -110,12 +109,12 @@ const EditQuestion: React.FC = () => {
     );
   };
 
-  const editQuestion = () => {
+  const callEditQuestion = () => {
     if (!questionId) {
       return;
     }
     dispatch(
-      editQuestionAction({
+      editQuestion({
         id: questionId,
         question: questionText.trim(),
         answers: Object.entries(answers).map(([_, answer]) => answer.trim()),
@@ -129,7 +128,8 @@ const EditQuestion: React.FC = () => {
     if (!isQuestionValid()) {
       return;
     }
-    addQuestion();
+    toast.success("Question added");
+    callAddQuestion();
     setRedirect(() => true);
   };
 
@@ -137,7 +137,8 @@ const EditQuestion: React.FC = () => {
     if (!editingExistingQuestion || !isQuestionValid()) {
       return;
     }
-    editQuestion();
+    toast.success("Question updated");
+    callEditQuestion();
     setRedirect(() => true);
   };
 
@@ -146,7 +147,7 @@ const EditQuestion: React.FC = () => {
       return;
     }
     toast.success("Question deleted");
-    dispatch(deleteQuestionAction(questionId));
+    dispatch(deleteQuestion(questionId));
     setRedirect(() => true);
   };
 

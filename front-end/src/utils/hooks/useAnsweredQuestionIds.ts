@@ -1,9 +1,9 @@
-import { useTypedSelector } from "../../redux/reducers";
+import { useAppSelector } from "../../redux/hooks";
 import answeredQuestionIdsSelector from "../selectors/answeredQuestionIdsSelector";
 import { shallowEqual } from "react-redux";
 
 const useAsweredQuestionIds = () => {
-  return useTypedSelector(answeredQuestionIdsSelector, shallowEqual)
+  return useAppSelector(answeredQuestionIdsSelector, shallowEqual)
 };
 
 export default useAsweredQuestionIds;

@@ -18,8 +18,9 @@ export const reviewSessionSlice = createSlice({
 
       localStorage.setItem(
         "reviewSession",
-        JSON.stringify(state.reviewSession)
+        JSON.stringify(state)
       );
+      return state;
     },
     deleteReviewSessionItem: (state, action: PayloadAction<string>) => {
       state = Object.keys(state).reduce((acc, s) => {
@@ -28,16 +29,18 @@ export const reviewSessionSlice = createSlice({
 
       localStorage.setItem(
         "reviewSession",
-        JSON.stringify(state.reviewSession)
+        JSON.stringify(state)
       );
+      return state;
     },
     setReviewSession: (state, action: PayloadAction<ReviewSessionState>) => {
       state = action.payload;
 
       localStorage.setItem(
         "reviewSession",
-        JSON.stringify(state.reviewSession)
+        JSON.stringify(state)
       );
+      return state;
     },
   },
 });

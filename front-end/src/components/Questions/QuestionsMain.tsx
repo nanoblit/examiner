@@ -3,7 +3,7 @@ import { useRouteMatch, Switch, Route } from "react-router";
 import { Link } from "react-router-dom";
 
 import AllQuestions from "./AllQuestions";
-import { useTypedSelector } from "../../redux/reducers";
+import { useAppSelector } from "../../redux/hooks";
 import Button from "../common/Button/Button";
 import StyledQuestionsMain from "./QuestionsMainStyle";
 import Dropzone from "../common/Dropzone/Dropzone";
@@ -11,7 +11,7 @@ import Layout from "../common/Layout/Layout";
 
 const QuestionsMain: React.FC = () => {
   const match = useRouteMatch();
-  const questions = useTypedSelector(({ questions }) => questions);
+  const questions = useAppSelector(({ questions }) => questions);
 
   return (
     <Switch>

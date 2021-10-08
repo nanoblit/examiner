@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import { shallowEqual } from "react-redux";
 
-import { useTypedSelector } from "../../redux/reducers";
+import { useAppSelector } from "../../redux/hooks";
 import QuestionListElement from "../common/QuestionListElement/QuestionListElement";
 import StyledEditor, { QuestionLink } from "./AllQuestionsStyle";
 import Button from "../common/Button/Button";
@@ -17,8 +17,8 @@ const AllQuestions: React.FC = () => {
   const [page, setPage] = useState(1);
   const pageLength = 10;
   let pageCount = useRef(1);
-  const questions = useTypedSelector(({ questions }) => questions);
-  const questionsAfterSearch = useTypedSelector(
+  const questions = useAppSelector(({ questions }) => questions);
+  const questionsAfterSearch = useAppSelector(
     ({ questions }) =>
       questions
         .filter(

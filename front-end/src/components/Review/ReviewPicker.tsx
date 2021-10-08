@@ -1,11 +1,11 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import { useHistory, useRouteMatch, Switch, Route } from "react-router";
 
+import { useAppDispatch } from "../../redux/hooks";
 import Layout from "../common/Layout/Layout";
 import Button from "../common/Button/Button";
-import { useTypedSelector } from "../../redux/reducers";
-import { setReviewSessionAction } from "../../redux/actions";
+import { useAppSelector } from "../../redux/hooks";
+import { setReviewSession } from "../../redux/slices/reviewSessionSlice";
 import getRandomArrayElement from "../../utils/getRandomArrayElement";
 import ReviewQuestion from "./ReviewQuestion";
 import ReviewAnswer from "./ReviewAnswer";
@@ -13,12 +13,14 @@ import ReviewFinalScore from "./ReviewFinalScore";
 import useRandomUnansweredQuestion from "../../utils/hooks/useRandomUnansweredQuestion";
 import ReviewPickerContainer, { ContinueGroup } from "./ReviewPickerStyle";
 
+// TODO: Make it so it asks to add new questions when there are no questions
+
 const ReviewPicker: React.FC = () => {
   const match = useRouteMatch();
   const history = useHistory();
-  const dispatch = useDispatch();
-  const questions = useTypedSelector(({ questions }) => questions);
-  const unansweredQuestionsCount = useTypedSelector(
+  const dispatch = useAppDispatch();
+  const questions = useAppSelector(({ questions }) => questions);
+  const unansweredQuestionsCount = useAppSelector(
     ({ questions, reviewSession }) =>
       questions.length - Object.keys(reviewSession).length
   );
@@ -26,7 +28,7 @@ const ReviewPicker: React.FC = () => {
 
   const startNewSession = () => {
     // Reset session
-    dispatch(setReviewSessionAction({}));
+    dispatch(setReviewSession({}));
     history.push(`/review/${getRandomArrayElement(questions)?.id ?? ""}`);
   };
 

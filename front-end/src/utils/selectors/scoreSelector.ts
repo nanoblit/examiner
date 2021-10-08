@@ -1,4 +1,5 @@
-import { QuestionsState, ReviewSessionState } from "../../redux/actions/types";
+import { QuestionsState } from "../../redux/slices/questionsSlice";
+import { ReviewSessionState } from "../../redux/slices/reviewSessionSlice";
 
 const scoreSelector = ({
   questions,

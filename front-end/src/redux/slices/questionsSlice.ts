@@ -19,6 +19,7 @@ export const questionSlice = createSlice({
       state = state.filter((question) => question.id !== action.payload);
 
       localStorage.setItem("questions", JSON.stringify(state));
+      return state;
     },
     editQuestion: (state, action: PayloadAction<Question>) => {
       state = state.map((question) =>
@@ -26,11 +27,13 @@ export const questionSlice = createSlice({
       );
 
       localStorage.setItem("questions", JSON.stringify(state));
+      return state;
     },
     setQuestions: (state, action: PayloadAction<QuestionsState>) => {
       state = action.payload;
 
       localStorage.setItem("questions", JSON.stringify(state));
+      return state;
     },
   },
 });

@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, } from "react";
 import { Route, Switch } from "react-router";
-import { useDispatch } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
+import { useAppDispatch } from "./redux/hooks";
 import QuestionsMain from "./components/Questions/QuestionsMain";
-import { setQuestionsAction, setReviewSessionAction } from "./redux/actions";
+import { setQuestions } from "./redux/slices/questionsSlice";
+import { ReviewSessionState, setReviewSession } from "./redux/slices/reviewSessionSlice";
 import { Question } from "./models/Question";
-import { isQuestionsState, ReviewSessionState } from "./redux/actions/types";
 import GlobalStyle from "./styles/globalStyles";
 import StyledApp from "./AppStyle";
 import Layout from "./components/common/Layout/Layout";
@@ -16,22 +16,20 @@ import ReviewPicker from "./components/Review/ReviewPicker";
 // TODO: Add ThemeProvider and a theme
 
 const App: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const setQuestionsFromLocalStorage = () => {
     const questions = JSON.parse(
       localStorage.getItem("questions") || "[]"
     ) as Question[];
-    isQuestionsState(questions)
-      ? dispatch(setQuestionsAction(questions))
-      : console.error("Questions in local storage are wrong");
+    dispatch(setQuestions(questions))
   };
 
   const setReviewSessionFromLocalStorage = () => {
     const session = JSON.parse(
       localStorage.getItem("reviewSession") || "{}"
     ) as ReviewSessionState;
-    dispatch(setReviewSessionAction(session));
+    dispatch(setReviewSession(session));
   };
 
   useEffect(() => {

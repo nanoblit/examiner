@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { useParams, useHistory, useRouteMatch, Redirect } from "react-router";
-import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
+import { useAppDispatch } from "../../redux/hooks";
 import Layout from "../common/Layout/Layout";
 import QuestionField from "../common/QuestionField/QuestionField";
-import { useTypedSelector } from "../../redux/reducers";
+import { useAppSelector } from "../../redux/hooks";
 import AnswerField, {
   AnswerFieldType,
 } from "../common/AnswerField/AnswerField";
 import Button from "../common/Button/Button";
-import { addOrEditReviewSessionItemAction } from "../../redux/actions";
+import { addOrEditReviewSessionItem } from "../../redux/slices/reviewSessionSlice";
 import scoreSelector from "../../utils/selectors/scoreSelector";
 import questionsToAnswerCountSelector from "../../utils/selectors/questionsToAnswerCountSelector";
 import questionSelector from "../../utils/selectors/questionSelector";
@@ -24,14 +24,12 @@ const ReviewQuestion: React.FC = () => {
   const [selectedAnswers, setSelectedAnswers] = useState<Set<number>>(
     new Set()
   );
-  const dispatch = useDispatch();
-  const questions = useTypedSelector(({ questions }) => questions);
+  const dispatch = useAppDispatch();
+  const questions = useAppSelector(({ questions }) => questions);
   const answeredQuestionIds = useAsweredQuestionIds();
-  const question = useTypedSelector(questionSelector(questionId));
-  const questionsToAnswerCount = useTypedSelector(
-    questionsToAnswerCountSelector
-  );
-  const score = useTypedSelector(scoreSelector);
+  const question = useAppSelector(questionSelector(questionId));
+  const questionsToAnswerCount = useAppSelector(questionsToAnswerCountSelector);
+  const score = useAppSelector(scoreSelector);
 
   const switchSelectedAnswer = (id: number) => {
     const newAnswers = new Set(selectedAnswers);
@@ -50,8 +48,11 @@ const ReviewQuestion: React.FC = () => {
       return toast.error("Please, select at least one answer");
     }
     dispatch(
-      addOrEditReviewSessionItemAction(questionId, {
-        givenAnswers: Array.from(selectedAnswers),
+      addOrEditReviewSessionItem({
+        id: questionId,
+        data: {
+          givenAnswers: Array.from(selectedAnswers),
+        },
       })
     );
     history.push(`${match.url}/answer`);

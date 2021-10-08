@@ -7,7 +7,7 @@ import AnswerField, {
   AnswerFieldType,
 } from "../common/AnswerField/AnswerField";
 import Button from "../common/Button/Button";
-import { useTypedSelector } from "../../redux/reducers";
+import { useAppSelector } from "../../redux/hooks";
 import questionSelector from "../../utils/selectors/questionSelector";
 import pickedAnswersSelector from "../../utils/selectors/pickedAnswersSelector";
 import questionsToAnswerCountSelector from "../../utils/selectors/questionsToAnswerCountSelector";
@@ -19,14 +19,14 @@ import StyledAnswerContent, { ReviewAnswerButtons } from "./ReviewAnswerStyle";
 const ReviewAnswer: React.FC = () => {
   const history = useHistory();
   const { questionId }: { questionId: string } = useParams();
-  const questions = useTypedSelector(({ questions }) => questions);
-  const question = useTypedSelector(questionSelector(questionId));
-  const pickedAnswers = useTypedSelector(pickedAnswersSelector(questionId));
-  const questionsToAnswerCount = useTypedSelector(
+  const questions = useAppSelector(({ questions }) => questions);
+  const question = useAppSelector(questionSelector(questionId));
+  const pickedAnswers = useAppSelector(pickedAnswersSelector(questionId));
+  const questionsToAnswerCount = useAppSelector(
     questionsToAnswerCountSelector
   );
   const randomUnansweredQuestion = useRandomUnansweredQuestion();
-  const score = useTypedSelector(scoreSelector);
+  const score = useAppSelector(scoreSelector);
 
   const isChecked = (answerIdx: number) =>
     pickedAnswers.indexOf(answerIdx) >= 0;
